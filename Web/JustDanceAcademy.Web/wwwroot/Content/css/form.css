@@ -256,7 +256,7 @@ input {
     color: #cfcfcf;
 }
 
-.submit {
+.btn btn-primary btn-block {
     margin-top: 40px;
     margin-bottom: 20px;
     background: #d4af7a;
@@ -297,4 +297,3 @@ input {
     transform: translate3d(0, 0, 0);
 }
 
-</style >

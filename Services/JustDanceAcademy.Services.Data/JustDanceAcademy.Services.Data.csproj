@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\JustDanceAcademy.Data.Common\JustDanceAcademy.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\JustDanceAcademy.Data.Models\JustDanceAcademy.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\JustDanceAcademy.Web.ViewModels\JustDanceAcademy.Web.ViewModels.csproj" />
     <ProjectReference Include="..\JustDanceAcademy.Services.Mapping\JustDanceAcademy.Services.Mapping.csproj" />
   </ItemGroup>
 

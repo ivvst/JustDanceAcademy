@@ -1,0 +1,88 @@
+﻿@using JustDanceAcademy.Models
+
+@model LoginViewModel
+
+@{
+	ViewData["Title"] = "Login";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<br>
+<br>
+<div class="cont">
+	<div class="sub-cont">
+
+		<div class="img">
+			<div class="img__text m--up">
+
+				<h3>
+					Don't have an account? Please <a class="m--in" href='@Url.Action("Register", "Account")'>
+						<input type='button' value='SIGN UP' />
+					</a>
+				</h3>
+			</div>
+		</div>
+	</div>
+	<form asp-controller="Account" asp-action="Login" id="loginForm" method="post">
+		<h2>Welcome</h2>
+		
+
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div class="input-group mb-3">
+			<input asp-for="UserName" class="form-control" placeholder="Email">
+			<span asp-validation-for="UserName" class="small text-danger"></span>
+			<div class="input-group-append">
+				<div class="input-group-text">
+					<span class="fas fa-envelope"></span>
+				</div>
+			</div>
+		</div>
+		<div class="input-group mb-3">
+			<input asp-for="Password" class="form-control" placeholder="Password">
+			<span asp-validation-for="Password" class="small text-danger"></span>
+			<div class="input-group-append">
+				<div class="input-group-text">
+					<span class="fas fa-lock"></span>
+				</div>
+			</div>
+		</div>
+			<!-- /.col -->
+			<div class="col-4">
+				<button type="submit" class="btn btn-primary btn-block">Sign In</button>
+			</div>
+			<!-- /.col -->
+	</form>
+	
+		
+<link rel="stylesheet" href="~/Content/css/form.css" />
+
+<script>
+	document.querySelector('.img__btn').addEventListener('click', function () {
+		document.querySelector('.cont').classList('s--signup');
+		document.querySelector('.s--signup').classList('cont');
+	});
+</script>
+
+@section Scripts{
+	<partial name="_ValidationScriptsPartial.cshtml" />
+    }
+
+	@*	<div class="input-group mb-3">
+			<input asp-for="@Model.UserName" class="form-control" placeholder="UserName">
+			<span asp-validation-for="@Model.UserName" class="small text-danger"></span>
+
+		</div>
+		<div class="input-group mb-3">
+			<input asp-for="Password" class="form-control" placeholder="Password">
+			<span asp-validation-for="Password" class="small text-danger"></span>
+
+		</div>
+		<div class="row">
+
+			<!-- /.col -->
+			<div class="col-4">
+				<button type="submit" class="btn btn-primary btn-block">Sign In</button>
+			</div>
+			<!-- /.col -->
+		</div>*@

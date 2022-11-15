@@ -1,6 +1,8 @@
-﻿@{
-	ViewData["Title"] = "Navigation Bar";
-}
+﻿@using JustDanceAcademy.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
@@ -11,24 +13,32 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" >JustDance</a>
+				<a class="navbar-brand">JustDance</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a asp-area="" asp-controller="Home" asp-action="Index">Welcome</a></li>
-
-					<li><a asp-area="" asp-controller="User" asp-action="About">About Us</a></li>
-					<li><a asp-area="" asp-controller="User" asp-action="Classes">Classes</a></li>
-					<li><a asp-area="" asp-controller="User" asp-action="Plan">My-Plans</a></li>
-					<li><a asp-area="" asp-controller="User" asp-action="Instructors">My Instuctors</a></li>
-					<li><a asp-area="" asp-controller="User" asp-action="Gallery">Gallery</a></li>
-					<li><a asp-area="" asp-controller="User" asp-action="FeedBack">FeedBacks</a></li>
-					<li><a asp-area="" asp-controller="User" asp-action="Login">Your Profile</a></li>
-					<li><a asp-area="" asp-controller="User" asp-action="Register">SignUp</a></li>
+					@if (SignInManager.IsSignedIn(User))
+					{
+						<li><a asp-area="" asp-controller="Class" asp-action="Classes">Classes</a></li>
+						<li><a asp-area="" asp-controller="User" asp-action="Plan">My-Plans</a></li>
+						<li><a asp-area="" asp-controller="User" asp-action="Instructors">My Instuctors</a></li>
+						//Add in Area
+						<li><a asp-area="" asp-controller="Class" asp-action="Add">Add-Class</a></li>
 
 
+						<li class=nav navbar-nav navbar-right">
+							<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+								<button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+							</form>
+						</li>
+					}
+					else
+					{
+						<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+						<li><a asp-area="" asp-controller="Account" asp-action="Register">Join us</a></li>
+						<li><a asp-area="" asp-controller="Account" asp-action="Login">Join</a></li>
 
-
+					}
 
 				</ul>
 			</div>

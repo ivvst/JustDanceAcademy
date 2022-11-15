@@ -1,0 +1,45 @@
+﻿@using JustDanceAcademy.Models
+
+
+
+
+@model IEnumerable<ClassesViewModel>
+
+
+<section class="classes paddingTop-80" id="classes">
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 text-center">
+				<div class="block-heading paddingbottom-80">
+					<h2>Dancing Classes</h2>
+					<p>Slave To The Rhythm</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			@foreach (var dance in Model)
+			{
+				<div class="col-md-3 col-sm-3 col-xs-6 margin-bottom30 width-100perc">
+					<div class="content">
+						<div class="content-overlay"></div>
+						<div class="classes-img">
+							<img src="@dance.ImageUrl" alt="classes" class="img-responsive">
+						</div>
+						<div class="content-details fadeIn-top fadeIn-right">
+							<h3>@dance.Name</h3>
+							<h3>By: @dance.Instructor</h3>
+							<p>@dance.Description</p>
+							<p>Level: @dance.Category</p>
+							
+
+						</div>
+					</div>
+				</div>
+
+			}
+		</div>
+
+</section>
+

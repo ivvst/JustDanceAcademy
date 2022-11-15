@@ -9,6 +9,7 @@
     using JustDanceAcademy.Data.Repositories;
     using JustDanceAcademy.Data.Seeding;
     using JustDanceAcademy.Services.Data;
+    using JustDanceAcademy.Services.Data.Constants;
     using JustDanceAcademy.Services.Mapping;
     using JustDanceAcademy.Services.Messaging;
     using JustDanceAcademy.Web.ViewModels;
@@ -20,6 +21,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Options;
 
     public class Program
     {
@@ -35,9 +37,23 @@
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                options =>
+                {
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                    options.EnableSensitiveDataLogging();
 
-            services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
+                });
+
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+
+            })
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<CookiePolicyOptions>(
@@ -46,13 +62,22 @@
                     options.CheckConsentNeeded = context => true;
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
+            //services.AddDefaultIdentity<ApplicationUser>(options =>
+            //{
+
+            //    options.SignIn.RequireConfirmedAccount = false;
+            //    options.Password.RequireDigit = false;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.Password.RequireLowercase = false;
+            //    options.Password.RequireUppercase = false;
+
+            //});
 
             services.AddControllersWithViews(
                 options =>
                 {
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 }).AddRazorRuntimeCompilation();
-            services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSingleton(configuration);
@@ -63,19 +88,23 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
+
+            services.AddScoped<IDanceClassService, ClassService>();
+            services.AddScoped<ILevelCategoryService,LevelDanceService>();
+
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
         }
 
         private static void Configure(WebApplication app)
         {
-            // Seed data on application startup
-            //using (var serviceScope = app.Services.CreateScope())
-            //{
-            //    var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            //    dbContext.Database.Migrate();
-            //    new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
-            //}
+            //Seed data on application startup
+            using (var serviceScope = app.Services.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                dbContext.Database.Migrate();
+                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+            }
 
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 

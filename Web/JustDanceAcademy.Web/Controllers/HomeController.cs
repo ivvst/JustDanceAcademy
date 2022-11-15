@@ -15,7 +15,13 @@ namespace DanceAcademy.Controllers
             return this.View(model);
 
         }
+        [HttpGet]
+        public IActionResult About()
+        {
+            var model = new AboutViewModel();
+            return this.View(model);
+        }
 
-       
+
     }
 }

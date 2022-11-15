@@ -134,6 +134,10 @@ h1,h2,h3,h4,h5,h6, .navbar-brand, .gallery-list .nav-tabs{
     font-size: 14px;
     color: #fff !important;
 }
+.logout {
+    font-size: 14px;
+    color: #fff !important;
+}
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover, .navbar-nav > li > a:hover {
     background-color: transparent;
     color: #e2001a !important;
@@ -584,6 +588,7 @@ h1,h2,h3,h4,h5,h6, .navbar-brand, .gallery-list .nav-tabs{
     color:#fff;
     padding: 15px 0;
     font-size: 13px;
+    
 }
 .copyright a{
     font-size: 14px;

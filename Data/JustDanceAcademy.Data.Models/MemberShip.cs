@@ -1,4 +1,5 @@
 ﻿using JustDanceAcademy.Data.Common.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,46 +10,30 @@ using System.Threading.Tasks;
 
 namespace JustDanceAcademy.Data.Models
 {
-    public class Instrustor : BaseDeletableModel<int>
+    public class MemberShip : BaseDeletableModel<int>
     {
-        [Key]
+
         public int Id
         {
             get; set;
-        } 
-
-        [Required]
-        [StringLength(100)]
-        public string Name
-        {
-            get; set;
-
         }
 
-        [Required]
-        [StringLength(700)]
-        public string Biography
+        public string Title
         {
             get; set;
         }
 
-        
-        public string? ImageUrl
+        [Column(TypeName = "decimal(18,4)")]
+        public decimal Price
         {
             get; set;
         }
 
-        public int ClassId
+        public string Description
         {
             get; set;
         }
-        public Class Class
-        {
-            get; set;
-        }
+
 
     }
 }
-
-
-

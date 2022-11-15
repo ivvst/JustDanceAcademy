@@ -1,4 +1,4 @@
-﻿using JustDanceAcademy.Data.Common.Models;
+﻿using JustDanceAcademy.Data.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,46 +9,37 @@ using System.Threading.Tasks;
 
 namespace JustDanceAcademy.Data.Models
 {
-    public class Instrustor : BaseDeletableModel<int>
+    public class Schedule
     {
-        [Key]
         public int Id
         {
             get; set;
-        } 
-
-        [Required]
-        [StringLength(100)]
-        public string Name
-        {
-            get; set;
-
         }
-
-        [Required]
-        [StringLength(700)]
-        public string Biography
+        public string LevelCategory
         {
             get; set;
         }
 
-        
-        public string? ImageUrl
+       
+
+        public DateTime StartTime
         {
-            get; set;
+            get;set;
+        }
+        public DateTime EndTime
+        {
+            get;set;
         }
 
-        public int ClassId
+        public Day Day
         {
-            get; set;
-        }
-        public Class Class
-        {
-            get; set;
+            get;set;
         }
 
+        [MaxLength(200)]
+        public string Notes
+        {
+            get; set;
+        }
     }
 }
-
-
-

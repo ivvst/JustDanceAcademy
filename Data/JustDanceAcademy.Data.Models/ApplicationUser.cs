@@ -16,7 +16,11 @@ namespace JustDanceAcademy.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.MyClasses = new HashSet<Class>();
+
         }
+          
+ 
 
         // Audit info
         public DateTime CreatedOn { get; set; }
@@ -28,10 +32,18 @@ namespace JustDanceAcademy.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
+        public virtual ICollection<Class> MyClasses
+        {
+            get; set;
+        }
+
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
     }
+
 }
+     
