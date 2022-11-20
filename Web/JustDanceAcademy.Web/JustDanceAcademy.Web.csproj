@@ -9,6 +9,10 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\Content\css\instructor-add.css" />
+  </ItemGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\stylecop.json" />
 	</ItemGroup>

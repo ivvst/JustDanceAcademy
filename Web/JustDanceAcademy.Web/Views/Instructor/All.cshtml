@@ -1,0 +1,104 @@
+﻿@using JustDanceAcademy.Web.ViewModels.Models
+
+@model IEnumerable<InstructorsViewModel>
+
+
+
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<title>Page 2</title>
+	<link rel="stylesheet" href="~/Content/css/nicepage.css" media="screen">
+	<link rel="stylesheet" href="~/Content/css/Page-2.css" media="screen">
+	<script class="u-script" type="text/javascript" src="~/Content/js/jquery.js" defer=""></script>
+	<script class="u-script" type="text/javascript" src="~/Content/js/nicepage.js" defer=""></script>
+	<meta name="generator" content="Nicepage 4.21.12, nicepage.com">
+	<link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+	<link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i|Ubuntu:300,300i,400,400i,500,500i,700,700i">
+
+
+	<meta name="theme-color" content="#2f34df">
+	<meta property="og:title" content="Page 2">
+	<meta property="og:type" content="website">
+</head>
+@foreach (var person in Model)
+{
+
+
+	<body class="u-body u-xl-mode" data-lang="en">
+		<header class="u-clearfix u-header u-header" id="sec-41c2"><div class="u-clearfix u-sheet u-sheet-1"></div></header>
+		<section class="u-align-center u-clearfix u-section-1" id="carousel_8920">
+			<div class="u-clearfix u-sheet u-sheet-1">
+				<h2 class="u-custom-font u-font-merriweather u-text u-text-default u-text-1" data-animation-name="slideIn" data-animation-duration="2000" data-animation-direction="Left">@person.Class</h2>
+				<div class="u-image u-image-circle u-image-1" alt="" data-image-width="721" data-image-height="1080" data-animation-name="rollIn" data-animation-duration="2000" data-animation-direction="">
+                    <img src="@person.ImageUrl" alt="trainer" style="width:50%;height:70%;">
+                </div>
+				<h5 class="u-custom-font u-font-ubuntu u-text u-text-2">
+					@person.FullName
+				</h5>
+				<p class="u-align-justify-lg u-align-justify-md u-align-justify-xl u-text u-text-black-40 u-text-3" data-animation-name="slideIn" data-animation-duration="2000" data-animation-direction="Right">
+					@person.Intro
+                    @if(User.IsInRole("Administrator")){
+
+                    <button>Edit</button>
+                    <button>Delete</button>
+                    }
+				</p>
+			</div>
+		</section>
+
+
+
+	</body>
+}
+</html>
+@*<section class="instructors paddingTop-80" id="instructors">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <div class="block-heading paddingbottom-80">
+                    <h2>Our Instructors</h2>
+                    <p>Slave To The Rhythm</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="instructor-banner">
+                <div class="instructor-box">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-offset-6 col-md-6 col-sm-offset-4 col-sm-8 col-xs-12">
+                                <div class="row">
+                                    @foreach (var person in Model)
+                                   {
+
+                                       <div class="col-md-6 col-sm-6 col-xs-6 width-100perc">
+                                         <div class="content">
+                                            <div class="content-overlay"></div>
+                                            <div class="trainer-img">
+                                                    <img src="@person.ImageUrl" alt="trainer" class="img-responsive"/>
+
+                                            </div>
+                                            <div class="content-details fadeIn-top fadeIn-right">
+                                                <h3>@person.FullName</h3>
+                                            </div>
+                                        </div>
+                                        <div class="trainer-details text-center padding20">
+                                            <h4>@person.Class</h4>
+                                        </div>
+                                        <button>SeeMore</button>
+                                       </div>
+                                   }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>*@

@@ -40,7 +40,6 @@
                 options =>
                 {
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-                    options.EnableSensitiveDataLogging();
 
                 });
 
@@ -90,8 +89,9 @@
             // Application services
 
             services.AddScoped<IDanceClassService, ClassService>();
-            services.AddScoped<ILevelCategoryService,LevelDanceService>();
-
+            services.AddScoped<ILevelCategoryService, LevelDanceService>();
+            services.AddScoped<IServiceInstructor, InstructorService>();
+            services.AddScoped<IScheduleService, ScheduleService>();
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
         }

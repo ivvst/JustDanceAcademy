@@ -25,37 +25,32 @@
 		</div>
 	</div>
 	<form asp-controller="Account" asp-action="Login" id="loginForm" method="post">
-		<h2>Welcome</h2>
-		
-
-		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-		<div class="input-group mb-3">
-			<input asp-for="UserName" class="form-control" placeholder="Email">
-			<span asp-validation-for="UserName" class="small text-danger"></span>
-			<div class="input-group-append">
-				<div class="input-group-text">
-					<span class="fas fa-envelope"></span>
-				</div>
-			</div>
-		</div>
-		<div class="input-group mb-3">
-			<input asp-for="Password" class="form-control" placeholder="Password">
-			<span asp-validation-for="Password" class="small text-danger"></span>
-			<div class="input-group-append">
-				<div class="input-group-text">
-					<span class="fas fa-lock"></span>
-				</div>
-			</div>
-		</div>
+		<div class="form sign-in">
+			<h2>Welcome</h2>
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<label>
+				<input asp-for="UserName" class="form-control" placeholder="Username">
+				<span asp-validation-for="UserName" class="small text-danger"></span>
+			</label>
+			<label>
+				<input asp-for="Password" class="form-control" placeholder="Password">
+				<span asp-validation-for="Password" class="small text-danger"></span>
+			</label>
 			<!-- /.col -->
 			<div class="col-4">
-				<button type="submit" class="btn btn-primary btn-block">Sign In</button>
+				<button type="submit" style="margin-top:40px;margin-bottom:20px;background:#d4af7a;text-transform:uppercase">Sign In</button>
 			</div>
-			<!-- /.col -->
+		</div>
+
 	</form>
-	
-		
+</div>
+
+@*STYLE-SHEET FOR LOG-REGISTER <---*@
 <link rel="stylesheet" href="~/Content/css/form.css" />
+
+
+
+
 
 <script>
 	document.querySelector('.img__btn').addEventListener('click', function () {
@@ -63,26 +58,38 @@
 		document.querySelector('.s--signup').classList('cont');
 	});
 </script>
+<style>
+	button {
+		display: block;
+		margin: 0 auto;
+		width: 260px;
+		height: 36px;
+		border-radius: 30px;
+		color: #fff;
+		font-size: 15px;
+		cursor: pointer;
+	}
+</style>
 
 @section Scripts{
 	<partial name="_ValidationScriptsPartial.cshtml" />
-    }
+	}
 
 	@*	<div class="input-group mb-3">
-			<input asp-for="@Model.UserName" class="form-control" placeholder="UserName">
-			<span asp-validation-for="@Model.UserName" class="small text-danger"></span>
+	<input asp-for="@Model.UserName" class="form-control" placeholder="UserName">
+	<span asp-validation-for="@Model.UserName" class="small text-danger"></span>
 
-		</div>
-		<div class="input-group mb-3">
-			<input asp-for="Password" class="form-control" placeholder="Password">
-			<span asp-validation-for="Password" class="small text-danger"></span>
+	</div>
+	<div class="input-group mb-3">
+	<input asp-for="Password" class="form-control" placeholder="Password">
+	<span asp-validation-for="Password" class="small text-danger"></span>
 
-		</div>
-		<div class="row">
+	</div>
+	<div class="row">
 
-			<!-- /.col -->
-			<div class="col-4">
-				<button type="submit" class="btn btn-primary btn-block">Sign In</button>
-			</div>
-			<!-- /.col -->
-		</div>*@
+	<!-- /.col -->
+	<div class="col-4">
+	<button type="submit" class="btn btn-primary btn-block">Sign In</button>
+	</div>
+	<!-- /.col -->
+	</div>*@

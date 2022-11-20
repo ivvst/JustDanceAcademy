@@ -10,30 +10,31 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Add" method="post">
+        <form asp-action="Add" method="post" enctype="multipart/form-data">
             <div class="mb-3">
-                <label asp-for="@Model.Name" class="form-label">Class-Title</label>
-                <input asp-for="@Model.Name" class="form-control" aria-required="true" />
+                <label asp-for="@Model.Name">Class-Title</label>
+                <input asp-for="@Model.Name" class="form-control"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="@Model.Instructor" class="form-label">Instrustor</label>
-                <input asp-for="@Model.Instructor" class="form-control" aria-required="true" />
+                <label asp-for="@Model.Instructor">Instrustor</label>
+                <input asp-for="@Model.Instructor" class="form-control"/>
                 <span asp-validation-for="Instructor" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="@Model.Description" class="form-label">Description</label>
-                <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="5"></textarea>
+                <label asp-for="@Model.Description">Description</label>
+                <textarea asp-for="@Model.Description" class="form-control"rows="5"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="@Model.ImageUrl" class="form-label">Image URL</label>
-                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
+                <label asp-for="@Model.ImageUrl">Image URL</label>
+                <input asp-for="@Model.ImageUrl" class="form-control"/>
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
             </div>
            
             <div class="mb-3">
-                <label asp-for="@Model.LevelCategoryId" class="form-label">Level-Dancing</label>
+                <label asp-for="@Model.LevelCategoryId">Level-Dancing</label>
                 <select asp-for="@Model.LevelCategoryId" class="form-control">
                     @foreach (var category in Model.LevelsCategory)
                     {
@@ -50,6 +51,9 @@
             </div>
         </form>
     </div>
+</div>
+<div class="row">
+    <partial name="_CookieConsentPartial" />
 </div>
 
 

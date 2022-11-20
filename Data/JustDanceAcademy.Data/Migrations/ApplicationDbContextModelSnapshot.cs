@@ -71,6 +71,9 @@ namespace JustDanceAcademy.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ClassId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -129,6 +132,8 @@ namespace JustDanceAcademy.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassId");
+
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("NormalizedEmail")
@@ -146,7 +151,7 @@ namespace JustDanceAcademy.Data.Migrations
                         {
                             Id = "200adb3d-b3f4-4bde-a9c8-2c6888d6be30",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e4d6890d-1450-444c-a627-b5fd7cbf0765",
+                            ConcurrencyStamp = "40756c11-64d8-41b2-8069-d41a93753530",
                             CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
@@ -154,9 +159,9 @@ namespace JustDanceAcademy.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@MAIL.com",
                             NormalizedUserName = "GUEST",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIZ8+Hd7LG4Z2s6Sen662yA/p1Br607LmVtboaNGR48cTjEo7apfdf4FxdBnAitmFA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF2Bl+ENJMnZz2G1pB9VUI/Mp/4Tevdb3hERUhUqdISCmMg/QENuA5uFpbSrEy5L2w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5e878f28-fba2-4f13-be2a-e82c06e75a84",
+                            SecurityStamp = "1ebca965-1f2d-48d8-bad7-865ba2301b8c",
                             TwoFactorEnabled = false,
                             UserName = "guest"
                         },
@@ -164,7 +169,7 @@ namespace JustDanceAcademy.Data.Migrations
                         {
                             Id = "8fe346ea-30ce-4b6e-b67a-fedc225845c1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cfc80c3c-f268-416d-9411-332c312043ef",
+                            ConcurrencyStamp = "46ae1bf0-94ef-4d40-bb90-15a6a94438c3",
                             CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "vanis@mail.com",
                             EmailConfirmed = false,
@@ -172,9 +177,9 @@ namespace JustDanceAcademy.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "VANIS@MAIL.com",
                             NormalizedUserName = "VANIS",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIZuIRQvfbT+TpwdEteZUh4sMVD6BDjQKwmTSuIyOLCPpejFzm0ydi0Ya9HJdtjnzw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKq3ZshheJd2G1CZVIHbeLKcg3uEyn+g01Qo1l5CtxSOFPCVcL1wc8e68Ck9kyY0CA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "42dac9a1-47b4-4f1e-8239-852a0e692c5f",
+                            SecurityStamp = "0d381df7-9233-4853-a1ba-7dc8ffa2407e",
                             TwoFactorEnabled = false,
                             UserName = "vanis"
                         });
@@ -218,16 +223,11 @@ namespace JustDanceAcademy.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("LevelCategoryId");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Classes");
 
@@ -245,6 +245,43 @@ namespace JustDanceAcademy.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("JustDanceAcademy.Data.Models.ClassStudent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("ClassStudents");
+                });
+
             modelBuilder.Entity("JustDanceAcademy.Data.Models.Instrustor", b =>
                 {
                     b.Property<int>("Id")
@@ -255,8 +292,8 @@ namespace JustDanceAcademy.Data.Migrations
 
                     b.Property<string>("Biography")
                         .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)");
+                        .HasMaxLength(700)
+                        .HasColumnType("nvarchar(700)");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
@@ -379,13 +416,22 @@ namespace JustDanceAcademy.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("DetailOne")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DetailThree")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DetailTwo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -395,7 +441,7 @@ namespace JustDanceAcademy.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,4)");
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -407,6 +453,48 @@ namespace JustDanceAcademy.Data.Migrations
                     b.ToTable("Plans");
                 });
 
+            modelBuilder.Entity("JustDanceAcademy.Data.Models.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("JustDanceAcademy.Data.Models.Schedule", b =>
                 {
                     b.Property<int>("Id")
@@ -415,21 +503,32 @@ namespace JustDanceAcademy.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ClassId")
+                    b.Property<int>("Age")
                         .HasColumnType("int");
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Day")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LevelCategory")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Notes")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
@@ -437,6 +536,8 @@ namespace JustDanceAcademy.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("IsDeleted");
 
                     b.ToTable("Schedules");
                 });
@@ -580,6 +681,15 @@ namespace JustDanceAcademy.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("JustDanceAcademy.Data.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("JustDanceAcademy.Data.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId");
+
+                    b.Navigation("Class");
+                });
+
             modelBuilder.Entity("JustDanceAcademy.Data.Models.Class", b =>
                 {
                     b.HasOne("JustDanceAcademy.Data.Models.LevelCategory", "LevelCategory")
@@ -588,11 +698,22 @@ namespace JustDanceAcademy.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("LevelCategory");
+                });
+
+            modelBuilder.Entity("JustDanceAcademy.Data.Models.ClassStudent", b =>
+                {
+                    b.HasOne("JustDanceAcademy.Data.Models.Class", "Class")
+                        .WithMany("Students")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("JustDanceAcademy.Data.Models.ApplicationUser", "Student")
-                        .WithMany("MyClasses")
+                        .WithMany()
                         .HasForeignKey("StudentId");
 
-                    b.Navigation("LevelCategory");
+                    b.Navigation("Class");
 
                     b.Navigation("Student");
                 });
@@ -608,11 +729,32 @@ namespace JustDanceAcademy.Data.Migrations
                     b.Navigation("Class");
                 });
 
+            modelBuilder.Entity("JustDanceAcademy.Data.Models.Review", b =>
+                {
+                    b.HasOne("JustDanceAcademy.Data.Models.Class", "Class")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("JustDanceAcademy.Data.Models.ApplicationUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Class");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("JustDanceAcademy.Data.Models.Schedule", b =>
                 {
-                    b.HasOne("JustDanceAcademy.Data.Models.Class", null)
-                        .WithMany("Schedule")
-                        .HasForeignKey("ClassId");
+                    b.HasOne("JustDanceAcademy.Data.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -672,14 +814,16 @@ namespace JustDanceAcademy.Data.Migrations
 
                     b.Navigation("Logins");
 
-                    b.Navigation("MyClasses");
+                    b.Navigation("Reviews");
 
                     b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("JustDanceAcademy.Data.Models.Class", b =>
                 {
-                    b.Navigation("Schedule");
+                    b.Navigation("Reviews");
+
+                    b.Navigation("Students");
                 });
 #pragma warning restore 612, 618
         }

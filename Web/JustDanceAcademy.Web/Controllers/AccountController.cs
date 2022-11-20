@@ -45,7 +45,7 @@ namespace JustDanceAcademy.Web.Controllers
             {
                 return View(model);
             }
-
+           
             var user = new ApplicationUser()
             {
                 UserName = model.UserName,

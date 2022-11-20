@@ -1,0 +1,81 @@
+﻿@using JustDanceAcademy.Data.Models.Enum
+@using JustDanceAcademy.Web.ViewModels.Models
+@model AddScheduleViewModel
+
+@{
+	ViewBag.Title = "Add Schedule";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="container">
+	<form asp-action="Add" method="post" enctype="multipart/form-data">
+		<h3>Quick Contact</h3>
+		<h4>Contact us today, and get reply with in 24 hours!</h4>
+		<fieldset>
+			<label asp-for="@Model.StartClass">Start-Class</label>
+			<input asp-for="@Model.StartClass" type="time" />
+			<span asp-validation-for="StartClass"></span>
+		</fieldset>
+		<br />
+		<fieldset>
+			<label asp-for="@Model.EndClass">End-Class</label>
+			<input asp-for="@Model.EndClass" type="time" />
+			<span asp-validation-for="EndClass"></span>
+		</fieldset>
+		<fieldset>
+			<label asp-for="@Model.LevelCategory">Dance-Level</label>
+			<input asp-for="@Model.LevelCategory" class="form-control" />
+			<span asp-validation-for="LevelCategory"></span>
+		</fieldset>
+		<br />
+		<fieldset>
+			<label asp-for="@Model.Day">Day</label>
+			<select class="browser-default custom-select" asp-for="Day" asp-items="Html.GetEnumSelectList<Day>()" multiple>
+			</select>
+			<span asp-validation-for="Day"></span>
+		</fieldset>
+			
+			
+		<br />
+		<fieldset>
+			<label asp-for="@Model.Age">Age</label>
+			<select class="browser-default custom-select" asp-for="Age" asp-items="Html.GetEnumSelectList<Age>()" multiple>
+			</select>
+			<h5 >Adult=18+</h5>
+			<h5>PreSchool=6-11</h5>
+			<h5 >Youth=12-15</h5>
+			<h5>Teen=16-18</h5>
+
+				
+			<span asp-validation-for="Age"></span>
+		</fieldset>
+		<br />
+		<fieldset>
+			<label asp-for="@Model.ClassId">Class-Dancing</label>
+			<select asp-for="@Model.ClassId" class="form-control">
+				@foreach (var item in Model.AllClasses)
+				{
+					<option value="@item.Id">@item.Name</option>
+
+				}
+			</select>
+			<span asp-validation-for="ClassId" class="text-danger">
+
+			</span>
+			<br />
+		</fieldset>
+		<fieldset>
+			<button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+		</fieldset>
+	</form>
+
+
+</div>
+
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

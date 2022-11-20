@@ -8,7 +8,7 @@ namespace JustDanceAcademy.Data.Models.Enum
 {
     public enum Day
     {
-        Undefined = 0,
+       
         Monday = 1,
         Tuesday = 2,
         Wednesday = 3,

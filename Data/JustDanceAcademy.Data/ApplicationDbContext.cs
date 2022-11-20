@@ -31,17 +31,29 @@
         public DbSet<Class> Classes
         {
             get; set;
-        }= null!;
+        } = null!;
+
+        public DbSet<ClassStudent> ClassStudents
+        {
+            get; set;
+        }
+        public DbSet<Review> Reviews
+        {
+            get; set;
+        }
 
         public DbSet<Instrustor> Instrustors
         {
             get; set;
         } = null!;
 
+
+
         public DbSet<MemberShip> Plans
         {
             get; set;
         } = null!;
+
 
         public DbSet<Setting> Settings
         {

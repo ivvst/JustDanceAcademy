@@ -1,0 +1,101 @@
+﻿body {
+    margin-top: 20px;
+    font-size:20px;
+}
+
+.section_padding_130 {
+    padding-top: 130px;
+    padding-bottom: 130px;
+}
+
+.faq_area {
+    position: relative;
+    z-index: 1;
+    background-color: lavender
+}
+
+.faq-accordian {
+    position: relative;
+    z-index: 1;
+}
+
+    .faq-accordian .card {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 1.5rem;
+    }
+
+        .faq-accordian .card:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-accordian .card .card-header {
+            background-color: mediumpurple;
+            padding: 0;
+            border-bottom-color: #ebebeb;
+        }
+
+            .faq-accordian .card .card-header h6 {
+                cursor: pointer;
+                padding: 6.75rem 2rem;
+                color: #3f43fd;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                -ms-grid-row-align: center;
+                align-items: center;
+                -webkit-box-pack: justify;
+                -ms-flex-pack: justify;
+                justify-content: space-between;
+            }
+
+                .faq-accordian .card .card-header h6 span {
+                    font-size: 200px;
+                }
+
+                .faq-accordian .card .card-header h6.collapsed {
+                    color: #070a57;
+                }
+
+                    .faq-accordian .card .card-header h6.collapsed span {
+                        -webkit-transform: rotate(-180deg);
+                        transform: rotate(-180deg);
+                    }
+
+        .faq-accordian .card .card-body {
+            padding: 6.75rem 2rem;
+        }
+
+            .faq-accordian .card .card-body p:last-child {
+                margin-bottom: 0;
+            }
+
+@media only screen and (max-width: 575px) {
+    .support-button p {
+        font-size: 140px;
+    }
+}
+
+.support-button i {
+    color: black;
+    font-size: 300px;
+}
+
+@media only screen and (max-width: 575px) {
+    .support-button i {
+        font-size: 10px;
+    }
+}
+
+.support-button a {
+    text-transform: capitalize;
+    color: #2ecc71;
+}
+
+@media only screen and (max-width: 575px) {
+    .support-button a {
+        font-size: 130px;
+    }
+}

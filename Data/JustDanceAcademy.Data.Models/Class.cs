@@ -14,6 +14,13 @@ namespace JustDanceAcademy.Data.Models
 {
     public class Class : BaseDeletableModel<int>
     {
+
+        public Class()
+        {
+            this.Students = new HashSet<ClassStudent>();
+            this.Reviews = new HashSet<Review>();
+        }
+
         [Key]
         [Required]
         public new int Id
@@ -50,27 +57,21 @@ namespace JustDanceAcademy.Data.Models
         {
             get; set;
         }
+
         [ForeignKey(nameof(LevelCategoryId))]
         public LevelCategory LevelCategory
         {
             get; set;
         }
 
+  
 
-        public ICollection<Schedule> Schedule
+        public virtual ICollection<ClassStudent> Students
         {
             get; set;
         }
 
-= new List<Schedule>();
-
-        public string? StudentId
-        {
-            get; set;
-        }
-
-        [ForeignKey(nameof(StudentId))]
-        public ApplicationUser? Student
+        public virtual ICollection<Review> Reviews
         {
             get; set;
         }

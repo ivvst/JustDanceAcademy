@@ -1,0 +1,52 @@
+﻿@using JustDanceAcademy.Web.ViewModels.Models
+@model IEnumerable<PlanViewModel>
+
+
+@foreach (var plan in Model)
+{
+
+	<div class="snip1404">
+		<div class="plan">
+			<header>
+				<h4 class="plan-title">
+					@plan.Title
+				</h4>
+				<div class="plan-cost"><span class="plan-price">$@plan.Price</span><span class="plan-type">/month</span></div>
+			</header>
+			<ul class="plan-features">
+				<li><i class="ion-checkmark"> </i>5GB Linux Web Space</li>
+				<li><i class="ion-checkmark"> </i>5 MySQL Databases</li>
+				<li><i class="ion-checkmark"> </i>Unlimited Email</li>
+				<li><i class="ion-checkmark"> </i>250Gb mo Transfer</li>
+				<li><i class="ion-checkmark"> </i>24/7 Tech Support</li>
+				<li><i class="ion-checkmark"> </i>Daily Backups</li>
+			</ul>
+			<div class="plan-select"><a href="">Select Plan</a></div>
+			
+		</div>
+		
+
+
+
+	</div>
+
+}
+
+
+<link rel="stylesheet" href="~/Content/css/payCard.css" />
+
+<script>
+	/* Demo purposes only */
+	$(".hover").mouseleave(
+		function () {
+			$(this).removeClass("hover");
+		}
+	);
+
+</script>
+
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
+

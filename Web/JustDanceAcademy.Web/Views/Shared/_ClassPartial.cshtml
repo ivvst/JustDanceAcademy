@@ -1,0 +1,31 @@
+﻿@using JustDanceAcademy.Web.ViewModels.Models
+
+@model ClassServiceViewModel
+
+<div class="container">
+
+	<link href="~/Content//css/class-box.css" rel="stylesheet" />
+
+	<div class="movie_card" id="bright">
+		<div class="info_section">
+			<div class="movie_header">
+				<h1>@Model.Name</h1>
+				<h4>By @Model.Instructor</h4>
+
+			</div>
+		</div>
+		<img style="width:50%;float:right;margin-right:25%" src="@Model.ImageUrl" />
+		@if (User.Identity.IsAuthenticated)
+		{
+			<button class="button" style="margin-top:20px">
+
+				<ul><a asp-area="" asp-controller="Class" asp-action="Plans">See Plans</a></ul>
+			</button>
+		}
+
+	</div>
+
+
+
+
+</div>

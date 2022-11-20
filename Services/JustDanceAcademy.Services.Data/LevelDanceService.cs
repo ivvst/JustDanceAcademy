@@ -22,15 +22,20 @@ namespace JustDanceAcademy.Services.Data
             this.levelRepo = levelRepo;
         }
 
-        public async Task<IEnumerable<LevelDanceViewModel>> AllCategories()
+        public async Task<IEnumerable<LevelCategory>> AllCategories()
         {
-            return await this.levelRepo.All().OrderBy(x => x.Name).Select(l => new LevelDanceViewModel()
-            {
-                Id = l.Id,
-                Name = l.Name,
-            })
-                .ToListAsync();
+            return await this.levelRepo.All().ToListAsync();
         }
+
+        //public async Task<IEnumerable<LevelDanceViewModel>> AllCategories()
+        //{
+        //    return await this.levelRepo.All().OrderBy(x => x.Name).Select(l => new LevelDanceViewModel()
+        //    {
+        //        Id = l.Id,
+        //        Name = l.Name,
+        //    })
+        //        .ToListAsync();
+        //}
 
 
     }

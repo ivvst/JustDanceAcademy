@@ -1,5 +1,6 @@
 ﻿using DanceAcademy.Models;
 using JustDanceAcademy.Web.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -8,6 +9,7 @@ namespace DanceAcademy.Controllers
     public class HomeController : BaseController 
     {
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Index()
         {
 

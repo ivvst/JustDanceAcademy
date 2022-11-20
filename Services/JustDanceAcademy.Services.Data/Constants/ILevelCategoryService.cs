@@ -1,4 +1,5 @@
-﻿using JustDanceAcademy.Web.ViewModels.Models;
+﻿using JustDanceAcademy.Data.Models;
+using JustDanceAcademy.Web.ViewModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace JustDanceAcademy.Services.Data.Constants
 {
     public  interface ILevelCategoryService
     {
-        Task<IEnumerable<LevelDanceViewModel>> AllCategories();
+        Task<IEnumerable<LevelCategory>> AllCategories();
     }
 }

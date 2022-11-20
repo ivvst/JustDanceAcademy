@@ -1,4 +1,5 @@
-﻿using JustDanceAcademy.Data.Models;
+﻿using DanceAcademy.Models;
+using JustDanceAcademy.Data.Models;
 using JustDanceAcademy.Models;
 using JustDanceAcademy.Web.ViewModels.Models;
 using System;
@@ -13,8 +14,26 @@ namespace JustDanceAcademy.Services.Data.Constants
     {
         Task<IEnumerable<ClassesViewModel>> GetAllAsync();
 
-       
-
         Task<int> CreateClassAsync(AddClassViewModel model);
+
+        Task<int> CreatePlan(PlanViewModel model);
+
+        Task<IEnumerable<PlanViewModel>> GetAllPlans();
+
+        Task<ClassQueryModel> All(
+            string? category = null,
+            string? searchTerm = null,
+            int currentPage = 1,
+            int classPerPage = 1
+            );
+
+        Task<IEnumerable<string>> AllCategoriesNames();
     }
 }
+
+
+
+
+
+
+

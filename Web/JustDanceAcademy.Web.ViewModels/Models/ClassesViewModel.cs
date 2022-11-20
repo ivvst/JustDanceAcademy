@@ -1,7 +1,7 @@
 ﻿namespace JustDanceAcademy.Models
 {
-	public class ClassesViewModel
-	{
+     public class ClassesViewModel
+    {
         public int Id
         {
             get; set;
@@ -17,6 +17,7 @@
         {
             get; set;
         }
+
         public string Category
         {
             get;set;

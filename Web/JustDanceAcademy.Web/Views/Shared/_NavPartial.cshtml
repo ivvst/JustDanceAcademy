@@ -4,6 +4,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 
+
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
 		<div class="navigation-bar">
@@ -13,28 +14,55 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand">JustDance</a>
+				<a asp-controller="Home" asp-action="Index" class="navbar-brand">JDance-Academy(AddClass!?)</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
 					@if (SignInManager.IsSignedIn(User))
 					{
+					//Add in Area
+						@if (User.IsInRole("Administrator"))
+						{
+							
+							<div class="dropdown">
+								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Add-Options
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<a class="dropdown-item" asp-area="" asp-controller="Class" asp-action="Create">Add-Plan</a>
+									
+									<a class="dropdown-item" asp-area="" asp-controller="Schedule" asp-action="Add">Add-Schedule</a>
+
+									
+									<a class="dropdown-item" asp-area="" asp-controller="Class" asp-action="Add">Add-Class</a>
+								
+									<a class="dropdown-item" asp-area="" asp-controller="Instructor" asp-action="New">Add-Instructor</a>
+								</div>
+							</div>
+
+						}
+						<li><a asp-area="" asp-controller="Schedule" asp-action="SeeAll">Schedule</a></li>
+
+
+						<li><a asp-area="" asp-controller="Instructor" asp-action="All">Instructors</a></li>
+
+
 						<li><a asp-area="" asp-controller="Class" asp-action="Classes">Classes</a></li>
-						<li><a asp-area="" asp-controller="User" asp-action="Plan">My-Plans</a></li>
-						<li><a asp-area="" asp-controller="User" asp-action="Instructors">My Instuctors</a></li>
-						//Add in Area
-						<li><a asp-area="" asp-controller="Class" asp-action="Add">Add-Class</a></li>
+						<li><a asp-area="" asp-controller="Class" asp-action="All">Dance-Class</a></li>
+
 
 
 						<li class=nav navbar-nav navbar-right">
 							<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
-								<button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+								<button type="submit" class="button">Logout</button>
 							</form>
 						</li>
 					}
 					else
 					{
 						<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+						<li><a asp-area="" asp-controller="Class" asp-action="All">Dance-Class</a></li>
+
 						<li><a asp-area="" asp-controller="Account" asp-action="Register">Join us</a></li>
 						<li><a asp-area="" asp-controller="Account" asp-action="Login">Join</a></li>
 
@@ -46,3 +74,13 @@
 
 	</div>
 </nav>
+
+<style>
+	.button {
+		background-color: mediumpurple; /* Green */
+		color: white;
+		padding: 4px 4px;
+		text-align: center;
+		font-size: 10px;
+	}
+</style>

@@ -7,6 +7,9 @@
 
 
 <section class="classes paddingTop-80" id="classes">
+<link href="~/Content//css/class-box.css" rel="stylesheet" />
+
+
 
 
 	<div class="container">
@@ -18,28 +21,91 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			@foreach (var dance in Model)
-			{
-				<div class="col-md-3 col-sm-3 col-xs-6 margin-bottom30 width-100perc">
-					<div class="content">
-						<div class="content-overlay"></div>
-						<div class="classes-img">
-							<img src="@dance.ImageUrl" alt="classes" class="img-responsive">
-						</div>
-						<div class="content-details fadeIn-top fadeIn-right">
-							<h3>@dance.Name</h3>
-							<h3>By: @dance.Instructor</h3>
-							<p>@dance.Description</p>
-							<p>Level: @dance.Category</p>
-							
+		
+           @foreach (var dance in Model)
+		{
+			<div class="movie_card" id="bright">
+				<div class="info_section">
+					<div class="movie_header">
+						<h1>@dance.Name</h1>
+						<h4>By @dance.Instructor</h4>
 
-						</div>
+					</div>
+					<div class="movie_desc">
+						<p class="text">
+							@dance.Description
+						</p>
+					</div>
+					<div class="movie_social">
+						<ul>
+						</ul>
 					</div>
 				</div>
+				<button class="button" style="margin-top:20px">
+					Instructor Info
+					</button>
+				<img style="width:50%;float:right;margin-right:25%" src="@dance.ImageUrl"/>
+				<button class="button" style="margin-top:20px">
 
-			}
-		</div>
+					<ul><a asp-area="" asp-controller="Class" asp-action="Plans">See Plans</a></ul>
+					</button>
 
+			</div>
+		}
+
+		<h2 style="font-size:60px;font-weight:300">New class added every month.</h2>
+
+		
+			<h2>What is included in a plan?</h2>
+			<button class="button button2" >Get Started</button><br>
+		
+
+	</div>
 </section>
 
+<style>
+	.button {
+		background-color: mediumpurple; /* Green */
+		color: white;
+		padding: 15px 32px;
+		text-align: center;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+	}
+
+
+</style>
+
+
+
+
+			
+		@*<div class="col-md-3 col-sm-3 col-xs-6 margin-bottom30 width-100perc">
+		<div class="content">
+		<div class="content-overlay"></div>
+		<div class="classes-img">
+		<img src="@dance.ImageUrl" alt="classes" class="img-responsive">
+		</div>
+		<div class="content-details fadeIn-top fadeIn-right">
+		<h3>@dance.Name</h3>
+		<h3>By: @dance.Instructor</h3>
+		<p>@dance.Description</p>
+		<p>Level: @dance.Category</p>
+
+
+		</div>
+		</div>
+		</div>*@
+
+		}
+		@*Instrustor=> Info same as About Page
+			Add-Plans-Remove-Plans
+			Get Plans Plans View 
+
+			PayPal	Constructor-Fake Payment
+		
+			ADMIN TABLE- User-Class-Payments-
+
+			Schedule Class-Instructor DAY-Hours Level
+		*@

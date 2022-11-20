@@ -14,12 +14,16 @@ namespace JustDanceAcademy.Models
         public string Email { get; set; } = null!;
 
         [Required]
-        [StringLength(20, MinimumLength = 2)]
         [DataType(DataType.Password)]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+
         public string Password { get; set; } = null!;
 
-        [Compare(nameof(Password))]
+
+        [Required]
         [DataType(DataType.Password)]
+        [Compare(nameof(Password), ErrorMessage = "Confirm password doesn't match, Type again !")]
+
         public string ConfirmPassword { get; set; } = null!;
 
 

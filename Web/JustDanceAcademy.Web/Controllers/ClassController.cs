@@ -27,7 +27,71 @@ namespace JustDanceAcademy.Web.Controllers
             this.danceService = danceService;
         }
 
+        [AllowAnonymous]
+        public async Task<IActionResult> All([FromQuery]AllClassesQueryModel query)
+        {
 
+            var result = await danceService.All(
+                query.Category,
+                query.SearchTerm,
+                query.CurrentPage,
+                AllClassesQueryModel.ClassesPerPage);
+
+            query.TotalClassesCount = result.TotalClassesCount;
+            query.LevelsCategory = await danceService.AllCategoriesNames();
+            query.Classes = result.Classes;
+
+            return this. View(query);
+        }
+
+        [HttpGet]
+        public IActionResult Schedule()
+        {
+            var model = new ScheduleViewModel();
+
+            return this.View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Plans()
+        {
+            var model = await this.danceService.GetAllPlans();
+
+            return this.View(model);
+        }
+
+
+        [Authorize(Roles ="Administrator")]
+        [HttpGet]
+        public  IActionResult Create()
+        {
+            var model = new PlanViewModel();
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+
+        public async Task<IActionResult> Create(PlanViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            try
+            {
+                await danceService.CreatePlan(model);
+
+                return RedirectToAction("Plans", "Class");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Something went wrong");
+                return View(model);
+
+            }
+        }
 
         [HttpGet]
         public async Task<IActionResult> Classes()
@@ -41,15 +105,14 @@ namespace JustDanceAcademy.Web.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Add()
         {
-            var model = new AddClassViewModel();
-            var categories = await this.levelCategoryService.AllCategories();
-            model.LevelsCategory = categories.Select(x => new LevelCategory
+            var model = new AddClassViewModel()
             {
-                Name = x.Name,
-                Id = x.Id,
-            });
+                LevelsCategory = await this.levelCategoryService.AllCategories(),
+            };
+
             return this.View(model);
         }
+
         [HttpPost]
         [Authorize(Roles = "Administrator")]
 
@@ -58,34 +121,24 @@ namespace JustDanceAcademy.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                model.LevelsCategory = await this.levelCategoryService.AllCategories();
+
+                return this.View(model);
             }
             try
             {
-                await danceService.CreateClassAsync(model);
+                await this.danceService.CreateClassAsync(model);
 
-                return RedirectToAction("Classes", "Class");
+                return this.RedirectToAction("Classes", "Class");
             }
             catch (Exception)
             {
-                ModelState.AddModelError("", "Something went wrong");
-                return View(model);
-               
+                this.ModelState.AddModelError("", "Something went wrong");
+
+                return this.View(model);
+
             }
 
         }
     }
 }
-
-//try
-//{
-//    await bookService.AddBookAsync(model);
-
-//    return RedirectToAction(nameof(All));
-//}
-//catch (Exception)
-//{
-//    ModelState.AddModelError("", "Something went wrong");
-
-//    return View(model);
-//}

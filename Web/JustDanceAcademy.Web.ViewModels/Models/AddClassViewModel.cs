@@ -10,34 +10,37 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 {
     public class AddClassViewModel
     {
+        //TODO: DOWN BELLOW!!!!!!!!!!!!!!!IMPORTANT
         [Required]
         [StringLength(50, MinimumLength = 10)]
-        public string Name
+        public string? Name
         {
             get; set;
         }
 
         [Required]
         [StringLength(50, MinimumLength = 5)]
-        public string Instructor
+        public string? Instructor
         {
             get; set;
         }
 
         [Required]
         [Display(Name = "Image URL")]
-        public string ImageUrl
+        public string? ImageUrl
         {
             get; set;
         }
 
 
         [Required]
-        [StringLength(30, MinimumLength = 5)]
-        public string Description
+        [StringLength(300,MinimumLength =5)]
+        public string? Description
         {
             get; set;
         }
+
+        [Required]
         [Display(Name = "Level of dancing")]
         public int LevelCategoryId
         {
@@ -47,3 +50,9 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 
     }
 }
+
+
+
+
+//Show  tab with Categories IN ONE LINE 
+//    AND BY ADDED Cid show classes this it
