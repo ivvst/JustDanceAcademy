@@ -10,6 +10,11 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 {
     public class InstructorViewModel
     {
+        public int Id
+        {
+            get; set;
+        }
+
         [Required]
         [StringLength(20, ErrorMessage = "The {0} its too short", MinimumLength = 3 )]
 

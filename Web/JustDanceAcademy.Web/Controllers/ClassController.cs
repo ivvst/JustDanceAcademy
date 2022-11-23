@@ -2,6 +2,7 @@
 using JustDanceAcademy.Data.Models;
 using JustDanceAcademy.Models;
 using JustDanceAcademy.Services.Data;
+using JustDanceAcademy.Services.Data.Common;
 using JustDanceAcademy.Services.Data.Constants;
 using JustDanceAcademy.Services.Messaging.Constants;
 using JustDanceAcademy.Web.ViewModels.Models;
@@ -143,6 +144,7 @@ namespace JustDanceAcademy.Web.Controllers
 
         }
 
+        //When user is not administrator let's not See the button 
 
         public async Task<IActionResult> StartClass(int classId)
         {
@@ -151,8 +153,16 @@ namespace JustDanceAcademy.Web.Controllers
                 var userId = this.User.Claims
                     .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
+
+                if (this.User.IsInRole("Administrator"))
+                {
+                    throw new ArgumentException(
+                        string.Format(ExceptionMessages.AdminHaveNotClass, userId)
+                        );
+                }
+
                 await danceService.AddStudentToClass(userId, classId);
-             
+
                 return this.RedirectToAction(nameof(this.Plans));
             }
             catch (Exception)
@@ -165,28 +175,77 @@ namespace JustDanceAcademy.Web.Controllers
 
         public async Task<IActionResult> LeaveClass(int classId)
         {
-            
 
-                var userId = this.User.Claims
-                            .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-                await danceService.LeaveClass(classId, userId);
 
-                return this.RedirectToAction(nameof(this.Classes));
-            
+            var userId = this.User.Claims
+                        .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            await danceService.LeaveClass(classId, userId);
+
+            return this.RedirectToAction(nameof(this.Classes));
+
 
         }
 
 
         public async Task<IActionResult> Train()
         {
-            
 
-                var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-                var model = await this.danceService.GetMyClassAsync(userId);
-                return View("Training", model);
-           
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            var model = await this.danceService.GetMyClassAsync(userId);
+            return View("Training", model);
+
 
         }
+
+
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> EditDance(int id)
+        {
+            if ((await danceService.Exists(id)) == false)
+            {
+                throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, id));
+                return RedirectToAction(nameof(this.Classes));
+            }
+
+            var danceClass = await this.danceService.DanceDetailsById(id);
+            var levelCategoryId = await this.danceService.GetDanceLevelId(id);
+
+            var model = new EditDanceViewModel()
+            {
+                Id = id,
+                Name = danceClass.Name,
+                Instructor = danceClass.Instructor,
+                Description = danceClass.Description,
+                LevelCategoryId = levelCategoryId,
+                ImageUrl = danceClass.ImageUrl,
+                LevelsCategory = await this.levelCategoryService.AllCategories(),
+            };
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> EditDance(int id, EditDanceViewModel model)
+        {
+            if ((await danceService.Exists(model.Id)) == false)
+            {
+                throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, model.Id));
+                model.LevelsCategory = await this.levelCategoryService.AllCategories();
+                return View(model);
+            }
+            if (ModelState.IsValid == false)
+            {
+                model.LevelsCategory = await this.levelCategoryService.AllCategories();
+                return View(model);
+            }
+
+            await danceService.Edit(model.Id, model);
+
+            return this.RedirectToAction(nameof(this.Classes));
+        }
+
     }
 }

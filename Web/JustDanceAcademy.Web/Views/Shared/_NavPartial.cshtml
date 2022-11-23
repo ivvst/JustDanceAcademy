@@ -46,7 +46,11 @@
 							<div class="dropdown-content">
 
 								<a asp-area="" asp-controller="Schedule" asp-action="SeeAll">Schedule</a>
-								<a asp-area="" asp-controller="Class" asp-action="Train">My-Train</a>
+								@if (User.IsInRole("Administrator") == false)
+								{
+
+									<a asp-area="" asp-controller="Class" asp-action="Train">My-Train</a>
+								}
 
 
 								<a asp-area="" asp-controller="Instructor" asp-action="All">Instructors</a>
@@ -78,7 +82,7 @@
 						<li><a asp-area="" asp-controller="Account" asp-action="Register">REGISTER</a></li>
 						<li><a asp-area="" asp-controller="Account" asp-action="Login">EXISTING CUSTOMER LOGIN</a></li>
 					}
-			
+
 
 
 
@@ -138,7 +142,7 @@
 		background-color: mediumpurple; /* Green */
 		color: white;
 		/*padding: 4px 4px;
-		font-size: 10px;
-		text-align: center;
-	}*/
+			font-size: 10px;
+			text-align: center;
+		}*/
 </style>

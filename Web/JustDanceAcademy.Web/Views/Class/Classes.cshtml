@@ -8,26 +8,29 @@
 @foreach (var item in Model)
 {
 	<div id="container">
-
 		<!-- Start	Class details -->
 		<div class="product-details">
-
-
-			<!-- 	Product Name -->
+			<!-- 	Class Name -->
 			<h1>@item.Name</h1>
 			<!-- The most important information about the product -->
 			<p class="information">"@item.Description"</p>
+			@if (User.IsInRole("Administrator") == false)
+			{
 
-			
+				<form class="input-group-sm" asp-controller="Class" asp-action="StartClass" asp-route-classId="@item.Id">
+					<input type="submit" value="Start-Dance-Class" class="fs-6 btn btn-success mb-5 p-4" />
+				</form>
+			}
+			@if(User.IsInRole("Administrator")){
+				<button class="button">
+					<ul>
+						<a asp-area="" asp-controller="Class" asp-action="EditDance" asp-route-id="@item.Id" >Edit</a>
+					</ul>
+					<i class="fas fa-pen"></i>
+				</button>
+				<button><i class="fas fa-eraser">Delete</i></button>
 
-					<form class="input-group-sm" asp-controller="Class" asp-action="StartClass" asp-route-classId="@item.Id">
-						<input type="submit" value="Start-Dance-Class" class="fs-6 btn btn-success mb-5 p-4" />
-					</form>
-				
-				<!-- End Button buying -->
-
-			
-
+			}
 		</div>
 
 		<div class="product-image">
@@ -52,7 +55,7 @@
 
 
 	<link href="~/Content/css/class-box.css" rel="stylesheet" />
-
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
 }
 
 
@@ -119,7 +122,7 @@
 
 
 
-		
+
 @*
 			Add-Plans-Remove-Plans
 			Get Plans Plans View
@@ -128,5 +131,5 @@
 
 			ADMIN TABLE- User-Class-Payments-
 
-			
+
 		*@

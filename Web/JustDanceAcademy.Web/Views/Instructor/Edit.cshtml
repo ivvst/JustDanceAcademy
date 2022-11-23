@@ -1,0 +1,53 @@
+﻿@using JustDanceAcademy.Web.ViewModels.Models
+
+@model InstructorViewModel
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <input type="hidden" asp-for="@Model.Id" />
+            <div class="form-group">
+                <label asp-for="FullName"></label>
+                <input asp-for="FullName" class="form-control" placeholder="FullName...">
+                <span asp-validation-for="FullName" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AboutYou"></label>
+                <textarea asp-for="AboutYou" rows="4" class="form-control" placeholder="Tell me about you..."></textarea>
+                <span asp-validation-for="AboutYou" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl"></label>
+                <input asp-for="ImageUrl" class="form-control" placeholder="Your fine URL here...">
+                <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ClassId"></label>
+                <select asp-for="ClassId" class="form-control">
+                    @foreach (var item in Model.ClassesOfInstructor)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ClassId" class="small text-danger"></span>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+            <br />
+          
+            <button>
+                <ul>
+                    <a asp-area="" asp-controller="Instructor" asp-action="All">Cancel</a>
+                </ul>
+            </button>
+        </form>
+    </div>
+</div>
+<link rel="stylesheet" href="~/Content/css/edit-class.css" media="screen">
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

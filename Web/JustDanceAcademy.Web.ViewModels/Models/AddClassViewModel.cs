@@ -12,7 +12,7 @@ namespace JustDanceAcademy.Web.ViewModels.Models
     {
        
         [Required]
-        [StringLength(50, MinimumLength = 10)]
+        [StringLength(50, MinimumLength = 3)]
         public string? Name
         {
             get; set;
@@ -34,7 +34,7 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 
 
         [Required]
-        [StringLength(300,MinimumLength =5)]
+        [StringLength(100,MinimumLength =5)]
         public string? Description
         {
             get; set;

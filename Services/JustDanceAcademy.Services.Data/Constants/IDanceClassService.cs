@@ -14,13 +14,20 @@ namespace JustDanceAcademy.Services.Data.Constants
     {
         Task<IEnumerable<ClassesViewModel>> GetAllAsync();
 
+        Task<ClassesViewModel> DanceDetailsById(int id);
         Task<int> CreateClassAsync(AddClassViewModel model);
+
+        Task<int> GetDanceLevelId(int classId);
+
+        Task<bool> Exists(int id);
+
+        Task Edit(int classId, EditDanceViewModel model);
 
         Task<int> CreatePlan(PlanViewModel model);
 
         Task AddStudentToClass(string userId, int classId);
 
-        Task LeaveClass( int classId,string userId);
+        Task LeaveClass(int classId, string userId);
 
         Task<IEnumerable<MyClassViewModel>> GetMyClassAsync(string userId);
 
@@ -41,6 +48,8 @@ namespace JustDanceAcademy.Services.Data.Constants
 
 
         //Task<IEnumerable<ClassesAndStudentsViewModel>> GetInfo();
+
+
     }
 }
 

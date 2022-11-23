@@ -2,6 +2,7 @@
 using JustDanceAcademy.Data.Common.Repositories;
 using JustDanceAcademy.Data.Models;
 using JustDanceAcademy.Models;
+using JustDanceAcademy.Services.Data.Common;
 using JustDanceAcademy.Services.Data.Constants;
 using JustDanceAcademy.Services.Messaging.Constants;
 //using JustDanceAcademy.Services.Data.Constants;
@@ -16,6 +17,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,6 +61,7 @@ namespace JustDanceAcademy.Services.Data
                 Description = model.Description,
 
             };
+
             await this.classRepository.AddAsync(entity);
             await this.classRepository.SaveChangesAsync();
 
@@ -183,7 +186,7 @@ namespace JustDanceAcademy.Services.Data
             }
             else if (student.ClassId.HasValue)
             {
-                throw new ArgumentException("You already dance in a class");
+                throw new ArgumentException(string.Format(ExceptionMessages.ClassAlreadyIsStarted, classId));
 
             }
 
@@ -246,6 +249,62 @@ namespace JustDanceAcademy.Services.Data
             return null;
 
 
+        }
+
+        public async Task Edit(int classId, EditDanceViewModel model)
+        {
+            var dance = await this.classRepository.All().Where(d => d.Id == classId).FirstAsync();
+            if (dance == null)
+            {
+                throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, classId));
+            }
+
+            var danceCategory = await this.levelRepo.All().AnyAsync(x => x.Id == dance.LevelCategoryId);
+
+            if (danceCategory == false)
+            {
+                throw new NullReferenceException(string.Format(ExceptionMessages.InvalidDanceCategoryType, dance.LevelCategory.Name));
+            }
+
+           
+
+            dance.Description = model.Description;
+            dance.ImageUrl = model.ImageUrl;
+            dance.Instructor = model.Instructor;
+            dance.Name = model.Name;
+            dance.LevelCategoryId = model.LevelCategoryId;
+
+            await this.classRepository.SaveChangesAsync();
+        }
+
+
+
+        public async Task<int> GetDanceLevelId(int classId)
+        {
+            return await this.classRepository.All().Where(x => x.Id == classId)
+                .Select(x => x.LevelCategoryId)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> Exists(int id)
+        {
+            return await classRepository.All().AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<ClassesViewModel> DanceDetailsById(int id)
+        {
+            return await classRepository.All()
+                 .Where(c => c.Id == id)
+                 .Select(c => new ClassesViewModel()
+                 {
+                     Name = c.Name,
+                     Category = c.LevelCategory.Name,
+                     Id = id,
+                     ImageUrl = c.ImageUrl,
+                     Description = c.Description,
+                     Instructor = c.Instructor,
+                 })
+                 .FirstAsync();
         }
     }
 }

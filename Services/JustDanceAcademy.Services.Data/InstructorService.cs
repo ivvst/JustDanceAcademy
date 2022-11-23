@@ -1,6 +1,7 @@
 ﻿using JustDanceAcademy.Data.Common.Repositories;
 using JustDanceAcademy.Data.Models;
 using JustDanceAcademy.Models;
+using JustDanceAcademy.Services.Data.Common;
 using JustDanceAcademy.Services.Data.Constants;
 using JustDanceAcademy.Web.ViewModels.Models;
 using Microsoft.EntityFrameworkCore;
@@ -36,10 +37,48 @@ namespace JustDanceAcademy.Services.Data
                 Biography = model.AboutYou,
                 ClassId = model.ClassId,
             };
+
+            bool doesInstructorExist = await this.repo.All().AnyAsync(x => x.Name == model.FullName);
+            if (doesInstructorExist)
+            {
+                throw new ArgumentException(
+                    string.Format(ExceptionMessages.InstructorAlreadyExists, model.FullName));
+            }
+
             await repo.AddAsync(entity);
             await repo.SaveChangesAsync();
 
             return entity.Id;
+        }
+
+        public async Task Edit(int trainerId, InstructorViewModel model)
+        {
+            var trainer = await this.repo.All()
+                .Where(x => x.Id == trainerId)
+                .FirstAsync();
+            if (trainer == null)
+            {
+                throw new NullReferenceException(string.Format(ExceptionMessages.InstructorNotFound, trainerId));
+            }
+
+            var danceClass = await this.classRepository.All().AnyAsync(x => x.Id == trainer.ClassId);
+
+            if (danceClass == false)
+            {
+                throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, trainer.ClassId));
+            }
+
+            trainer.Biography = model.AboutYou;
+            trainer.ImageUrl = model.ImageUrl;
+            trainer.Name = model.FullName;
+            trainer.ClassId = model.ClassId;
+
+            await this.repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> Exists(int id)
+        {
+            return await this.repo.All().AnyAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<InstructorsViewModel>> GetAllInstructors()
@@ -76,9 +115,25 @@ namespace JustDanceAcademy.Services.Data
             return await classRepository.All().ToListAsync();
         }
 
+        public async Task<int> GetClassId(int trainerId)
+        {
+            return await this.repo.All().Where(x => x.Id == trainerId)
+                .Select(x => x.ClassId)
+                .FirstOrDefaultAsync();
+        }
 
-
-
-
+        public async Task<InstructorsViewModel> TrainerDetailsById(int id)
+        {
+            return await this.repo.All().Where(t => t.Id == id)
+                 .Select(t => new InstructorsViewModel()
+                 {
+                     Intro = t.Biography,
+                     Id = id,
+                     ImageUrl = t.ImageUrl,
+                     FullName = t.Name,
+                     Class = t.Class.Name,
+                 })
+                 .FirstAsync();
+        }
     }
 }

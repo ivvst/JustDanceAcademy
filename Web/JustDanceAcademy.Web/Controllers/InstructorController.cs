@@ -9,6 +9,7 @@ using System.Data;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using JustDanceAcademy.Services.Data.Common;
 
 namespace JustDanceAcademy.Web.Controllers
 {
@@ -28,7 +29,7 @@ namespace JustDanceAcademy.Web.Controllers
         }
 
         [HttpGet]
-        public  async Task<IActionResult> All()
+        public async Task<IActionResult> All()
         {
             var model = await this.serviceInstructor.GetAllInstructors();
             return this.View(model);
@@ -72,25 +73,67 @@ namespace JustDanceAcademy.Web.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Authorize(Roles ="Administrator")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if ((await this.serviceInstructor.Exists(id)) == false)
+            {
+                throw new NullReferenceException(
+                    string.Format(ExceptionMessages.InstructorNotFound, id));
+
+            }
+
+            var trainer = await this.serviceInstructor.TrainerDetailsById(id);
+            var danceClassId = await this.serviceInstructor.GetClassId(id);
+
+            var model = new InstructorViewModel()
+            {
+                Id = id,
+                FullName = trainer.FullName,
+                ImageUrl = trainer.ImageUrl,
+                AboutYou = trainer.Intro,
+                ClassesOfInstructor = await this.serviceInstructor.GetClasses(),
+                ClassId = danceClassId,
+            };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Edit(int id, InstructorViewModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                model.ClassesOfInstructor = await this.serviceInstructor.GetClasses();
+                return View(model);
+            }
+
+            await this.serviceInstructor.Edit(model.Id, model);
+
+            return this.RedirectToAction(nameof(this.All));
+        }
     }
 }
 
-        //var model = new AddBookViewModel();
-        //var categories = await this.genreCategoryService.AllCategories();
+//var model = new AddBookViewModel();
+//var categories = await this.genreCategoryService.AllCategories();
 
-        //model.GenresCategory = categories.Select(x => new GenreCategory
-        //    {
-        //        Id = x.Id,
-        //        Name = x.Name,
-        //    });
-        //    return this.View(model);
+//model.GenresCategory = categories.Select(x => new GenreCategory
+//    {
+//        Id = x.Id,
+//        Name = x.Name,
+//    });
+//    return this.View(model);
 
-            //var model = new InstructorViewModel();
-            //var classes = await this.serviceInstructor.GetClasses();
+//var model = new InstructorViewModel();
+//var classes = await this.serviceInstructor.GetClasses();
 
-            //model.ClassesOfInstructor = classes.Select(x => new Class
-            //{
-            //    Id = x.Id,
-            //    Name = x.Name,
-            //});
-            //return this.View(model);
+//model.ClassesOfInstructor = classes.Select(x => new Class
+//{
+//    Id = x.Id,
+//    Name = x.Name,
+//});
+//return this.View(model);
