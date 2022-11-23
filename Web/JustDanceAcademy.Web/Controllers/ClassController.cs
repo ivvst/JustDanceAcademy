@@ -3,11 +3,13 @@ using JustDanceAcademy.Data.Models;
 using JustDanceAcademy.Models;
 using JustDanceAcademy.Services.Data;
 using JustDanceAcademy.Services.Data.Constants;
+using JustDanceAcademy.Services.Messaging.Constants;
 using JustDanceAcademy.Web.ViewModels.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace JustDanceAcademy.Web.Controllers
@@ -28,7 +30,7 @@ namespace JustDanceAcademy.Web.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> All([FromQuery]AllClassesQueryModel query)
+        public async Task<IActionResult> All([FromQuery] AllClassesQueryModel query)
         {
 
             var result = await danceService.All(
@@ -41,7 +43,7 @@ namespace JustDanceAcademy.Web.Controllers
             query.LevelsCategory = await danceService.AllCategoriesNames();
             query.Classes = result.Classes;
 
-            return this. View(query);
+            return this.View(query);
         }
 
         [HttpGet]
@@ -61,9 +63,9 @@ namespace JustDanceAcademy.Web.Controllers
         }
 
 
-        [Authorize(Roles ="Administrator")]
+        [Authorize(Roles = "Administrator")]
         [HttpGet]
-        public  IActionResult Create()
+        public IActionResult Create()
         {
             var model = new PlanViewModel();
 
@@ -138,6 +140,52 @@ namespace JustDanceAcademy.Web.Controllers
                 return this.View(model);
 
             }
+
+        }
+
+
+        public async Task<IActionResult> StartClass(int classId)
+        {
+            try
+            {
+                var userId = this.User.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                await danceService.AddStudentToClass(userId, classId);
+             
+                return this.RedirectToAction(nameof(this.Plans));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public async Task<IActionResult> LeaveClass(int classId)
+        {
+            
+
+                var userId = this.User.Claims
+                            .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                await danceService.LeaveClass(classId, userId);
+
+                return this.RedirectToAction(nameof(this.Classes));
+            
+
+        }
+
+
+        public async Task<IActionResult> Train()
+        {
+            
+
+                var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                var model = await this.danceService.GetMyClassAsync(userId);
+                return View("Training", model);
+           
 
         }
     }

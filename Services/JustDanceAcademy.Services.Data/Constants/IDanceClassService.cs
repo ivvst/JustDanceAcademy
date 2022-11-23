@@ -18,6 +18,16 @@ namespace JustDanceAcademy.Services.Data.Constants
 
         Task<int> CreatePlan(PlanViewModel model);
 
+        Task AddStudentToClass(string userId, int classId);
+
+        Task LeaveClass( int classId,string userId);
+
+        Task<IEnumerable<MyClassViewModel>> GetMyClassAsync(string userId);
+
+
+
+
+
         Task<IEnumerable<PlanViewModel>> GetAllPlans();
 
         Task<ClassQueryModel> All(
@@ -28,6 +38,9 @@ namespace JustDanceAcademy.Services.Data.Constants
             );
 
         Task<IEnumerable<string>> AllCategoriesNames();
+
+
+        //Task<IEnumerable<ClassesAndStudentsViewModel>> GetInfo();
     }
 }
 

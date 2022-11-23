@@ -10,7 +10,7 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 {
     public class AddClassViewModel
     {
-        //TODO: DOWN BELLOW!!!!!!!!!!!!!!!IMPORTANT
+       
         [Required]
         [StringLength(50, MinimumLength = 10)]
         public string? Name
@@ -51,8 +51,3 @@ namespace JustDanceAcademy.Web.ViewModels.Models
     }
 }
 
-
-
-
-//Show  tab with Categories IN ONE LINE 
-//    AND BY ADDED Cid show classes this it

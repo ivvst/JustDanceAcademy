@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace JustDanceAcademy.Web.Controllers
 {
+    [Authorize]
     public class InstructorController : BaseController
     {
 
@@ -34,6 +35,8 @@ namespace JustDanceAcademy.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
+
         public async Task<IActionResult> New()
         {
             var model = new InstructorViewModel()
@@ -44,6 +47,8 @@ namespace JustDanceAcademy.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
+
         public async Task<IActionResult> New(InstructorViewModel model)
         {
             if (!this.ModelState.IsValid)

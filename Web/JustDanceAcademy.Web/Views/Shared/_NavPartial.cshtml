@@ -14,7 +14,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a asp-controller="Home" asp-action="Index" class="navbar-brand">JDance-Academy(AddClass!?)</a>
+				<a asp-controller="Home" asp-action="Index" class="navbar-brand">JDance-Academy</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
@@ -23,50 +23,64 @@
 					//Add in Area
 						@if (User.IsInRole("Administrator"))
 						{
-							
+
 							<div class="dropdown">
-								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Add-Options
-								</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<button class="dropbtn">Add-Options</button>
+								<div class="dropdown-content">
 									<a class="dropdown-item" asp-area="" asp-controller="Class" asp-action="Create">Add-Plan</a>
-									
+
 									<a class="dropdown-item" asp-area="" asp-controller="Schedule" asp-action="Add">Add-Schedule</a>
 
-									
+
 									<a class="dropdown-item" asp-area="" asp-controller="Class" asp-action="Add">Add-Class</a>
-								
+
 									<a class="dropdown-item" asp-area="" asp-controller="Instructor" asp-action="New">Add-Instructor</a>
+
 								</div>
 							</div>
 
 						}
-						<li><a asp-area="" asp-controller="Schedule" asp-action="SeeAll">Schedule</a></li>
+
+						<div class="dropdown">
+							<button class="dropbtn">Class</button>
+							<div class="dropdown-content">
+
+								<a asp-area="" asp-controller="Schedule" asp-action="SeeAll">Schedule</a>
+								<a asp-area="" asp-controller="Class" asp-action="Train">My-Train</a>
 
 
-						<li><a asp-area="" asp-controller="Instructor" asp-action="All">Instructors</a></li>
+								<a asp-area="" asp-controller="Instructor" asp-action="All">Instructors</a>
 
 
-						<li><a asp-area="" asp-controller="Class" asp-action="Classes">Classes</a></li>
-						<li><a asp-area="" asp-controller="Class" asp-action="All">Dance-Class</a></li>
+								<a asp-area="" asp-controller="Class" asp-action="Classes">Dance-Classes</a>
+								<a asp-area="" asp-controller="Class" asp-action="All">Search</a>
+							</div>
+						</div>
 
 
 
-						<li class=nav navbar-nav navbar-right">
-							<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
-								<button type="submit" class="button">Logout</button>
-							</form>
-						</li>
+						<div class="dropdown">
+							<button class="dropbtn">Options</button>
+							<div class="dropdown-content">
+								<a asp-area="" asp-controller="" asp-action="">Privacy</a>
+								<a asp-area="" asp-controller="" asp-action="">Term</a>
+
+								<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+									<button type="submit" class="button">Logout</button>
+								</form>
+
+							</div>
+						</div>
 					}
 					else
 					{
 						<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-						<li><a asp-area="" asp-controller="Class" asp-action="All">Dance-Class</a></li>
-
-						<li><a asp-area="" asp-controller="Account" asp-action="Register">Join us</a></li>
-						<li><a asp-area="" asp-controller="Account" asp-action="Login">Join</a></li>
-
+						<li><a asp-area="" asp-controller="Account" asp-action="Register">REGISTER</a></li>
+						<li><a asp-area="" asp-controller="Account" asp-action="Login">EXISTING CUSTOMER LOGIN</a></li>
 					}
+			
+
+
 
 				</ul>
 			</div>
@@ -76,11 +90,55 @@
 </nav>
 
 <style>
+	.dropbtn {
+		background-color: black;
+		color: white;
+		padding: 16px;
+		font-size: 16px;
+		border: none;
+		cursor: pointer;
+	}
+
+	.dropdown {
+		position: relative;
+		display: inline-block;
+	}
+
+	.dropdown-content {
+		display: none;
+		position: absolute;
+		background-color: #f9f9f9;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+	}
+
+		.dropdown-content a {
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+		}
+
+			.dropdown-content a:hover {
+				background-color: #f1f1f1
+			}
+
+	.dropdown:hover .dropdown-content {
+		display: block;
+	}
+
+	.dropdown:hover .dropbtn {
+		background-color: mediumpurple;
+	}
+</style>
+
+<style>
 	.button {
 		background-color: mediumpurple; /* Green */
 		color: white;
-		padding: 4px 4px;
-		text-align: center;
+		/*padding: 4px 4px;
 		font-size: 10px;
-	}
+		text-align: center;
+	}*/
 </style>

@@ -3,16 +3,20 @@ using JustDanceAcademy.Data.Common.Repositories;
 using JustDanceAcademy.Data.Models;
 using JustDanceAcademy.Models;
 using JustDanceAcademy.Services.Data.Constants;
+using JustDanceAcademy.Services.Messaging.Constants;
 //using JustDanceAcademy.Services.Data.Constants;
 using JustDanceAcademy.Web.ViewModels.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using SendGrid.Helpers.Errors.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Collections.Specialized.BitVector32;
@@ -26,15 +30,19 @@ namespace JustDanceAcademy.Services.Data
         private readonly IRepository<ApplicationUser> userRepository;
         private readonly IRepository<MemberShip> planRepo;
         private readonly IRepository<LevelCategory> levelRepo;
+        private readonly IRepository<ClassStudent> comboRepo;
 
-    
 
-        public ClassService(IRepository<Class> classRepository, IRepository<ApplicationUser> userRepository, IRepository<MemberShip> planRepo, IRepository<LevelCategory> levelRepo)
+
+
+
+        public ClassService(IRepository<ClassStudent> comboRepo, IRepository<Class> classRepository, IRepository<ApplicationUser> userRepository, IRepository<MemberShip> planRepo, IRepository<LevelCategory> levelRepo)
         {
             this.classRepository = classRepository;
             this.userRepository = userRepository;
             this.planRepo = planRepo;
             this.levelRepo = levelRepo;
+            this.comboRepo = comboRepo;
 
 
         }
@@ -145,5 +153,103 @@ namespace JustDanceAcademy.Services.Data
                  .Distinct()
                  .ToListAsync();
         }
+
+        public async Task AddStudentToClass(string userId, int classId)
+        {
+            var student = await this.userRepository.All()
+          .FirstOrDefaultAsync(s => s.Id == userId);
+
+            if (student == null)
+            {
+                throw new ArgumentException("Invalid user ID");
+            }
+
+            if (student.ClassId.HasValue == false)
+            {
+                var danceClass = await this.classRepository.All()
+                    .Where(c => c.Id == classId)
+                    .FirstAsync();
+
+                student.ClassId = classId;
+                danceClass.Students.Add(new ClassStudent()
+                {
+                    StudentId = student.Id,
+                    ClassId = classId,
+                    Class = danceClass,
+                    Student = student,
+                });
+                await this.classRepository.SaveChangesAsync();
+                await this.userRepository.SaveChangesAsync();
+            }
+            else if (student.ClassId.HasValue)
+            {
+                throw new ArgumentException("You already dance in a class");
+
+            }
+
+
+
+        }
+
+        public async Task LeaveClass(int classId, string userId)
+        {
+            var student = await this.userRepository.All()
+                .Where(u => u.Id == userId)
+                .Include(x => x.Class.Students)
+                .FirstAsync();
+
+
+            var st = student.Class.Students.First(x => x.StudentId == userId).IsDeleted = true;
+            //var item = student.Class.Students.First(x => x.ClassId == classId).IsDeleted = true;
+
+
+            student.ClassId = null;
+
+
+
+
+
+            await this.comboRepo.SaveChangesAsync();
+            await this.userRepository.SaveChangesAsync();
+
+
+
+        }
+
+
+        public async Task<IEnumerable<MyClassViewModel>> GetMyClassAsync(string userId)
+        {
+            var user = await userRepository.All()
+                .Where(u => u.Id == userId)
+                .Include(x => x.Class.Students)
+                .FirstAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user ID");
+            }
+
+            if (user.ClassId.HasValue)
+            {
+
+                return user.Class.Students
+                    .Select(x => new MyClassViewModel()
+                    {
+                        Id = x.Class.Id,
+                        Name = x.Class.Name,
+                        ImageUrl = x.Class.ImageUrl,
+                        Instructor = x.Class.Instructor,
+                        Description = x.Class.Description,
+                        Category = x.Class.LevelCategory?.Name,
+                    });
+            }
+            return null;
+
+
+        }
     }
 }
+
+
+
+

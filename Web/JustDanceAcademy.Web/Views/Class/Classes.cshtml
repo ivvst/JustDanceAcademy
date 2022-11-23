@@ -5,9 +5,58 @@
 
 @model IEnumerable<ClassesViewModel>
 
+@foreach (var item in Model)
+{
+	<div id="container">
 
-<section class="classes paddingTop-80" id="classes">
-<link href="~/Content//css/class-box.css" rel="stylesheet" />
+		<!-- Start	Class details -->
+		<div class="product-details">
+
+
+			<!-- 	Product Name -->
+			<h1>@item.Name</h1>
+			<!-- The most important information about the product -->
+			<p class="information">"@item.Description"</p>
+
+			
+
+					<form class="input-group-sm" asp-controller="Class" asp-action="StartClass" asp-route-classId="@item.Id">
+						<input type="submit" value="Start-Dance-Class" class="fs-6 btn btn-success mb-5 p-4" />
+					</form>
+				
+				<!-- End Button buying -->
+
+			
+
+		</div>
+
+		<div class="product-image">
+
+			<img src="@item.ImageUrl" alt="Omar Dsoky">
+
+			<!-- 	product Information-->
+			<div class="info">
+				<h2>The Description</h2>
+				<ul>
+					<li><strong>Instructor: </strong>@item.Instructor</li>
+					<li><strong>Dance-Category: </strong>@item.Category</li>
+					<br>
+					<li><strong>Age: </strong>Press "Schedule" for more Info</li>
+				</ul>
+			</div>
+		</div>
+		<!--  End product image  -->
+
+
+	</div>
+
+
+	<link href="~/Content/css/class-box.css" rel="stylesheet" />
+
+}
+
+
+@*<section>
 
 
 
@@ -21,8 +70,8 @@
 				</div>
 			</div>
 		</div>
-		
-           @foreach (var dance in Model)
+
+		@foreach (var dance in Model)
 		{
 			<div class="movie_card" id="bright">
 				<div class="info_section">
@@ -36,76 +85,48 @@
 							@dance.Description
 						</p>
 					</div>
-					<div class="movie_social">
-						<ul>
-						</ul>
-					</div>
 				</div>
-				<button class="button" style="margin-top:20px">
+				<button class="button" >
 					Instructor Info
-					</button>
-				<img style="width:50%;float:right;margin-right:25%" src="@dance.ImageUrl"/>
-				<button class="button" style="margin-top:20px">
+				</button>
+				<img
+					src="@dance.ImageUrl"
+					width="450"
+					height = "500"
+					/>
+				<button class="button">
 
 					<ul><a asp-area="" asp-controller="Class" asp-action="Plans">See Plans</a></ul>
-					</button>
+				</button>
+
+				<form class="input-group-sm" asp-controller="Class" asp-action="StartClass" asp-route-classId="@dance.Id">
+					<input type="submit" value="Start-ClassLessons" class="fs-6 btn btn-success mb-3 p-2" />
+				</form>
 
 			</div>
 		}
 
 		<h2 style="font-size:60px;font-weight:300">New class added every month.</h2>
 
-		
-			<h2>What is included in a plan?</h2>
-			<button class="button button2" >Get Started</button><br>
-		
+
+		<h2>What is included in a plan?</h2>
+		<button class="button button2">Get Started</button><br>
+
 
 	</div>
-</section>
-
-<style>
-	.button {
-		background-color: mediumpurple; /* Green */
-		color: white;
-		padding: 15px 32px;
-		text-align: center;
-		display: inline-block;
-		font-size: 16px;
-		margin: 4px 2px;
-	}
-
-
-</style>
+</section>*@
 
 
 
 
-			
-		@*<div class="col-md-3 col-sm-3 col-xs-6 margin-bottom30 width-100perc">
-		<div class="content">
-		<div class="content-overlay"></div>
-		<div class="classes-img">
-		<img src="@dance.ImageUrl" alt="classes" class="img-responsive">
-		</div>
-		<div class="content-details fadeIn-top fadeIn-right">
-		<h3>@dance.Name</h3>
-		<h3>By: @dance.Instructor</h3>
-		<p>@dance.Description</p>
-		<p>Level: @dance.Category</p>
-
-
-		</div>
-		</div>
-		</div>*@
-
-		}
-		@*Instrustor=> Info same as About Page
+		
+@*
 			Add-Plans-Remove-Plans
-			Get Plans Plans View 
+			Get Plans Plans View
 
 			PayPal	Constructor-Fake Payment
-		
+
 			ADMIN TABLE- User-Class-Payments-
 
-			Schedule Class-Instructor DAY-Hours Level
+			
 		*@

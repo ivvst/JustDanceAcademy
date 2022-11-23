@@ -1,0 +1,44 @@
+﻿@using JustDanceAcademy.Web.ViewModels.Models
+
+
+@model IEnumerable<MyClassViewModel>
+@{
+	ViewBag.Title = "My Class";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="text-center row">
+	@if (Model == null)
+	{
+		<h2>Your body will become more flexible. You will feel more confident on the dance floor. You will feel music better.</h2>
+		<h3>Feel the rthym in you!-START NOW</h3>
+	}
+	else
+	{
+
+		@foreach (var item in Model)
+		{
+
+
+			<div class="card col-4" style="width: 20rem; ">
+				<img class="card-img-top" style="width: 18rem;"
+			 src="@item.ImageUrl" alt="Book Image">
+				<div class="card-body">
+					<h5 class="card-title mt-1">@item.Name</h5>
+					<p class="mb-0">Author: @item.Instructor</p>
+					<p class="mb-0">Description: @item.Description</p>
+					<p>Category: @item.Category</p>
+				</div>
+
+				<form class="input-group-sm" asp-controller="Class" asp-action="LeaveClass" asp-route-bookId="@item.Id">
+					<input class="fs-6 btn btn-success mb-3 p-2" type="submit" value="Leave Class" />
+				</form>
+			</div>
+
+		}
+	}
+
+
+</div>
