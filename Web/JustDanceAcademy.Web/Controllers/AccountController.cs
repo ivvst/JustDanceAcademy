@@ -33,7 +33,11 @@ namespace JustDanceAcademy.Web.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
-            var model = new RegisterViewModel();
+			if (this.User?.Identity?.IsAuthenticated ?? false)
+			{
+				return this.RedirectToAction("Classes", "Class");
+			}
+			var model = new RegisterViewModel();
             return View(model);
         }
 
@@ -74,7 +78,7 @@ namespace JustDanceAcademy.Web.Controllers
         {
             if (this.User?.Identity?.IsAuthenticated ?? false)
             {
-                return this.RedirectToAction("About", "User");
+                return this.RedirectToAction("Classes", "Class");
             }
 
             var model = new LoginViewModel();

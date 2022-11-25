@@ -35,6 +35,14 @@
 				<form class="input-group-sm" asp-controller="Class" asp-action="LeaveClass" asp-route-bookId="@item.Id">
 					<input class="fs-6 btn btn-success mb-3 p-2" type="submit" value="Leave Class" />
 				</form>
+
+
+				<button>
+					<ul>
+						<a asp-area="" asp-controller="Class" asp-action="Write">Add-Review</a>
+					</ul>
+				</button>
+
 			</div>
 
 		}
