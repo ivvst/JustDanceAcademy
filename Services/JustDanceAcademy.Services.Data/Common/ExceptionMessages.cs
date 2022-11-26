@@ -21,9 +21,9 @@ namespace JustDanceAcademy.Services.Data.Common
 
         public const string InstructorAlreadyExists = "Instructor with name {0} already exists";
 
-        public const string AdminHaveNotClass = "Admin with {id} can not have StudentLisence ";
+        public const string AdminHaveNotClass = "Admin with {0} can not have StudentLisence ";
 
 
-        public const string ClassAlreadyIsStarted = "Class with name {1} is not added because you already start a class.";
+        public const string ClassAlreadyIsStarted = "Class with id {0} is not added because you already start a class.";
     }
 }
