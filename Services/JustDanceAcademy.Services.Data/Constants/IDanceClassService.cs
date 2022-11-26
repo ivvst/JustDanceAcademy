@@ -50,8 +50,14 @@ namespace JustDanceAcademy.Services.Data.Constants
 
 		Task<IEnumerable<ReviewViewModel>> AllReviews();
 		Task<int> CreateReview(string userId, int classId, ReviewViewModel model);
+
 		Task<bool> DoesUserHaveClass(string userId);
+
 		Task<string> GetClassForReview(string classId);
+
+		Task<bool> PhoneNotifyForClass(string userId);
+
+		Task<string> TakeNumberForStart(string userId);
 
 	}
 }
