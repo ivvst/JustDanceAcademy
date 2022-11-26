@@ -58,9 +58,16 @@ namespace JustDanceAcademy.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Plans()
 		{
-			var model = await this.danceService.GetAllPlans();
+			var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+			if ((await this.danceService.DoesUserHaveClass(userId)) == true || this.User.IsInRole("Administrator"))
+			{
 
-			return this.View(model);
+				var model = await this.danceService.GetAllPlans();
+				return this.View(model);
+			}
+			return RedirectToAction(nameof(this.Classes));
+
+
 		}
 
 
@@ -90,7 +97,7 @@ namespace JustDanceAcademy.Web.Controllers
 			}
 			catch (Exception)
 			{
-				ModelState.AddModelError("", "Something went wrong");
+				ModelState.AddModelError(" ", "Something went wrong");
 				return View(model);
 
 			}
@@ -132,6 +139,7 @@ namespace JustDanceAcademy.Web.Controllers
 			{
 				await this.danceService.CreateClassAsync(model);
 
+
 				return this.RedirectToAction("Classes", "Class");
 			}
 			catch (Exception)
@@ -148,29 +156,44 @@ namespace JustDanceAcademy.Web.Controllers
 
 		public async Task<IActionResult> StartClass(int classId)
 		{
-			try
+
+			var userId = this.User.Claims
+				.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+
+			if (this.User.IsInRole("Administrator"))
 			{
-				var userId = this.User.Claims
+				throw new NullReferenceException(string.Format(ExceptionMessages.AdminHaveNotClass, userId));
+
+
+			}
+
+			if (await this.danceService.DoesUserHaveClass(userId) == true)
+			{
+				return RedirectToAction(nameof(this.Train));
+			}
+
+
+			await danceService.AddStudentToClass(userId, classId);
+
+			return this.RedirectToAction(nameof(this.Plans));
+
+
+
+		}
+
+		public async Task<IActionResult> GetNumber()
+		{
+			var userId = this.User.Claims
 					.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-
-
-				if (this.User.IsInRole("Administrator"))
-				{
-					throw new ArgumentException(
-						string.Format(ExceptionMessages.AdminHaveNotClass, userId)
-						);
-				}
-
-				await danceService.AddStudentToClass(userId, classId);
-
-				return this.RedirectToAction(nameof(this.Plans));
-			}
-			catch (Exception)
+			if (await this.danceService.PhoneNotifyForClass(userId) == true)
 			{
-
-				throw;
+			TempData["mssg"] = "Succesfully Added";
+				return this.RedirectToAction(nameof(this.Train));
 			}
 
+			await this.danceService.TakeNumberForStart(userId);
+			return this.RedirectToAction(nameof(this.Train));
 		}
 
 		public async Task<IActionResult> LeaveClass(int classId)
@@ -198,6 +221,10 @@ namespace JustDanceAcademy.Web.Controllers
 			}
 
 			var model = await this.danceService.GetMyClassAsync(userId);
+
+			this.ViewBag.mssg = this.TempData["mssg"] as string;
+
+
 			return View("Training", model);
 
 
@@ -205,6 +232,7 @@ namespace JustDanceAcademy.Web.Controllers
 
 
 		[HttpGet]
+
 		[Authorize(Roles = "Administrator")]
 		public async Task<IActionResult> EditDance(int id)
 		{
@@ -230,6 +258,7 @@ namespace JustDanceAcademy.Web.Controllers
 		}
 
 		[HttpPost]
+
 		[Authorize(Roles = "Administrator")]
 		public async Task<IActionResult> EditDance(int id, EditDanceViewModel model)
 		{

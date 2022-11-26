@@ -1,28 +1,16 @@
-﻿using DanceAcademy.Models;
-using JustDanceAcademy.Data.Common.Repositories;
+﻿using JustDanceAcademy.Data.Common.Repositories;
 using JustDanceAcademy.Data.Models;
 using JustDanceAcademy.Models;
 using JustDanceAcademy.Services.Data.Common;
 using JustDanceAcademy.Services.Data.Constants;
-using JustDanceAcademy.Services.Messaging.Constants;
-//using JustDanceAcademy.Services.Data.Constants;
+
 using JustDanceAcademy.Web.ViewModels.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging;
-using SendGrid.Helpers.Errors.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace JustDanceAcademy.Services.Data
 {
@@ -92,13 +80,18 @@ namespace JustDanceAcademy.Services.Data
 
 		public async Task<IEnumerable<PlanViewModel>> GetAllPlans()
 		{
+
 			return await this.planRepo.All()
 				.Select(p => new PlanViewModel()
 				{
 					Title = p.Title,
 					Price = p.Price,
+					Age = p.Age,
+					AgeRequirement = p.DetailOne,
 				})
 				.ToListAsync();
+
+
 		}
 
 		public async Task<int> CreatePlan(PlanViewModel model)
@@ -108,6 +101,8 @@ namespace JustDanceAcademy.Services.Data
 			{
 				Title = model.Title,
 				Price = model.Price,
+				Age = model.Age,
+				DetailOne = model.AgeRequirement,
 			};
 			await this.planRepo.AddAsync(plan);
 			await this.planRepo.SaveChangesAsync();
@@ -189,15 +184,11 @@ namespace JustDanceAcademy.Services.Data
 				await this.classRepository.SaveChangesAsync();
 				await this.userRepository.SaveChangesAsync();
 			}
-			else if (student.ClassId.HasValue)
-			{
-				throw new ArgumentException(string.Format(ExceptionMessages.ClassAlreadyIsStarted, classId));
-
-			}
-
-
-
 		}
+
+
+
+
 
 		public async Task LeaveClass(int classId, string userId)
 		{
@@ -212,6 +203,7 @@ namespace JustDanceAcademy.Services.Data
 
 
 			student.ClassId = null;
+			student.PhoneNumber = null;
 
 			await this.comboRepo.SaveChangesAsync();
 			await this.userRepository.SaveChangesAsync();
@@ -381,6 +373,29 @@ namespace JustDanceAcademy.Services.Data
 
 				})
 				.ToListAsync();
+		}
+
+
+
+		public async Task<bool> PhoneNotifyForClass(string userId)
+		{
+			var student = await this.userRepository.All().Where(x => x.Id == userId).FirstAsync();
+
+			if (student.PhoneNumber == "taken")
+			{
+				return true;
+			}
+			return false;
+
+		}
+
+		public async Task<string> TakeNumberForStart(string userId)
+		{
+			var student = await this.userRepository.All().Where(x => x.Id == userId).FirstAsync();
+
+			return student.PhoneNumber = "taken";
+
+
 		}
 	}
 }

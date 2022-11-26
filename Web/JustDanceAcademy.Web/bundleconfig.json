@@ -11,7 +11,12 @@
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
-      "wwwroot/js/site.js"
+      "wwwroot/Context/js/jquery.min.js",
+      "wwwroot/Context/js/bootstrap.min.js",
+      "wwwroot/Context/js/scrolling-nav.js",
+      "wwwroot/Context/js/custom.js"
+      
+
     ],
     // Optionally specify minification options
     "minify": {

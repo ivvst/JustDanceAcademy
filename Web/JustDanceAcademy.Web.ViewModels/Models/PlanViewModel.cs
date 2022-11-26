@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JustDanceAcademy.Data.Models;
+using JustDanceAcademy.Data.Models.Enum;
 
 namespace JustDanceAcademy.Web.ViewModels.Models
 {
@@ -21,6 +22,17 @@ namespace JustDanceAcademy.Web.ViewModels.Models
         [Required]
         [Range(typeof(decimal), "0.00", "500.00", ConvertValueInInvariantCulture = true)]
         public decimal Price
+        {
+            get; set;
+        }
+
+        [Required]
+        public Age Age
+        {
+            get; set;
+        }
+
+        public string AgeRequirement
         {
             get; set;
         }

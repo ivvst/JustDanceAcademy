@@ -21,7 +21,7 @@
 					@if (SignInManager.IsSignedIn(User))
 					{
 					//Add in Area
-						@*@if (User.IsInRole("Administrator"))
+						@if (User.IsInRole("Administrator"))
 						{
 
 							<div class="dropdown">
@@ -39,9 +39,9 @@
 								</div>
 							</div>
 
-						}*@
+						}
 
-						<div class="dropdown">
+						@*<div class="dropdown">
 							<button class="dropbtn">Class</button>
 							<div class="dropdown-content">
 
@@ -62,7 +62,7 @@
 								<a asp-area="" asp-controller="Class" asp-action="Classes">Dance-Classes</a>
 								<a asp-area="" asp-controller="Class" asp-action="All">Search</a>
 							</div>
-						</div>
+						</div>*@
 
 
 
@@ -86,7 +86,7 @@
 						<li><a asp-area="" asp-controller="Account" asp-action="Login">EXISTING CUSTOMER LOGIN</a></li>
 					}
 
-					<h<abbr
+
 
 
 				</ul>
@@ -145,7 +145,7 @@
 		background-color: mediumpurple; /* Green */
 		color: white;
 		/*padding: 4px 4px;
-			font-size: 10px;
-			text-align: center;
-		}*/
+				font-size: 10px;
+				text-align: center;
+			}*/
 </style>

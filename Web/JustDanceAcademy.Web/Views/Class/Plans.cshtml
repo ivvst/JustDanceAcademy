@@ -11,20 +11,41 @@
 				<h4 class="plan-title">
 					@plan.Title
 				</h4>
-				<div class="plan-cost"><span class="plan-price">$@plan.Price</span><span class="plan-type">/month</span></div>
+				<div class="plan-cost"><span class="plan-price">$@plan.Price</span><span class="plan-type"></span></div>
 			</header>
 			<ul class="plan-features">
-				<li><i class="ion-checkmark"> </i>5GB Linux Web Space</li>
-				<li><i class="ion-checkmark"> </i>5 MySQL Databases</li>
-				<li><i class="ion-checkmark"> </i>Unlimited Email</li>
-				<li><i class="ion-checkmark"> </i>250Gb mo Transfer</li>
-				<li><i class="ion-checkmark"> </i>24/7 Tech Support</li>
-				<li><i class="ion-checkmark"> </i>Daily Backups</li>
+
+				<li><i class="ion-checkmark"> </i> @plan.Age - @plan.AgeRequirement years old</li>
+
 			</ul>
-			<div class="plan-select"><a href="">GET-PAYED</a></div>
-			
+			@if (this.User.IsInRole("Administrator"))
+			{
+				<button>
+
+					<ul>
+						<a asp-area="" asp-controller="" asp-action="">Edit</a>
+					</ul>
+					<br>
+					<ul>
+						<a asp-area="" asp-controller="" asp-action="">Delete</a>
+					</ul>
+				</button>
+			}
+			else
+			{
+				<div class="plan-select">
+					<ul>
+						<a asp-area="" asp-controller="Class" asp-action="GetNumber">Choose this</a>
+					</ul>
+				</div>
+			}
+
+
+
+<link rel="stylesheet" href="~/Content/
+		function () {css/payCard.css" />
 		</div>
-		
+
 
 
 
@@ -33,18 +54,33 @@
 }
 
 
-<link rel="stylesheet" href="~/Content/css/payCard.css" />
+
 
 <script>
 	/* Demo purposes only */
 	$(".hover").mouseleave(
-		function () {
 			$(this).removeClass("hover");
 		}
 	);
 
-</script>
 
+	//read ViewBag
+	var strValue = "@((string)ViewBag.mssg)";
+	if (strValue !== null && strValue !== '') {
+		swal-overlay("strValue", {
+			dangerMode: true,.
+			buttons: true,
+		})
+	};
+
+</script>
+<style>
+	.swal-overlay {
+		background-color: rgba(43, 165, 137, 0.45);
+	}
+</style>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />

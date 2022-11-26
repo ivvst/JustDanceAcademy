@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://fonts.googleapis.com/css?family=Poiret+One|Raleway:300,400,500,600,700,800,900" rel="stylesheet">
-	<title>JD-Academy</title>
+	<title>JustDance</title>
 	<link rel="icon" href="~/Content/favicon.ico" />
 	<!-- Bootstrap core CSS -->
 	<link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
@@ -27,13 +27,13 @@
 
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
-	
 
-		
+
+
 	<header>
 
 
-	<partial name="_NavPartial" />
+	<partial name="_NavBarAdmin" />
 
 		<div class="bgbanner" id="slider">
 
@@ -69,11 +69,12 @@
 				</div>
 			</div>
 		</div>
-		
 
+		
 	</header>
 	<div class="container">
 		<partial name="_CookieConsentPartial" />
+		<h3>AdministrationArea</h3>
 		<main role="main" class="pb-3">
 			@RenderBody()
 		</main>
@@ -81,7 +82,7 @@
 
 	<!--FAQ-->
 	<partial name="_Questions" />
-	
+
 	<!-- footer -->
 	<footer>
 		<partial name="_FooterPartial" />
