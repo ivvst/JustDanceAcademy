@@ -1,0 +1,387 @@
+﻿@using JustDanceAcademy.Web.ViewModels.Models
+
+@model IEnumerable<ScheduleViewModel>
+
+
+
+
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<meta name="keywords" content="Monday">
+	<meta name="description" content="">
+	<title>Contact</title>
+	<link rel="stylesheet" href="~/Content/css/nicepage-schedule.css" media="screen">
+	<link rel="stylesheet" href="~/Content/css/schedule.css" media="screen">
+	<script class="u-script" type="text/javascript" src="~/Content/js/jquery-schedule.js" defer=""></script>
+	<script class="u-script" type="text/javascript" src="~/Content/js/nicepage-schedule.js" defer=""></script>
+	<meta name="generator" content="Nicepage 4.21.12, nicepage.com">
+	<link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+	<link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i">
+
+
+
+	<meta name="theme-color" content="#478ac9">
+	<meta property="og:title" content="Contact">
+	<meta property="og:type" content="website">
+</head>
+<body class="u-body u-xl-mode" data-lang="en">
+	<header class="u-clearfix u-header u-header" id="sec-0b7f"><div class="u-clearfix u-sheet u-sheet-1"></div></header>
+	<section class="u-align-center u-clearfix u-image u-shading u-section-1" id="carousel_9508" data-image-width="1600" data-image-height="1067">
+		@*Create new Table*@
+
+		@*TABLE MONDAY*@
+		@if (Model.Where(x => x.Day == "Monday").Any() == true)
+		{
+			<div class="u-clearfix u-sheet u-sheet-1">
+				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Monday</h2>
+				<div class="u-table u-table-responsive u-table-1">
+					<table class="u-table-entity">
+						<colgroup>
+							<col width="33.3%">
+							<col width="33.3%">
+							<col width="33.400000000000006%">
+						</colgroup>
+
+
+						<thead class="u-palette-5-dark-3 u-table-header u-table-header-1">
+							<tr style="height: 74px;">
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-1">Time</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-2">Class</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
+							</tr>
+						</thead>
+						@foreach (var item in Model.Where(x => x.Day == "Monday").OrderBy(x => x.Start))
+						{
+
+
+							<tbody class="u-black u-table-body u-table-body-1">
+								<!--Edit Missing-->
+								<tr style="height: 46px;">
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age <button style="color:darkred">Edit</button>TODO</td>
+								</tr>
+							</tbody>
+
+
+
+
+						}
+					</table>
+				</div>
+			</div>
+		}
+		else
+		{
+
+			<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Monday</h2>
+			<h4>NEW SCHEDULE COMING SOON...♥</h4>
+		}
+		@*END MONDAY*@
+
+		@*TABLE TUESDAY*@
+		@if (Model.Where(x => x.Day == "Tuesday").Any() == true)
+		{
+			<div class="u-clearfix u-sheet u-sheet-1">
+				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Tuesday</h2>
+				<div class="u-table u-table-responsive u-table-1">
+					<table class="u-table-entity">
+						<colgroup>
+							<col width="33.3%">
+							<col width="33.3%">
+							<col width="33.400000000000006%">
+						</colgroup>
+
+
+						<thead class="u-palette-5-dark-3 u-table-header u-table-header-1">
+							<tr style="height: 74px;">
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-1">Time</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-2">Class</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
+							</tr>
+						</thead>
+						@foreach (var el in Model.Where(x => x.Day == "Tuesday"))
+						{
+
+
+							<tbody class="u-black u-table-body u-table-body-1">
+								<tr style="height: 46px;">
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @el.Start-@el.End &nbsp;&nbsp; @el.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@el.Class-@el.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@el.Age</td>
+								</tr>
+							</tbody>
+						}
+					</table>
+				</div>
+			</div>
+		}
+		else
+		{
+
+			<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Tuesday</h2>
+			<h4>NEW SCHEDULE COMING SOON...♥</h4>
+		}
+		@*END TUESDAY*@
+
+
+		@*TABLE WEDNESDAY*@
+		@if (Model.Where(x => x.Day == "Wednesday").Any() == true)
+		{
+			<div class="u-clearfix u-sheet u-sheet-1">
+				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Wednesday</h2>
+				<div class="u-table u-table-responsive u-table-1">
+					<table class="u-table-entity">
+						<colgroup>
+							<col width="33.3%">
+							<col width="33.3%">
+							<col width="33.400000000000006%">
+						</colgroup>
+
+
+						<thead class="u-palette-5-dark-3 u-table-header u-table-header-1">
+							<tr style="height: 74px;">
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-1">Time</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-2">Class</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
+							</tr>
+						</thead>
+						@foreach (var el in Model.Where(x => x.Day == "Wednesday"))
+						{
+
+
+							<tbody class="u-black u-table-body u-table-body-1">
+								<tr style="height: 46px;">
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @el.Start-@el.End &nbsp;&nbsp; @el.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@el.Class-@el.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@el.Age</td>
+								</tr>
+							</tbody>
+						}
+					</table>
+				</div>
+			</div>
+		}
+		else
+		{
+			<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Wednesday</h2>
+			<h4>NEW SCHEDULE COMING SOON...♥</h4>
+		}
+		@*END WEDNESDAY*@
+
+		@*TABLE THURSDAY*@
+		@if (Model.Where(x => x.Day == "Thursday").Any() == true)
+		{
+			<div class="u-clearfix u-sheet u-sheet-1">
+				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Thursday</h2>
+				<div class="u-table u-table-responsive u-table-1">
+					<table class="u-table-entity">
+						<colgroup>
+							<col width="33.3%">
+							<col width="33.3%">
+							<col width="33.400000000000006%">
+						</colgroup>
+
+
+						<thead class="u-palette-5-dark-3 u-table-header u-table-header-1">
+							<tr style="height: 74px;">
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-1">Time</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-2">Class</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
+							</tr>
+						</thead>
+						@foreach (var item in Model.Where(x => x.Day == "Thursday").OrderBy(x => x.Start))
+						{
+
+
+							<tbody class="u-black u-table-body u-table-body-1">
+								<tr style="height: 46px;">
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
+								</tr>
+							</tbody>
+						}
+					</table>
+				</div>
+			</div>
+		}
+		else
+		{
+			<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Thursday</h2>
+			<h4>NEW SCHEDULE COMING SOON...♥</h4>
+		}
+		@*END THURSDAY*@
+
+		@*TABLE FRIDAY*@
+		@if (Model.Where(x => x.Day == "Friday").Any() == true)
+		{
+			<div class="u-clearfix u-sheet u-sheet-1">
+				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Friday</h2>
+				<div class="u-table u-table-responsive u-table-1">
+					<table class="u-table-entity">
+						<colgroup>
+							<col width="33.3%">
+							<col width="33.3%">
+							<col width="33.400000000000006%">
+						</colgroup>
+
+
+						<thead class="u-palette-5-dark-3 u-table-header u-table-header-1">
+							<tr style="height: 74px;">
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-1">Time</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-2">Class</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
+							</tr>
+						</thead>
+						@foreach (var item in Model.Where(x => x.Day == "Friday").OrderBy(x => x.Start))
+						{
+
+
+							<tbody class="u-black u-table-body u-table-body-1">
+								<tr style="height: 46px;">
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
+								</tr>
+							</tbody>
+						}
+					</table>
+				</div>
+			</div>
+		}
+		else
+		{
+			<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Friday</h2>
+			<h4>NEW SCHEDULE COMING SOON...♥</h4>
+		}
+		@*END FRIDAY*@
+
+		@*TABLE SATURDAY*@
+		@if (Model.Where(x => x.Day == "Saturday").Any() == true)
+		{
+			<div class="u-clearfix u-sheet u-sheet-1">
+				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Saturday</h2>
+				<div class="u-table u-table-responsive u-table-1">
+					<table class="u-table-entity">
+						<colgroup>
+							<col width="33.3%">
+							<col width="33.3%">
+							<col width="33.400000000000006%">
+						</colgroup>
+
+
+						<thead class="u-palette-5-dark-3 u-table-header u-table-header-1">
+							<tr style="height: 74px;">
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-1">Time</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-2">Class</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
+							</tr>
+						</thead>
+						@foreach (var item in Model.Where(x => x.Day == "Saturday").OrderBy(x => x.Start))
+						{
+
+
+							<tbody class="u-black u-table-body u-table-body-1">
+								<tr style="height: 46px;">
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
+								</tr>
+							</tbody>
+						}
+					</table>
+				</div>
+			</div>
+		}
+		else
+		{
+			<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Saturday</h2>
+			<h4>NEW SCHEDULE COMING SOON...♥</h4>
+		}
+		@*END SATURDAY*@
+
+		@*TABLE SUNDAY*@
+		@if (Model.Where(x => x.Day == "Sunday").Any() == true)
+		{
+			<div class="u-clearfix u-sheet u-sheet-1">
+				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Sunday</h2>
+				<div class="u-table u-table-responsive u-table-1">
+					<table class="u-table-entity">
+						<colgroup>
+							<col width="33.3%">
+							<col width="33.3%">
+							<col width="33.400000000000006%">
+						</colgroup>
+
+
+						<thead class="u-palette-5-dark-3 u-table-header u-table-header-1">
+							<tr style="height: 74px;">
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-1">Time</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-2">Class</th>
+								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
+							</tr>
+						</thead>
+						@foreach (var item in Model.Where(x => x.Day == "Sunday").OrderBy(x => x.Start))
+						{
+
+
+							<tbody class="u-black u-table-body u-table-body-1">
+								<tr style="height: 46px;">
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
+								</tr>
+							</tbody>
+						}
+					</table>
+				</div>
+			</div>
+		}
+		else
+		{
+			<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Sunday</h2>
+			<h4>NEW SCHEDULE COMING SOON...♥</h4>
+		}
+		@*END SUNDAY*@
+
+
+	</section>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,13 +9,18 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 {
     public class ScheduleViewModel
     {
-        [Required]
+		public int Id
+		{
+			get; set;
+		}
+
+		[Required]
         public string Day
         {
             get; set;
         }
 
-        public string  Start
+        public string Start
         {
 
             get; set;

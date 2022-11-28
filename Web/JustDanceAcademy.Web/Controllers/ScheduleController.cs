@@ -19,7 +19,14 @@ namespace JustDanceAcademy.Web.Controllers
         [HttpGet]
         public async  Task <IActionResult> SeeAll()
         {
-            var model = await this.scheduleService.AllSchedules();
+			if (this.User.IsInRole("Administrator"))
+			{
+				return this.RedirectToAction("All", "Schedule", new
+				{
+					area = "Administration",
+				});
+			}
+			var model = await this.scheduleService.AllSchedules();
             return this.View(model);
         }
 
