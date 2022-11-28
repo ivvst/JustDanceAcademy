@@ -9,6 +9,11 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 {
     public class MyClassViewModel 
     {
+
+        public string StudentName
+        {
+            get; set;
+        }
         public int Id
         {
             get; set;

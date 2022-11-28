@@ -5,7 +5,7 @@
 
     using Microsoft.AspNetCore.Mvc;
 
-    public class DashboardController : AdminController
+    public class DashboardController : AdministrationController
     {
         private readonly ISettingsService settingsService;
 

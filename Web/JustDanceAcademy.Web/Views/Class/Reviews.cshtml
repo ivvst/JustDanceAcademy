@@ -22,49 +22,55 @@
 						<div class="row">
 							<div id="testimonial-Carousel" class="carousel slide" data-ride="carousel">
 								<!-- Wrapper for slides -->
+
 								<div class="carousel-inner">
+									@{
+									var isFirst = true;
+									}
 									@foreach (var review in Model)
 									{
-										@for (int i = 0; i < Model.Count(); i++)
+
+
+										if (isFirst)
 										{
-											@if (i == 0)
-											{
-												<div class="item active">
-													<div class="client-list">
-														<div class=" client-info">
-															<div class="client-img">
-																@review.NameClass
-																<i class="fa fa-quote-right"></i>
-															</div>
-															<p>@review.Context</p>
-															<h4>
-																@review.Student
-															</h4>
+											<div class="item active">
+												<div class="client-list">
+													<div class=" client-info">
+														<div class="client-img">
+															@review.NameClass
+															<i class="fa fa-quote-right"></i>
 														</div>
+														<p>@review.Context</p>
+														<h4>
+															@review.Student
+														</h4>
 													</div>
 												</div>
-											}
-											else
-											{
+											</div>
+											isFirst = false;
 
-												<div class="item">
-													<div class="client-list">
-														<div class=" client-info">
-															<div class="client-img">
-																@review.NameClass
-																<i class="fa fa-quote-right"></i>
-															</div>
-															<p>@review.Context</p>
-															<h4>
-																@review.Student
+										}
+										else
+										{
 
-															</h4>
+											<div class="item">
+												<div class="client-list">
+													<div class=" client-info">
+														<div class="client-img">
+															@review.NameClass
+															<i class="fa fa-quote-right"></i>
 														</div>
+														<p>@review.Context</p>
+														<h4>
+															@review.Student
+
+														</h4>
 													</div>
 												</div>
-											}
+											</div>
 										}
 									}
+
 								</div>
 
 								<!-- Left and right controls -->

@@ -1,15 +1,13 @@
-﻿using JustDanceAcademy.Services.Data.Constants;
-using JustDanceAcademy.Web.Controllers;
-using JustDanceAcademy.Web.ViewModels.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace JustDanceAcademy.Web.Areas.Administration.Controllers
+﻿namespace JustDanceAcademy.Web.Areas.Administration.Controllers
 {
 	using System;
 	using System.Threading.Tasks;
 
 	using JustDanceAcademy.Services.Data.Common;
+	using JustDanceAcademy.Services.Data.Constants;
+	using JustDanceAcademy.Web.ViewModels.Models;
+	using Microsoft.AspNetCore.Authorization;
+	using Microsoft.AspNetCore.Mvc;
 
 	[Area("Administration")]
 	[Route("Administration/[controller]/[Action]/{id?}")]
@@ -108,6 +106,13 @@ namespace JustDanceAcademy.Web.Areas.Administration.Controllers
 
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> ViewClasses()
+		{
+			var model = await this.danceService.GetAllAsync();
+
+			return this.View(model);
+		}
 
 		[HttpGet]
 
