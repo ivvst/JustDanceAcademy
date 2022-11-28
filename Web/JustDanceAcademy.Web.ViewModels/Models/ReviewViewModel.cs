@@ -1,42 +1,36 @@
-﻿using JustDanceAcademy.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Web.ViewModels.Models
+﻿namespace JustDanceAcademy.Web.ViewModels.Models
 {
-    public class ReviewViewModel
-    {
+	using System.ComponentModel.DataAnnotations;
 
-        public int Id
-        {
-            get; set;
-        }
+	public class ReviewViewModel
+	{
+		public int Id
+		{
+			get; set;
+		}
 
-        public int ClassId
-        {
-            get; set;
-        }
+		public int ClassId
+		{
+			get; set;
+		}
 
-        public string NameClass
-        {
-            get; set;
-        }
+		public string NameClass
+		{
+			get; set;
+		}
 
-        public string Student
-        {
-            get; set;
-        }
+		[Required]
+		[StringLength(20, ErrorMessage = "The {0} must be at least with {1}", MinimumLength = 5)]
+		public string Student
+		{
+			get; set;
+		}
 
-        public string Context
-        {
-            get; set;
-        }
-
-
-
-
-    }
+		[Required]
+		[StringLength(200, ErrorMessage = "The {0} must be at least with {1}", MinimumLength = 10)]
+		public string Context
+		{
+			get; set;
+		}
+	}
 }
