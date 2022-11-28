@@ -13,12 +13,12 @@ namespace JustDanceAcademy.Web.Areas.Administration.Controllers
 	[Area("Administration")]
 	[Route("Administration/[controller]/[Action]/{id?}")]
 	[Authorize(Roles = "Administrator")]
-	public class AdminController : BaseController
+	public class AdminController : AdministrationController
 	{
 
 		public IActionResult Index()
 		{
-			return View();
+			return this.View();
 		}
 	}
 }

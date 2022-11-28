@@ -23,38 +23,7 @@ namespace JustDanceAcademy.Web.Controllers
             return this.View(model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Add()
-        {
-            var model = new AddScheduleViewModel()
-            {
-                AllClasses = await this.scheduleService.GetClasses(),
-            };
-            return this.View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(AddScheduleViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                model.AllClasses = await this.scheduleService.GetClasses();
-                return this.View(model);
-            }
-
-            try
-            {
-                await this.scheduleService.CreateSchedule(model);
-
-
-                return this.RedirectToAction("SeeAll", "Schedule");
-            }
-            catch (Exception)
-            {
-                this.ModelState.AddModelError("", "Something went wrong");
-
-                return this.View(model);
-            }
-        }
+      
+        
     }
 }

@@ -21,72 +21,60 @@
 					@if (SignInManager.IsSignedIn(User))
 					{
 					//Add in Area
-						@*@if (User.IsInRole("Administrator"))
+
+						@if (User.IsInRole("Administrator") == false)
 						{
-
 							<div class="dropdown">
-								<button class="dropbtn">Add-Options</button>
+								<button class="dropbtn">Class</button>
 								<div class="dropdown-content">
-									<a class="dropdown-item" asp-area="" asp-controller="Class" asp-action="Create">Add-Plan</a>
 
-									<a class="dropdown-item" asp-area="" asp-controller="Schedule" asp-action="Add">Add-Schedule</a>
+									<a asp-area="" asp-controller="Schedule" asp-action="SeeAll">Schedule</a>
+
+									<a asp-area="" asp-controller="Class" asp-action="Train">My-Train</a>
 
 
-									<a class="dropdown-item" asp-area="" asp-controller="Class" asp-action="Add">Add-Class</a>
+									<a asp-area="" asp-controller="Instructor" asp-action="All">Instructors</a>
+									<a asp-area="" asp-controller="Class" asp-action="Reviews">All-Reviews</a>
 
-									<a class="dropdown-item" asp-area="" asp-controller="Instructor" asp-action="New">Add-Instructor</a>
 
+
+
+									<a asp-area="" asp-controller="Class" asp-action="Classes">Dance-Classes</a>
+									<a asp-area="" asp-controller="Class" asp-action="All">Search</a>
 								</div>
 							</div>
 
-						}*@
+							<div class="dropdown">
+								<button class="dropbtn">Options</button>
+								<div class="dropdown-content">
+									<a asp-area="" asp-controller="" asp-action="">Privacy</a>
+									<a asp-area="" asp-controller="" asp-action="">Term</a>
 
-						<div class="dropdown">
-							<button class="dropbtn">Class</button>
-							<div class="dropdown-content">
+									<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+										<button type="submit" class="button">Logout</button>
+									</form>
 
-								<a asp-area="" asp-controller="Schedule" asp-action="SeeAll">Schedule</a>
-								@if (User.IsInRole("Administrator") == false)
-								{
-
-									<a asp-area="" asp-controller="Class" asp-action="Train">My-Train</a>
-								}
-
-
-								<a asp-area="" asp-controller="Instructor" asp-action="All">Instructors</a>
-								<a asp-area="" asp-controller="Class" asp-action="Reviews">All-Reviews</a>
-
-
-
-
-								<a asp-area="" asp-controller="Class" asp-action="Classes">Dance-Classes</a>
-								<a asp-area="" asp-controller="Class" asp-action="All">Search</a>
+								</div>
 							</div>
-						</div>
+						}
 
 
+						else
+						{
+							<a asp-area="Administration" asp-controller="Admin" asp-action="Index">Admin-Mode</a>
 
-						<div class="dropdown">
-							<button class="dropbtn">Options</button>
-							<div class="dropdown-content">
-								<a asp-area="" asp-controller="" asp-action="">Privacy</a>
-								<a asp-area="" asp-controller="" asp-action="">Term</a>
+						}
 
-								<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
-									<button type="submit" class="button">Logout</button>
-								</form>
 
-							</div>
-						</div>
 					}
 					else
 					{
+
 						<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
 						<li><a asp-area="" asp-controller="Account" asp-action="Register">REGISTER</a></li>
 						<li><a asp-area="" asp-controller="Account" asp-action="Login">EXISTING CUSTOMER LOGIN</a></li>
-					}
 
-					<h<abbr
+					}
 
 
 				</ul>
@@ -138,14 +126,4 @@
 	.dropdown:hover .dropbtn {
 		background-color: mediumpurple;
 	}
-</style>
-
-<style>
-	.button {
-		background-color: mediumpurple; /* Green */
-		color: white;
-		/*padding: 4px 4px;
-			font-size: 10px;
-			text-align: center;
-		}*/
 </style>

@@ -21,7 +21,6 @@ namespace JustDanceAcademy.Web
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Hosting;
-	using Microsoft.Extensions.Options;
 
 	public class Program
 	{
@@ -93,7 +92,7 @@ namespace JustDanceAcademy.Web
 			services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
 			// Application services
-
+			services.AddScoped<IUsersService, UsersService>();
 			services.AddScoped<IDanceClassService, ClassService>();
 			services.AddScoped<ILevelCategoryService, LevelDanceService>();
 			services.AddScoped<IServiceInstructor, InstructorService>();
@@ -136,7 +135,7 @@ namespace JustDanceAcademy.Web
 
 			app.MapControllerRoute(
 				name: "areas",
-			  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+				pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
 
 			app.MapControllerRoute(
 				name: "default",

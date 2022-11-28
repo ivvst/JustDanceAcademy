@@ -1,14 +1,13 @@
-﻿
-using JustDanceAcademy.Data.Models;
-using JustDanceAcademy.Models;
-using JustDanceAcademy.Web.Areas.Administration.Controllers;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Web.Controllers
+﻿namespace JustDanceAcademy.Web.Controllers
 {
+	using System.Threading.Tasks;
+
+	using JustDanceAcademy.Data.Models;
+	using JustDanceAcademy.Models;
+	using Microsoft.AspNetCore.Authorization;
+	using Microsoft.AspNetCore.Identity;
+	using Microsoft.AspNetCore.Mvc;
+
 	public class AccountController : BaseController
 	{
 		private readonly UserManager<ApplicationUser> userManager;
@@ -36,8 +35,17 @@ namespace JustDanceAcademy.Web.Controllers
 		{
 			if (this.User?.Identity?.IsAuthenticated ?? false)
 			{
+				if (this.User.IsInRole("Administrator"))
+				{
+					return this.RedirectToAction("Index", "Admin", new
+					{
+						area = "Administration",
+					});
+				}
+
 				return this.RedirectToAction("Classes", "Class");
 			}
+
 			var model = new RegisterViewModel();
 			return View(model);
 		}
@@ -55,7 +63,6 @@ namespace JustDanceAcademy.Web.Controllers
 			{
 				UserName = model.UserName,
 				Email = model.Email,
-
 			};
 
 			var result = await userManager.CreateAsync(user, model.Password);
@@ -79,6 +86,14 @@ namespace JustDanceAcademy.Web.Controllers
 		{
 			if (this.User?.Identity?.IsAuthenticated ?? false)
 			{
+				if (this.User.IsInRole("Administrator"))
+				{
+					return this.RedirectToAction("Index", "Admin", new
+					{
+						area = "Administration",
+					});
+				}
+
 				return this.RedirectToAction("Classes", "Class");
 			}
 

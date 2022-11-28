@@ -1,0 +1,54 @@
+﻿@using JustDanceAcademy.Data.Models.Enum;
+@using JustDanceAcademy.Web.ViewModels.Models
+
+@model PlanViewModel
+
+<div class="row">
+	<div class="col-md-6">
+		<form asp-area="" asp-controller="Class" asp-action="Create" enctype="multipart/form-data" method="post">
+			<h4>Create new Plan</h4>
+			<hr />
+			<div class="form-group">
+				<label asp-for="Title"></label>
+				<input asp-for="Title" class="form-control" />
+				<span asp-validation-for="Title" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Price"></label>
+				<input asp-for="Price" class="form-control" />
+				<span asp-validation-for="Price" class="text-danger"></span>
+			</div>
+			<fieldset>
+				<label asp-for="@Model.Age">Age</label>
+				<select class="browser-default custom-select" asp-for="Age" asp-items="Html.GetEnumSelectList<Age>()" multiple>
+				</select>
+
+
+				<span asp-validation-for="Age"></span>
+			</fieldset>
+
+			<div class="form-group">
+				<label asp-for="AgeRequirement"></label>
+				<textarea asp-for="AgeRequirement" rows="2" class="form-control" placeholder=" Write one whose choice is equal  from above..."></textarea>
+				<span asp-validation-for="AgeRequirement" class="small text-danger"></span>
+				<h3>Adult=18+</h3>
+				<h3>PreSchool=6-11</h3>
+				<h3>Youth=12-15</h3>
+				<h3>Teen=16-18</h3>
+			</div>
+
+
+			<button type="submit" class="btn btn-success">Save changes</button>
+		</form>
+	</div>
+</div>
+
+
+@*
+    <label asp-for="SelectedGenres"></label>
+<div class="container">
+    <select multiple asp-for="SelectedGenres" asp-items="genres" class="selectpicker">
+        <option disabled="">Select Genre/Genres</option>
+    </select>
+</div>
+<span asp-validation-for="SelectedGenres" class="text-danger"></span>*@

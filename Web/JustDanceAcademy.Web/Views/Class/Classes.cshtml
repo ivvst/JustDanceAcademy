@@ -24,7 +24,7 @@
 			@if(User.IsInRole("Administrator")){
 				<button class="button">
 					<ul>
-						<a asp-area="" asp-controller="Class" asp-action="EditDance" asp-route-id="@item.Id" >Edit</a>
+						<a asp-area="Administrator" asp-controller="Class" asp-action="EditDance" asp-route-id="@item.Id" >Edit</a>
 					</ul>
 					<i class="fas fa-pen"></i>
 				</button>
