@@ -1,6 +1,8 @@
 ﻿namespace JustDanceAcademy.Web.Areas.Administration.Controllers
 {
 	using System;
+	using System.Linq;
+	using System.Security.Claims;
 	using System.Threading.Tasks;
 
 	using JustDanceAcademy.Services.Data.Common;
@@ -8,6 +10,8 @@
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.AspNetCore.Mvc.Infrastructure;
+	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	[Area("Administration")]
 	[Route("Administration/[controller]/[Action]/{id?}")]
@@ -165,6 +169,17 @@
 			await danceService.Edit(model.Id, model);
 
 			return this.RedirectToAction("Index", "Admin");
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(int id)
+		{
+			
+
+
+			await this.danceService.DeleteClass(id);
+
+			return this.RedirectToAction(nameof(this.ViewClasses));
 		}
 
 	}

@@ -1,18 +1,8 @@
-﻿using DanceAcademy.Models;
-using JustDanceAcademy.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-namespace JustDanceAcademy.Controllers
+﻿namespace JustDanceAcademy.Controllers
 {
+	using Microsoft.AspNetCore.Mvc;
 
-    public class UserController : Controller
-    {
-
-        
-       
-
-
-    }
+	public class UserController : Controller
+	{
+	}
 }

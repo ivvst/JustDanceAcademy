@@ -49,5 +49,7 @@
 		Task<bool> PhoneNotifyForClass(string userId);
 
 		Task TakeNumberForStart(string userId);
+
+		Task DeleteClass(int classId);
 	}
 }

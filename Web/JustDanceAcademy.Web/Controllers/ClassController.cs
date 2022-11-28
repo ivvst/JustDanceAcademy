@@ -139,7 +139,7 @@
 			{
 				return this.RedirectToAction(nameof(this.Classes));
 			}
-
+			
 			var model = await this.danceService.GetMyClassAsync(userId);
 
 			this.ViewBag.mssg = this.TempData["mssg"] as string;

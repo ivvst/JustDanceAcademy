@@ -43,7 +43,14 @@
 										</ul>
 										<i class="fas fa-pen"></i>
 									</button>
-									<button><i class="fas fa-eraser">Delete</i></button>
+									<form class="mt-2" asp-area="Administration" asp-controller="Class" asp-action="Delete" asp-route-id="@dance.Id">
+										<div class="d-grid gap-2">
+
+											<input type="submit" value="Delete"
+											   class="btn btn-danger mb-2"
+											   onclick="return confirm('You are going to delete :@dance.Name')" />
+										</div>
+									</form>
 								</div>
 							</div>
 						</li>

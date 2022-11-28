@@ -20,16 +20,7 @@
 				<form class="input-group-sm" asp-controller="Class" asp-action="StartClass" asp-route-classId="@item.Id">
 					<input type="submit" value="Start-Dance-Class" class="fs-6 btn btn-success mb-5 p-4" />
 				</form>
-			}
-			@if(User.IsInRole("Administrator")){
-				<button class="button">
-					<ul>
-						<a asp-area="Administrator" asp-controller="Class" asp-action="EditDance" asp-route-id="@item.Id" >Edit</a>
-					</ul>
-					<i class="fas fa-pen"></i>
-				</button>
-				<button><i class="fas fa-eraser">Delete</i></button>
-
+				
 			}
 		</div>
 

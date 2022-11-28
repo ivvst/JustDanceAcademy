@@ -1,24 +1,22 @@
-﻿using JustDanceAcademy.Services.Data.Constants;
-using JustDanceAcademy.Web.ViewModels.Models;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Web.Controllers
+﻿namespace JustDanceAcademy.Web.Controllers
 {
-    public class ScheduleController : BaseController
-    {
-        private readonly IScheduleService scheduleService;
+	using System.Threading.Tasks;
 
-        public ScheduleController(IScheduleService scheduleService)
-        {
-            this.scheduleService = scheduleService;
-        }
+	using JustDanceAcademy.Services.Data.Constants;
+	using Microsoft.AspNetCore.Mvc;
 
+	public class ScheduleController : BaseController
+	{
+		private readonly IScheduleService scheduleService;
 
-        [HttpGet]
-        public async  Task <IActionResult> SeeAll()
-        {
+		public ScheduleController(IScheduleService scheduleService)
+		{
+			this.scheduleService = scheduleService;
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> SeeAll()
+		{
 			if (this.User.IsInRole("Administrator"))
 			{
 				return this.RedirectToAction("All", "Schedule", new
@@ -26,11 +24,9 @@ namespace JustDanceAcademy.Web.Controllers
 					area = "Administration",
 				});
 			}
-			var model = await this.scheduleService.AllSchedules();
-            return this.View(model);
-        }
 
-      
-        
-    }
+			var model = await this.scheduleService.AllSchedules();
+			return this.View(model);
+		}
+	}
 }

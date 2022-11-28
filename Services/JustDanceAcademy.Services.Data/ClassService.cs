@@ -216,7 +216,7 @@
 				return result;
 			}
 
-			return null;
+			throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, user.ClassId));
 		}
 
 		public async Task Edit(int classId, EditDanceViewModel model)
@@ -291,6 +291,7 @@
 			{
 				throw new NullReferenceException(string.Format(ExceptionMessages.InvalidDanceCategoryType, dance.Name));
 			}
+
 			var review = new Review()
 			{
 				Id = model.Id,
@@ -361,7 +362,64 @@
 			string start = "taken";
 			student.PhoneNumber = start;
 			await this.userRepository.SaveChangesAsync();
+		}
 
+		public async Task DeleteClass(int classId)
+		{
+			var dance = await this.classRepository.All().Where(d => d.Id == classId).FirstAsync();
+
+
+			if (dance == null)
+			{
+				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, classId));
+			}
+			var reviews = await this.reviewRepo.All().Where(x => x.ClassId == classId).ToListAsync();
+
+			foreach (var item in reviews)
+			{
+				item.IsDeleted = true;
+				item.DeletedOn = DateTime.Now;
+			}
+
+
+			dance.IsDeleted = true;
+			dance.DeletedOn = DateTime.Now;
+
+			var students = await this.comboRepo.All().Where(x => x.ClassId == classId).Select(x => x.Class.Students).ToListAsync();
+
+			foreach (var item in students)
+			{
+				foreach (var arg in item)
+				{
+
+					var student = await this.userRepository
+						.All()
+				.Where(u => u.Id == arg.StudentId)
+				.FirstOrDefaultAsync();
+					student.PhoneNumber = null;
+					student.ClassId = null;
+
+					arg.IsDeleted = true;
+					arg.DeletedOn = DateTime.Now;
+
+				}
+			}
+
+
+			
+			await this.classRepository.SaveChangesAsync();
+			await this.comboRepo.SaveChangesAsync();
+			await this.userRepository.SaveChangesAsync();
+			await this.reviewRepo.SaveChangesAsync();
+
+			// var item = student.Class.Students.First(x => x.ClassId == classId).IsDeleted = true;
+			//student.ClassId = null;
+			//student.PhoneNumber = null;
+
+			//var review = dance.Reviews.Select(x => x.IsDeleted = true);
+			//await this.classRepository.SaveChangesAsync();
+			//await this.comboRepo.SaveChangesAsync();
+			//await this.userRepository.SaveChangesAsync();
 		}
 	}
 }
