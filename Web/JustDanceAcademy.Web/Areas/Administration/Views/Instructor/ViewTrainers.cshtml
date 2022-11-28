@@ -1,0 +1,117 @@
+﻿@using JustDanceAcademy.Web.ViewModels.Models;
+
+
+@model IEnumerable<InstructorsViewModel>
+
+
+<div class="container bootstrap snippets bootdey">
+	<div class="row">
+		<div class="panel panel-default widget">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-comment"></span>
+				<h3 class="panel-title" style="font-size:25px">
+					Dance-Classes
+				</h3>
+				<span class="label label-info" style="font-size:21px">
+					<!--InstructorsCount-->
+					Total. - @Model.Count()
+				</span>
+			</div>
+			<div class="panel-body">
+				<ul class="list-group">
+					@foreach (var person in Model)
+					{
+						<li class="list-group-item">
+							<div class="row">
+								<div class="col-xs-2 col-md-1">
+									<img src="@person.ImageUrl" class="img-circle img-responsive img-user" alt="dance" />
+								</div>
+								<div class="col-xs-10 col-md-11">
+									<div>
+										<a>
+											@person.FullName
+										</a>
+										<div class="mic-info">
+											Trainer at : <a href="#">@person.Class</a>
+										</div>
+									</div>
+									<div class="comment-text">
+										@person.Intro
+									</div>
+									<button class="button">
+										<ul>
+											<a asp-area="Administration" asp-controller="Instructor" asp-action="Edit" asp-route-id="@person.Id">Edit</a>
+										</ul>
+										<i class="fas fa-pen"></i>
+									</button>
+									<button><i class="fas fa-eraser">Delete</i></button>
+								</div>
+							</div>
+						</li>
+
+					}
+
+				</ul>
+
+				<!--USE FOR SOMETHING-->
+				@*<a href="#" class="btn btn-info btn-sm btn-block" role="button"><span class="glyphicon glyphicon-refresh"></span> More</a>*@
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	body {
+		padding-top: 30px;
+		background: #eee;
+	}
+
+	.widget .panel-body {
+		padding: 0px;
+	}
+
+	.widget .list-group {
+		margin-bottom: 0;
+	}
+
+	.widget .panel-title {
+		display: inline;
+	}
+
+	.widget .label-info {
+		float: right;
+	}
+
+	.widget li.list-group-item {
+		border-radius: 0;
+		border: 0;
+		border-top: 1px solid #ddd;
+	}
+
+		.widget li.list-group-item:hover {
+			background-color: rgba(86, 61, 124, 0.1);
+		}
+
+	.widget .mic-info {
+		color: #666666;
+		font-size: 11px;
+	}
+
+	.widget .action {
+		margin-top: 5px;
+	}
+
+	.widget .comment-text {
+		font-size: 12px;
+	}
+
+	.widget .btn-block {
+		border-top-left-radius: 0px;
+		border-top-right-radius: 0px;
+	}
+
+	.img-user {
+		width: 80px;
+		height: auto;
+	}
+</style>
