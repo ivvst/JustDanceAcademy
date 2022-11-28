@@ -5,10 +5,13 @@
 
 	public class UserListViewModel : ApplicationUser
 	{
-	
+		public string ClassName
+		{
+			get; set;
+		}
 
 
-		
+
 
 
 	}

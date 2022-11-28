@@ -42,14 +42,24 @@
 					else
 					{
 
+
 						<div class="panel-body bg-danger text-center">
 							<div class="clearfix">
-								<div class="pull-left"> Your Email @user.Email</div>
-								<div class="pull-right">Belong to Class -@user.PhoneNumber</div>
+								<div class="pull-left">ClassLesson: @user.ClassName</div>
+								<div class="pull-right">Is in Class: @user.PhoneNumber</div>
 							</div>
+							<img src="https://www.graphicsprings.com/filestorage/stencils/ab7e8c6f9711a06c5fb4abb593715a3e.png?width=50&height=50" alt="Image" class="img-thumbnail img-circle thumb96">
 							<h4 class="mt0">@user.UserName</h4>
-							ClassName - @user.Class
+							<p class="m0">
+								<em class="fas fa-email"></em>@user.Email
+							</p>
+							<div class="clearfix">
+								<div class="pull-left">Have register since - @user.CreatedOn</div>
+
+							</div>
 						</div>
+
+
 					}
 
 
