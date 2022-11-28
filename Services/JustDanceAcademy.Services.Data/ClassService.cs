@@ -1,19 +1,19 @@
-﻿using JustDanceAcademy.Data.Common.Repositories;
-using JustDanceAcademy.Data.Models;
-using JustDanceAcademy.Models;
-using JustDanceAcademy.Services.Data.Common;
-using JustDanceAcademy.Services.Data.Constants;
-
-using JustDanceAcademy.Web.ViewModels.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Services.Data
+﻿namespace JustDanceAcademy.Services.Data
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Data;
+	using System.Linq;
+	using System.Threading.Tasks;
+
+	using JustDanceAcademy.Data.Common.Repositories;
+	using JustDanceAcademy.Data.Models;
+	using JustDanceAcademy.Models;
+	using JustDanceAcademy.Services.Data.Common;
+	using JustDanceAcademy.Services.Data.Constants;
+	using JustDanceAcademy.Web.ViewModels.Models;
+	using Microsoft.EntityFrameworkCore;
+
 	public class ClassService : IDanceClassService
 	{
 		private readonly IRepository<Class> classRepository;
@@ -23,12 +23,6 @@ namespace JustDanceAcademy.Services.Data
 		private readonly IRepository<ClassStudent> comboRepo;
 		private readonly IRepository<Review> reviewRepo;
 
-
-
-
-
-
-
 		public ClassService(IRepository<ClassStudent> comboRepo, IRepository<Class> classRepository, IRepository<ApplicationUser> userRepository, IRepository<MemberShip> planRepo, IRepository<LevelCategory> levelRepo, IRepository<Review> reviewRepo)
 		{
 			this.classRepository = classRepository;
@@ -37,12 +31,10 @@ namespace JustDanceAcademy.Services.Data
 			this.levelRepo = levelRepo;
 			this.comboRepo = comboRepo;
 			this.reviewRepo = reviewRepo;
-
 		}
 
 		public async Task<int> CreateClassAsync(AddClassViewModel model)
 		{
-
 			var entity = new Class()
 			{
 				Name = model.Name,
@@ -50,7 +42,6 @@ namespace JustDanceAcademy.Services.Data
 				Instructor = model.Instructor,
 				LevelCategoryId = model.LevelCategoryId,
 				Description = model.Description,
-
 			};
 
 			await this.classRepository.AddAsync(entity);
@@ -64,7 +55,6 @@ namespace JustDanceAcademy.Services.Data
 			return await this.classRepository.All()
 				.OrderBy(c => c.Name)
 				.Select(c => new ClassesViewModel()
-
 				{
 					Id = c.Id,
 					Name = c.Name,
@@ -72,15 +62,12 @@ namespace JustDanceAcademy.Services.Data
 					Description = c.Description,
 					Instructor = c.Instructor,
 					Category = c.LevelCategory.Name,
-
-
 				})
 				.ToListAsync();
 		}
 
 		public async Task<IEnumerable<PlanViewModel>> GetAllPlans()
 		{
-
 			return await this.planRepo.All()
 				.Select(p => new PlanViewModel()
 				{
@@ -90,13 +77,10 @@ namespace JustDanceAcademy.Services.Data
 					AgeRequirement = p.DetailOne,
 				})
 				.ToListAsync();
-
-
 		}
 
 		public async Task<int> CreatePlan(PlanViewModel model)
 		{
-
 			var plan = new MemberShip()
 			{
 				Title = model.Title,
@@ -130,7 +114,7 @@ namespace JustDanceAcademy.Services.Data
 			 EF.Functions.Like(c.Instructor.ToLower(), searchTerm));
 			}
 
-			//ADD sorting switch in order to  get that below
+			// ADD sorting switch in order to  get that below
 			result.Classes = await classes
 				.Skip((currentPage - 1) * classPerPage)
 				.Take(classPerPage)
@@ -173,7 +157,8 @@ namespace JustDanceAcademy.Services.Data
 					.FirstAsync();
 
 				student.ClassId = classId;
-				//danceClass.Name = student.Class.Name;
+
+				// danceClass.Name = student.Class.Name;
 				danceClass.Students.Add(new ClassStudent()
 				{
 					StudentId = student.Id,
@@ -186,10 +171,6 @@ namespace JustDanceAcademy.Services.Data
 			}
 		}
 
-
-
-
-
 		public async Task LeaveClass(int classId, string userId)
 		{
 			var student = await this.userRepository.All()
@@ -197,11 +178,9 @@ namespace JustDanceAcademy.Services.Data
 				.Include(x => x.Class.Students)
 				.FirstAsync();
 
-
 			var st = student.Class.Students.First(x => x.StudentId == userId).IsDeleted = true;
-			//var item = student.Class.Students.First(x => x.ClassId == classId).IsDeleted = true;
 
-
+			// var item = student.Class.Students.First(x => x.ClassId == classId).IsDeleted = true;
 			student.ClassId = null;
 			student.PhoneNumber = null;
 
@@ -209,15 +188,12 @@ namespace JustDanceAcademy.Services.Data
 			await this.userRepository.SaveChangesAsync();
 		}
 
-
-
-
-
 		public async Task<IEnumerable<MyClassViewModel>> GetMyClassAsync(string userId)
 		{
-			var user = await userRepository.All()
+			var user = await this.userRepository.All()
 				.Where(u => u.Id == userId)
 				.Include(x => x.Class.Students)
+
 				.FirstAsync();
 
 			if (user == null)
@@ -227,21 +203,20 @@ namespace JustDanceAcademy.Services.Data
 
 			if (user.ClassId.HasValue)
 			{
-
-				return user.Class.Students
-					.Select(x => new MyClassViewModel()
-					{
-						Id = x.Class.Id,
-						Name = x.Class.Name,
-						ImageUrl = x.Class.ImageUrl,
-						Instructor = x.Class.Instructor,
-						Description = x.Class.Description,
-						Category = x.Class.LevelCategory?.Name,
-					});
+				var result = user.Class.Students.Where(x => x.StudentId == user.Id)
+				   .Select(x => new MyClassViewModel()
+				   {
+					   Id = x.Class.Id,
+					   Name = x.Class.Name,
+					   ImageUrl = x.Class.ImageUrl,
+					   Instructor = x.Class.Instructor,
+					   Description = x.Class.Description,
+					   Category = x.Class.LevelCategory?.Name,
+				   });
+				return result;
 			}
+
 			return null;
-
-
 		}
 
 		public async Task Edit(int classId, EditDanceViewModel model)
@@ -259,8 +234,6 @@ namespace JustDanceAcademy.Services.Data
 				throw new NullReferenceException(string.Format(ExceptionMessages.InvalidDanceCategoryType, dance.LevelCategory.Name));
 			}
 
-
-
 			dance.Description = model.Description;
 			dance.ImageUrl = model.ImageUrl;
 			dance.Instructor = model.Instructor;
@@ -269,8 +242,6 @@ namespace JustDanceAcademy.Services.Data
 
 			await this.classRepository.SaveChangesAsync();
 		}
-
-
 
 		public async Task<int> GetDanceLevelId(int classId)
 		{
@@ -281,12 +252,12 @@ namespace JustDanceAcademy.Services.Data
 
 		public async Task<bool> Exists(int id)
 		{
-			return await classRepository.All().AnyAsync(x => x.Id == id);
+			return await this.classRepository.All().AnyAsync(x => x.Id == id);
 		}
 
 		public async Task<ClassesViewModel> DanceDetailsById(int id)
 		{
-			return await classRepository.All()
+			return await this.classRepository.All()
 				 .Where(c => c.Id == id)
 				 .Select(c => new ClassesViewModel()
 				 {
@@ -299,7 +270,6 @@ namespace JustDanceAcademy.Services.Data
 				 })
 				 .FirstAsync();
 		}
-
 
 		public async Task<int> CreateReview(string userId, int classId, ReviewViewModel model)
 		{
@@ -317,6 +287,10 @@ namespace JustDanceAcademy.Services.Data
 			}
 
 			var dance = await this.classRepository.All().Where(x => x.Id == classId).FirstAsync();
+			if (dance == null)
+			{
+				throw new NullReferenceException(string.Format(ExceptionMessages.InvalidDanceCategoryType, dance.Name));
+			}
 			var review = new Review()
 			{
 				Id = model.Id,
@@ -327,19 +301,15 @@ namespace JustDanceAcademy.Services.Data
 
 			student.Class.Reviews.Add(review);
 
-
 			await this.reviewRepo.AddAsync(review);
 			await this.classRepository.SaveChangesAsync();
 			await this.userRepository.SaveChangesAsync();
-
-
 
 			return review.Id;
 		}
 
 		public async Task<bool> DoesUserHaveClass(string userId)
 		{
-
 			{
 				var student = await this.userRepository.All().Where(s => s.Id == userId).FirstAsync();
 
@@ -349,7 +319,6 @@ namespace JustDanceAcademy.Services.Data
 				}
 
 				return true;
-
 			}
 		}
 
@@ -369,13 +338,9 @@ namespace JustDanceAcademy.Services.Data
 					Context = r.Content,
 					Student = r.User.UserName,
 					NameClass = r.Class.Name,
-
-
 				})
 				.ToListAsync();
 		}
-
-
 
 		public async Task<bool> PhoneNotifyForClass(string userId)
 		{
@@ -385,19 +350,18 @@ namespace JustDanceAcademy.Services.Data
 			{
 				return true;
 			}
-			return false;
 
+			return false;
 		}
 
-		public async Task<string> TakeNumberForStart(string userId)
+		public async Task TakeNumberForStart(string userId)
 		{
 			var student = await this.userRepository.All().Where(x => x.Id == userId).FirstAsync();
 
-			return student.PhoneNumber = "taken";
-
+			string start = "taken";
+			student.PhoneNumber = start;
+			await this.userRepository.SaveChangesAsync();
 
 		}
 	}
 }
-
-

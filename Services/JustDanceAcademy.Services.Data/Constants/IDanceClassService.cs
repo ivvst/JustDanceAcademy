@@ -48,6 +48,6 @@
 
 		Task<bool> PhoneNotifyForClass(string userId);
 
-		Task<string> TakeNumberForStart(string userId);
+		Task TakeNumberForStart(string userId);
 	}
 }
