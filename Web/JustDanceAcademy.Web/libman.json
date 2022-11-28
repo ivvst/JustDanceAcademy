@@ -1,6 +1,7 @@
 {
   "version": "1.0",
   "defaultProvider": "jsdelivr",
+
   "libraries": [
     {
       "library": "jquery@3.6.0",
@@ -35,6 +36,11 @@
         "dist/jquery.validate.unobtrusive.js",
         "dist/jquery.validate.unobtrusive.min.js"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "limonte-sweetalert2@11.6.14",
+      "destination": "wwwroot/lib/limonte-sweetalert2/"
     }
   ]
 }
