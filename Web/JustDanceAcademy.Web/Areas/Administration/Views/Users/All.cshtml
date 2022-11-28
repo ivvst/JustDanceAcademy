@@ -1,0 +1,108 @@
+﻿@using JustDanceAcademy.Data.Models;
+@using JustDanceAcademy.Web.ViewModels.Administration.Users;
+@using Microsoft.AspNetCore.Identity;
+@model AllUsersViewModel
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+	ViewData["Title"] = "Admin dashboard";
+}
+
+<h1 class="text-center">@this.ViewData["Title"]</h1>
+<hr />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container bootstrap snippets bootdey">
+	<h3 class="text-center">All Users</h3>
+	<h4 class="text-center">(@Model.Users.Count() Total Users)</h4>
+	<ul class="list-group">
+		@foreach (var user in Model.Users)
+		{
+			<div class="col-md-4">
+				<!-- START widget-->
+				<div class="panel widget">
+					@{
+						ApplicationUser currentUser = await this.UserManager.FindByIdAsync(user.Id);
+					}
+					@{
+						IList<string> currentUserRoles = await this.UserManager.GetRolesAsync(currentUser);
+					}
+					@if (currentUserRoles.Contains("Administrator"))
+					{
+						<div class="panel-body bg-danger text-center">
+							<div class="clearfix">
+								<div class="pull-left"> You are admin with username</div>
+							</div>
+							<h4 class="mt0">
+								@user.UserName
+							</h4>
+
+						</div>
+					}
+					else
+					{
+
+						<div class="panel-body bg-danger text-center">
+							<div class="clearfix">
+								<div class="pull-left"> Your Email @user.Email</div>
+								<div class="pull-right">Belong to Class -@user.PhoneNumber</div>
+							</div>
+							<h4 class="mt0">@user.UserName</h4>
+							ClassName - @user.Class
+						</div>
+					}
+
+
+				</div>
+
+
+			</div>
+		}
+	</ul>
+
+	<style>
+		body {
+			margin-top: 20px;
+		}
+
+		.widget .panel, .widget.panel {
+			overflow: hidden;
+		}
+
+		.widget {
+			margin-bottom: 20px;
+			border: 0;
+		}
+
+		.bg-danger {
+			background-color: #f05050;
+			color: #fff !important;
+		}
+
+		.bg-info {
+			background-color: #23b7e5;
+			color: #fff !important;
+		}
+
+		.bg-primary {
+			background-color: #5d9cec;
+			color: #fff !important;
+		}
+	</style>
+
+	@*if ()
+	{
+	<li class="list-group-item d-flex align-items-center">
+
+	ClassName-@user.Class
+	User-@user.UserName
+
+	</li>
+	}
+	if ((User.IsInRole("Administrator") == true))
+	{
+	<li class="list-group-item d-flex align-items-center">
+	@user.UserName - Admin
+	</li>
+
+	}*@
