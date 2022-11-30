@@ -10,7 +10,10 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 {
     public class AddClassViewModel
     {
-       
+        public int Id
+        {
+            get; set;
+        }
         [Required]
         [StringLength(50, MinimumLength = 3)]
         public string? Name

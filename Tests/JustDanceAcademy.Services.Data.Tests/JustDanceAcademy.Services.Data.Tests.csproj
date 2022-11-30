@@ -13,14 +13,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
-    <PackageReference Include="Moq" Version="4.18.1" />
-    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="MockQueryable.Moq" Version="7.0.0" />
+    <PackageReference Include="Moq" Version="4.18.2" />
+    <PackageReference Include="MyTested.AspNetCore.Mvc.Universe" Version="5.0.0" />
+    <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -32,7 +34,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\JustDanceAcademy.Data\JustDanceAcademy.Data.csproj" />
-    <ProjectReference Include="..\..\Services\JustDanceAcademy.Services.Data\JustDanceAcademy.Services.Data.csproj" />
+	  <ProjectReference Include="..\..\Services\JustDanceAcademy.Services.Data\JustDanceAcademy.Services.Data.csproj" />
+	  <ProjectReference Include="..\..\Web/JustDanceAcademy.Web/JustDanceAcademy.Web.csproj" />
   </ItemGroup>
 
 </Project>
