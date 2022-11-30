@@ -37,6 +37,7 @@
 		{
 			var entity = new Class()
 			{
+				Id=model.Id,
 				Name = model.Name,
 				ImageUrl = model.ImageUrl,
 				Instructor = model.Instructor,
@@ -373,6 +374,7 @@
 			{
 				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, classId));
 			}
+
 			var reviews = await this.reviewRepo.All().Where(x => x.ClassId == classId).ToListAsync();
 
 			foreach (var item in reviews)
@@ -420,6 +422,12 @@
 			//await this.classRepository.SaveChangesAsync();
 			//await this.comboRepo.SaveChangesAsync();
 			//await this.userRepository.SaveChangesAsync();
+		}
+
+
+		public async Task<int> GetCountAsync()
+		{
+			return await this.classRepository.AllAsNoTracking().CountAsync();
 		}
 	}
 }

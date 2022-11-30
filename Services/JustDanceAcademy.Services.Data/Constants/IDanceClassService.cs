@@ -10,6 +10,8 @@
 	{
 		Task<IEnumerable<ClassesViewModel>> GetAllAsync();
 
+		Task<int> GetCountAsync();
+
 		Task<int> CreateClassAsync(AddClassViewModel model);
 
 		Task<int> GetDanceLevelId(int classId);
