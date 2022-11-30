@@ -37,7 +37,7 @@
 		{
 			var entity = new Class()
 			{
-				Id=model.Id,
+				Id = model.Id,
 				Name = model.Name,
 				ImageUrl = model.ImageUrl,
 				Instructor = model.Instructor,
@@ -365,7 +365,7 @@
 			await this.userRepository.SaveChangesAsync();
 		}
 
-		public async Task DeleteClass(int classId)
+		public async Task<Class> DeleteClass(int classId)
 		{
 			var dance = await this.classRepository.All().Where(d => d.Id == classId).FirstAsync();
 
@@ -376,52 +376,66 @@
 			}
 
 			var reviews = await this.reviewRepo.All().Where(x => x.ClassId == classId).ToListAsync();
-
-			foreach (var item in reviews)
+			if (reviews.Any())
 			{
-				item.IsDeleted = true;
-				item.DeletedOn = DateTime.Now;
-			}
 
 
-			dance.IsDeleted = true;
-			dance.DeletedOn = DateTime.Now;
-
-			var students = await this.comboRepo.All().Where(x => x.ClassId == classId).Select(x => x.Class.Students).ToListAsync();
-
-			foreach (var item in students)
-			{
-				foreach (var arg in item)
+				foreach (var item in reviews)
 				{
-
-					var student = await this.userRepository
-						.All()
-				.Where(u => u.Id == arg.StudentId)
-				.FirstOrDefaultAsync();
-					student.PhoneNumber = null;
-					student.ClassId = null;
-
-					arg.IsDeleted = true;
-					arg.DeletedOn = DateTime.Now;
+					item.IsDeleted = true;
+					item.DeletedOn = DateTime.Now;
+					this.reviewRepo.Update(item);
 
 				}
 			}
 
+			if (await this.comboRepo.All().Where(x => x.ClassId == classId).FirstOrDefaultAsync() == null)
+			{
 
-			
+			}
+
+			var students = await this.comboRepo.All().Where(x => x.ClassId == classId).Select(x => x.Class.Students).ToListAsync();
+
+			if (students.Any())
+			{
+				foreach (var item in students)
+				{
+					foreach (var arg in item)
+					{
+						var student = await this.userRepository
+							.All()
+					.Where(u => u.Id == arg.StudentId)
+					.FirstOrDefaultAsync();
+						student.PhoneNumber = null;
+						student.ClassId = null;
+
+						this.userRepository.Update(student);
+
+						arg.IsDeleted = true;
+						arg.DeletedOn = DateTime.Now;
+					}
+				}
+			}
+
+			dance.IsDeleted = true;
+			dance.DeletedOn = DateTime.Now;
+			this.classRepository.Update(dance);
+
 			await this.classRepository.SaveChangesAsync();
 			await this.comboRepo.SaveChangesAsync();
 			await this.userRepository.SaveChangesAsync();
 			await this.reviewRepo.SaveChangesAsync();
 
-			// var item = student.Class.Students.First(x => x.ClassId == classId).IsDeleted = true;
-			//student.ClassId = null;
-			//student.PhoneNumber = null;
+			return dance;
 
-			//var review = dance.Reviews.Select(x => x.IsDeleted = true);
-			//await this.classRepository.SaveChangesAsync();
-			//await this.comboRepo.SaveChangesAsync();
-			//await this.userRepository.SaveChangesAsync();
+			// var item = student.Class.Students.First(x => x.ClassId == classId).IsDeleted = true;
+			// student.ClassId = null;
+			// student.PhoneNumber = null;
+
+			// var review = dance.Reviews.Select(x => x.IsDeleted = true);
+			// await this.classRepository.SaveChangesAsync();
+			// await this.comboRepo.SaveChangesAsync();
+			// await this.userRepository.SaveChangesAsync();
 		}
 
 
