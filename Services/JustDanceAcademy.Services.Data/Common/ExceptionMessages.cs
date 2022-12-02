@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace JustDanceAcademy.Services.Data.Common
 {
-    public class ExceptionMessages
+    public  class ExceptionMessages
 
     {
         public const string ReviewNotAllowed = "Review for movie with id {0} is not allowed.";
 
         public const string StudentNotFound = "Student with id {0} is not found.";
 
-        public const string ClassDanceNotFound = "Dance-Class with id {0} is not found.";
+        public const string ClassDanceNotFound = "Dance-Class  is not found.";
 
         public const string InstructorNotFound = "Instructor with id {0} is not found.";
 

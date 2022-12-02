@@ -217,7 +217,7 @@
 				return result;
 			}
 
-			throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, user.ClassId));
+			throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
 		}
 
 		public async Task Edit(int classId, EditDanceViewModel model)
@@ -225,7 +225,7 @@
 			var dance = await this.classRepository.All().Where(d => d.Id == classId).FirstAsync();
 			if (dance == null)
 			{
-				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, classId));
+				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
 			}
 
 			var danceCategory = await this.levelRepo.All().AnyAsync(x => x.Id == dance.LevelCategoryId);
@@ -367,12 +367,12 @@
 
 		public async Task<Class> DeleteClass(int classId)
 		{
-			var dance = await this.classRepository.All().Where(d => d.Id == classId).FirstAsync();
+			var dance = await this.classRepository.All().Where(d => d.Id == classId).FirstOrDefaultAsync();
 
 
 			if (dance == null)
 			{
-				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, classId));
+				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
 			}
 
 			var reviews = await this.reviewRepo.All().Where(x => x.ClassId == classId).ToListAsync();
