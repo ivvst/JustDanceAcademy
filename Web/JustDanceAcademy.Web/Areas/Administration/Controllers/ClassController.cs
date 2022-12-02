@@ -1,8 +1,6 @@
 ﻿namespace JustDanceAcademy.Web.Areas.Administration.Controllers
 {
 	using System;
-	using System.Linq;
-	using System.Security.Claims;
 	using System.Threading.Tasks;
 
 	using JustDanceAcademy.Services.Data.Common;
@@ -10,8 +8,6 @@
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
-	using Microsoft.AspNetCore.Mvc.Infrastructure;
-	using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 	[Area("Administration")]
 	[Route("Administration/[controller]/[Action]/{id?}")]
@@ -22,13 +18,11 @@
 		private readonly ILevelCategoryService levelCategoryService;
 
 		public ClassController(
-		ILevelCategoryService levelCategoryService
-		, IDanceClassService danceService)
+		ILevelCategoryService levelCategoryService, IDanceClassService danceService)
 		{
 			this.levelCategoryService = levelCategoryService;
 			this.danceService = danceService;
 		}
-
 
 		[Authorize(Roles = "Administrator")]
 		[HttpGet]
@@ -44,24 +38,24 @@
 
 		public async Task<IActionResult> Create(PlanViewModel model)
 		{
-			if (!ModelState.IsValid)
+			if (!this.ModelState.IsValid)
 			{
-				return View(model);
+				return this.View(model);
 			}
+
 			try
 			{
-				await danceService.CreatePlan(model);
+				await this.danceService.CreatePlan(model);
 
-				return RedirectToAction("Index", "Admin", new
+				return this.RedirectToAction("Index", "Admin", new
 				{
 					area = "Administration",
 				});
 			}
 			catch (Exception)
 			{
-				ModelState.AddModelError(" ", "Something went wrong");
-				return View(model);
-
+				this.ModelState.AddModelError(" ", "Something went wrong");
+				return this.View(model);
 			}
 		}
 
@@ -82,32 +76,28 @@
 
 		public async Task<IActionResult> Add(AddClassViewModel model)
 		{
-
-			if (!ModelState.IsValid)
+			if (!this.ModelState.IsValid)
 			{
 				model.LevelsCategory = await this.levelCategoryService.AllCategories();
 
 				return this.View(model);
 			}
+
 			try
 			{
 				await this.danceService.CreateClassAsync(model);
 
-
 				return this.RedirectToAction("Index", "Admin", new
 				{
 					area = "Administration",
-				}
-						);
+				});
 			}
 			catch (Exception)
 			{
-				this.ModelState.AddModelError("", "Something went wrong");
+				this.ModelState.AddModelError(" ", "Something went wrong");
 
 				return this.View(model);
-
 			}
-
 		}
 
 		[HttpGet]
@@ -123,13 +113,12 @@
 		[Authorize(Roles = "Administrator")]
 		public async Task<IActionResult> EditDance(int id)
 		{
-			if ((await danceService.Exists(id)) == false)
+			if ((await this.danceService.Exists(id)) == false)
 			{
-				return RedirectToAction("Index", "Admin", new
+				return this.RedirectToAction("Index", "Admin", new
 				{
 					area = "Administration",
-				}
-						);
+				});
 			}
 
 			var danceClass = await this.danceService.DanceDetailsById(id);
@@ -153,20 +142,19 @@
 		[Authorize(Roles = "Administrator")]
 		public async Task<IActionResult> EditDance(int id, EditDanceViewModel model)
 		{
-			if ((await danceService.Exists(model.Id)) == false)
+			if ((await this.danceService.Exists(model.Id)) == false)
 			{
 				model.LevelsCategory = await this.levelCategoryService.AllCategories();
-				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound, model.Id));
-
+				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
 			}
 
-			if (ModelState.IsValid == false)
+			if (this.ModelState.IsValid == false)
 			{
 				model.LevelsCategory = await this.levelCategoryService.AllCategories();
-				return View(model);
+				return this.View(model);
 			}
 
-			await danceService.Edit(model.Id, model);
+			await this.danceService.Edit(model.Id, model);
 
 			return this.RedirectToAction("Index", "Admin");
 		}
@@ -174,13 +162,9 @@
 		[HttpPost]
 		public async Task<IActionResult> Delete(int id)
 		{
-			
-
-
 			await this.danceService.DeleteClass(id);
 
 			return this.RedirectToAction(nameof(this.ViewClasses));
 		}
-
 	}
 }

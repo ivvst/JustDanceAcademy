@@ -58,13 +58,20 @@
 
 
 							<tbody class="u-black u-table-body u-table-body-1">
-								<!--Edit Missing-->
 								<tr style="height: 46px;">
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age <button style="color:darkred">Edit</button>TODO</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
 								</tr>
 							</tbody>
+							<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@item.Id">
+								<div class="d-grid gap-2">
+
+									<input type="submit" value="Delete"
+								   class="btn btn-danger mb-2"
+								   onclick="return confirm('You are going to delete :@item.Class' @item.Id)" />
+								</div>
+							</form>
 
 
 
@@ -112,6 +119,18 @@
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @el.Start-@el.End &nbsp;&nbsp; @el.Day</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@el.Class-@el.LevelCategory</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@el.Age</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
+
+										<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@el.Id">
+											                                                         
+											<div class="d-grid gap-2">
+
+												<input type="submit" value="Delete"
+											   class="btn btn-danger mb-2"
+											   onclick="return confirm('Schedule for : @el.Class - @el.LevelCategory will be deleted. Are you sure?')" />
+											</div>
+										</form>
+									</td>
 								</tr>
 							</tbody>
 						}
@@ -158,8 +177,21 @@
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @el.Start-@el.End &nbsp;&nbsp; @el.Day</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@el.Class-@el.LevelCategory</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@el.Age</td>
+
 								</tr>
+
 							</tbody>
+							<button class="button">
+
+								<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@el.Id">
+									<div class="d-grid gap-2">
+
+										<input type="submit" value="Delete"
+									   class="btn btn-danger mb-2"
+									   onclick="return confirm('Schedule for : @el.Id @el.Class - @el.Id will be deleted. Are you sure?')" />
+									</div>
+								</form>
+							</button>
 						}
 					</table>
 				</div>
@@ -202,6 +234,17 @@
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
+
+										<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@item.Id">
+											<div class="d-grid gap-2">
+
+												<input type="submit" value="Delete"
+											   class="btn btn-danger mb-2"
+											   onclick="return confirm('Schedule for : @item.Class - @item.LevelCategory will be deleted. Are you sure?')" />
+											</div>
+										</form>
+									</td>
 								</tr>
 							</tbody>
 						}
@@ -246,6 +289,17 @@
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
+
+										<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@item.Id">
+											<div class="d-grid gap-2">
+
+												<input type="submit" value="Delete"
+											   class="btn btn-danger mb-2"
+											   onclick="return confirm('Schedule for : @item.Class - @item.LevelCategory will be deleted. Are you sure?')" />
+											</div>
+										</form>
+									</td>
 								</tr>
 							</tbody>
 						}
@@ -290,6 +344,17 @@
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
+
+										<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@item.Id">
+											<div class="d-grid gap-2">
+
+												<input type="submit" value="Delete"
+											   class="btn btn-danger mb-2"
+											   onclick="return confirm('Schedule for : @item.Class - @item.LevelCategory will be deleted. Are you sure?')" />
+											</div>
+										</form>
+									</td>
 								</tr>
 							</tbody>
 						}
@@ -334,6 +399,17 @@
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
+
+										<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@item.Id">
+											<div class="d-grid gap-2">
+
+												<input type="submit" value="Delete"
+											   class="btn btn-danger mb-2"
+											   onclick="return confirm('Schedule for : @item.Class - @item.LevelCategory will be deleted. Are you sure?')" />
+											</div>
+										</form>
+									</td>
 								</tr>
 							</tbody>
 						}
