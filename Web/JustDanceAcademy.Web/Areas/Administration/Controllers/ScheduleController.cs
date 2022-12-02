@@ -66,5 +66,16 @@
 				return this.View(model);
 			}
 		}
+
+
+		[HttpPost]
+
+		public async Task<IActionResult> DeleteColumn(int id)
+		{
+
+			await this.scheduleService.DeleteColumn(id);
+
+			return this.RedirectToAction(nameof(this.All));
+		}
 	}
 }

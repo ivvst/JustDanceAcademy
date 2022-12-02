@@ -15,6 +15,9 @@ namespace JustDanceAcademy.Services.Data.Constants
 
         Task<int> CreateSchedule(AddScheduleViewModel model);
 
+        Task<int> GetScheduleById(int id);
         Task<IEnumerable<Class>> GetClasses();
+
+        Task<Schedule> DeleteColumn(int scheduleId);
     }
 }
