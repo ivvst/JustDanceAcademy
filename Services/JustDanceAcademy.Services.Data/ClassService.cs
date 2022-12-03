@@ -162,36 +162,44 @@
 					.Where(c => c.Id == classId)
 					.FirstAsync();
 
-				student.ClassId = classId;
+
 
 				// danceClass.Name = student.Class.Name;
-				danceClass.Students.Add(new ClassStudent()
+				var getStarted = new ClassStudent()
 				{
 					StudentId = student.Id,
 					ClassId = classId,
 					Class = danceClass,
 					Student = student,
-				});
-				await this.classRepository.SaveChangesAsync();
-				await this.userRepository.SaveChangesAsync();
+				};
+				danceClass.Students.Add(getStarted);
+				await this.comboRepo.AddAsync(getStarted);
+				await this.comboRepo.SaveChangesAsync();
+
+
 			}
 		}
 
-		public async Task LeaveClass(int classId, string userId)
+		public async Task<ClassStudent> LeaveClass(string userId)
 		{
 			var student = await this.userRepository.All()
 				.Where(u => u.Id == userId)
 				.Include(x => x.Class.Students)
-				.FirstAsync();
+				.FirstOrDefaultAsync();
 
-			var st = student.Class.Students.First(x => x.StudentId == userId).IsDeleted = true;
+			var st = student.Class.Students.First(x => x.StudentId == userId);
+			st.IsDeleted = true;
 
 			// var item = student.Class.Students.First(x => x.ClassId == classId).IsDeleted = true;
 			student.ClassId = null;
 			student.PhoneNumber = null;
 
+			this.comboRepo.Update(st);
 			await this.comboRepo.SaveChangesAsync();
+			this.userRepository.Update(student);
 			await this.userRepository.SaveChangesAsync();
+
+			return st;
 		}
 
 		public async Task<IEnumerable<MyClassViewModel>> GetMyClassAsync(string userId)
@@ -227,18 +235,9 @@
 
 		public async Task Edit(int classId, EditDanceViewModel model)
 		{
-			var dance = await this.classRepository.All().Where(d => d.Id == classId).FirstAsync();
-			if (dance == null)
-			{
-				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
-			}
+			var dance = await this.classRepository.All().Where(x => x.Id == classId).FirstOrDefaultAsync();
 
-			var danceCategory = await this.levelRepo.All().AnyAsync(x => x.Id == dance.LevelCategoryId);
-
-			if (danceCategory == false)
-			{
-				throw new NullReferenceException(string.Format(ExceptionMessages.InvalidDanceCategoryType, dance.LevelCategory.Name));
-			}
+			var danceCategory = await this.levelRepo.All().Where(x => x.Id == dance.LevelCategoryId).FirstOrDefaultAsync();
 
 			dance.Description = model.Description;
 			dance.ImageUrl = model.ImageUrl;
@@ -277,12 +276,20 @@
 				 .FirstAsync();
 		}
 
-		public async Task<int> CreateReview(string userId, int classId, ReviewViewModel model)
+		public async Task<int> CreateReview(int classId, string userId, ReviewViewModel model)
 		{
-			var student = await this.userRepository.All().Where(s => s.Id == userId).FirstAsync();
+
+			var dance = await this.classRepository.All().Where(d => d.Id == classId).FirstOrDefaultAsync();
+			if (dance == null)
+			{
+				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
+			}
+
+
+			var student = await this.userRepository.All().Where(s => s.Id == userId).FirstOrDefaultAsync();
 			if (student == null)
 			{
-				throw new NullReferenceException(string.Format(ExceptionMessages.StudentNotFound, student));
+				throw new NullReferenceException(string.Format(ExceptionMessages.StudentNotFound));
 			}
 
 			classId = student.ClassId.Value;
@@ -292,11 +299,6 @@
 				throw new ArgumentException(string.Format(ExceptionMessages.ReviewNotAllowed, classId));
 			}
 
-			var dance = await this.classRepository.All().Where(x => x.Id == classId).FirstAsync();
-			if (dance == null)
-			{
-				throw new NullReferenceException(string.Format(ExceptionMessages.InvalidDanceCategoryType, dance.Name));
-			}
 
 			var review = new Review()
 			{
@@ -361,13 +363,16 @@
 			return false;
 		}
 
-		public async Task TakeNumberForStart(string userId)
+		public async Task<ApplicationUser> TakeNumberForStart(string userId)
 		{
 			var student = await this.userRepository.All().Where(x => x.Id == userId).FirstAsync();
 
 			string start = "taken";
 			student.PhoneNumber = start;
+			this.userRepository.Update(student);
 			await this.userRepository.SaveChangesAsync();
+
+			return student;
 		}
 
 		public async Task<Class> DeleteClass(int classId)

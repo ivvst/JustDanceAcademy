@@ -1,6 +1,6 @@
 ﻿namespace JustDanceAcademy.Models
 {
-    public class ClassesViewModel 
+    public class ClassesViewModel
     {
         public int Id
         {

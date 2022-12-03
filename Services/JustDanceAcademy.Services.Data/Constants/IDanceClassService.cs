@@ -27,7 +27,7 @@
 
 		Task<IEnumerable<MyClassViewModel>> GetMyClassAsync(string userId);
 
-		Task LeaveClass(int classId, string userId);
+		Task<ClassStudent> LeaveClass(string userId);
 
 		Task<int> CreatePlan(PlanViewModel model);
 
@@ -43,7 +43,7 @@
 
 		Task<IEnumerable<ReviewViewModel>> AllReviews();
 
-		Task<int> CreateReview(string userId, int classId, ReviewViewModel model);
+		Task<int> CreateReview(int classId, string userId, ReviewViewModel model);
 
 		Task<bool> DoesUserHaveClass(string userId);
 
@@ -51,7 +51,7 @@
 
 		Task<bool> PhoneNotifyForClass(string userId);
 
-		Task TakeNumberForStart(string userId);
+		Task<ApplicationUser> TakeNumberForStart(string userId);
 
 		Task<Class> DeleteClass(int classId);
 	}

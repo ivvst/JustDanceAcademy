@@ -145,6 +145,13 @@
 		{
 			if ((await this.danceService.Exists(model.Id)) == false)
 			{
+				if ((await this.danceService.GetDanceLevelId(model.Id)) == default)
+				{
+
+					model.LevelsCategory = await this.levelCategoryService.AllCategories();
+					throw new NullReferenceException(string.Format(ExceptionMessages.InvalidDanceCategoryType));
+				}
+
 				model.LevelsCategory = await this.levelCategoryService.AllCategories();
 				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
 			}

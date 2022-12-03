@@ -79,7 +79,7 @@
 				{
 					area = "Administration",
 				});
-            }
+			}
 
 			var model = await this.danceService.GetAllAsync();
 
@@ -124,11 +124,11 @@
 			return this.RedirectToAction(nameof(this.Train));
 		}
 
-		public async Task<IActionResult> LeaveClass(int classId)
+		public async Task<IActionResult> LeaveClass()
 		{
 			var userId = this.User.Claims
 						.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-			await this.danceService.LeaveClass(classId, userId);
+			await this.danceService.LeaveClass(userId);
 
 			return this.RedirectToAction(nameof(this.Classes));
 		}
@@ -140,7 +140,7 @@
 			{
 				return this.RedirectToAction(nameof(this.Classes));
 			}
-			
+
 			var model = await this.danceService.GetMyClassAsync(userId);
 
 			this.ViewBag.mssg = this.TempData["mssg"] as string;
@@ -185,7 +185,7 @@
 				return this.View(model);
 			}
 
-			await this.danceService.CreateReview(userId, model.ClassId, model);
+			await this.danceService.CreateReview(model.ClassId, userId, model);
 
 			return this.RedirectToAction(nameof(this.Train));
 		}
