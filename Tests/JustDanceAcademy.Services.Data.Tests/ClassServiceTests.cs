@@ -23,6 +23,8 @@
 		private Mock<IRepository<Review>> reviewRepo;
 		private Mock<IRepository<ClassStudent>> comboRepo;
 		private Mock<IRepository<ApplicationUser>> userRepo;
+		private Mock<IRepository<MemberShip>> planRepo;
+
 
 
 		public ClassServiceTests()
@@ -31,6 +33,8 @@
 			this.reviewRepo = new Mock<IRepository<Review>>();
 			this.comboRepo = new Mock<IRepository<ClassStudent>>();
 			this.userRepo = new Mock<IRepository<ApplicationUser>>();
+			this.planRepo = new Mock<IRepository<MemberShip>>();
+
 
 		}
 
@@ -177,45 +181,71 @@
 
 
 
-			//var dance = new Class { Id = 5};
-
-			//var list = new List<Class>();
-			//list.Add(dance);
-
-			//var count = list.Count();
-
-			//this.repo.Setup(m => m.Update(It.IsAny<Class>()))
-			//	.Callback(() => { list.Remove(dance); });
-			//this.repo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
-			//this.repo.Setup(x => x.All()).Returns(list.AsQueryable().BuildMock());
-
-			//this.reviewRepo.Setup(m => m.Update(It.IsAny<Review>()))
-			//	.Callback(() => { list.Remove(dance); });
-			//this.reviewRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
-
-			//this.userRepo.Setup(m => m.Update(It.IsAny<ApplicationUser>()))
-			//	.Callback(() => { list.Remove(dance); });
-			//this.userRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
-
-			//this.comboRepo.Setup(m => m.Update(It.IsAny<ClassStudent>()))
-			//	.Callback(() => { list.Remove(dance); });
-			//this.comboRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
-
-
-			//var service = new ClassService(null, this.repo.Object, null, null, null, null);
-
-			//var danceClass = await service.CreateClassAsync(this.CreateModel());
-			//var result = await service.DeleteClass(danceClass);
-
-			//this.repo.Verify(x=>x.Update(It.IsAny<Class>()),Times.Once);
-			//this.repo.Verify(x => x.SaveChangesAsync(), Times.Once());
 
 
 			Assert.True(result.IsDeleted);
 
 		}
 
+		[Fact]
+		public async Task DeleteClassByIdShouldThrowException()
+		{
+			var dance = new Class
+			{
+				Id = 5,
+				Students = new List<ClassStudent>()
+			};
+			var list = new List<Class>();
+			list.Add(dance);
 
+			this.repo.Setup(x => x.All()).Returns(list.AsQueryable().BuildMock());
+
+			var service = new ClassService(null, this.repo.Object, null, null, null, null);
+
+			var ex = await Assert.ThrowsAsync<NullReferenceException>
+				(
+				async () => await service.DeleteClass(8)
+				);
+
+			await Assert.ThrowsAsync<NullReferenceException>(async () => await service.DeleteClass(77));
+
+			Assert.Equal(ExceptionMessages.ClassDanceNotFound, ex.Message);
+
+
+
+		}
+
+
+		[Fact]
+		public async Task AddPlanShouldReturnsValidPlanViewModel()
+		{
+			var plan = this.CreatePlan();
+
+			var list = new List<MemberShip>();
+
+			this.planRepo.Setup(x => x.AddAsync(It.IsAny<MemberShip>()))
+				.Callback(() =>
+				{
+					return;
+				});
+			this.planRepo.Setup(x => x.SaveChangesAsync()).Callback(() =>
+			{
+				return;
+			});
+			this.planRepo.Setup(x => x.AllAsNoTracking()).
+				Returns(list.AsQueryable().BuildMock());
+
+			var service = new ClassService(null, null, null, this.planRepo.Object, null, null);
+			var result = await service.CreatePlan(plan);
+
+			this.planRepo.Verify(
+				x => x.AddAsync(It.IsAny<MemberShip>()),
+				Times.Once());
+			this.planRepo.Verify(x => x.SaveChangesAsync(), Times.Once());
+
+			Assert.Equal(result, plan.Id);
+
+		}
 
 		private AddClassViewModel CreateModel()
 		{
@@ -227,6 +257,28 @@
 				ImageUrl = "https://thumbs.dreamstime.com/z/dance-logo-design-symbol-dance-logo-design-symbol-art-125584033.jpg",
 				LevelCategoryId = 2,
 				Description = " The following description is for test",
+
+
+			};
+		}
+
+		//public static List<Class> GetCollectionOfClasses()
+		//{
+		//	var dances = new List<Class>();
+		//	var studentOne = new ClassStudent() { ClassId = 1, StudentId = "1" };
+		//	var studentTwo = new ClassStudent() { ClassId = 2, StudentId = "2" };
+		//	//Finish when Add Category Test
+		//	//var levelCategories = 
+
+		private PlanViewModel CreatePlan()
+		{
+			return new PlanViewModel
+			{
+				Title = "Test",
+				Price = 470,
+				Age = JustDanceAcademy.Data.Models.Enum.Age.Teen,
+				AgeRequirement = "Must be between 16-18 ",
+
 
 
 			};
