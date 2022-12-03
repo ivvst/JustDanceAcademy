@@ -1,9 +1,9 @@
-﻿@using JustDanceAcademy.Models
+﻿@using JustDanceAcademy.Data.Models
 
 
 
 
-@model IEnumerable<ClassesViewModel>
+@model IEnumerable<Class>
 
 @foreach (var item in Model)
 {
@@ -33,7 +33,7 @@
 				<h2>The Description</h2>
 				<ul>
 					<li><strong>Instructor: </strong>@item.Instructor</li>
-					<li><strong>Dance-Category: </strong>@item.Category</li>
+					<li><strong>Dance-Category: </strong>@item.LevelCategory.Name</li>
 					<br>
 					<li><strong>Age: </strong>Press "Schedule" for more Info</li>
 				</ul>

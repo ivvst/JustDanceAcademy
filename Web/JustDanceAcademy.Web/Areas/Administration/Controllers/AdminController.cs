@@ -1,12 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Data;
-
-namespace JustDanceAcademy.Web.Areas.Administration.Controllers
+﻿namespace JustDanceAcademy.Web.Areas.Administration.Controllers
 {
-	using JustDanceAcademy.Common;
-	using JustDanceAcademy.Web.Controllers;
-
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
 
@@ -15,14 +8,9 @@ namespace JustDanceAcademy.Web.Areas.Administration.Controllers
 	[Authorize(Roles = "Administrator")]
 	public class AdminController : AdministrationController
 	{
-
 		public IActionResult Index()
 		{
 			return this.View();
 		}
 	}
 }
-
-
-
-

@@ -7,15 +7,12 @@
 
 	using JustDanceAcademy.Data.Common.Repositories;
 	using JustDanceAcademy.Data.Models;
-	using JustDanceAcademy.Data.Repositories;
+	using JustDanceAcademy.Models;
 	using JustDanceAcademy.Services.Data.Common;
-	using JustDanceAcademy.Services.Data.Tests;
 	using JustDanceAcademy.Web.ViewModels.Models;
-	using Microsoft.AspNetCore.Cors.Infrastructure;
 	using MockQueryable.Moq;
 	using Moq;
 	using Xunit;
-
 
 	public class ClassServiceTests
 	{
@@ -24,8 +21,7 @@
 		private Mock<IRepository<ClassStudent>> comboRepo;
 		private Mock<IRepository<ApplicationUser>> userRepo;
 		private Mock<IRepository<MemberShip>> planRepo;
-
-
+		private Mock<IRepository<Schedule>> scheduleRepo;
 
 		public ClassServiceTests()
 		{
@@ -34,8 +30,7 @@
 			this.comboRepo = new Mock<IRepository<ClassStudent>>();
 			this.userRepo = new Mock<IRepository<ApplicationUser>>();
 			this.planRepo = new Mock<IRepository<MemberShip>>();
-
-
+			this.scheduleRepo = new Mock<IRepository<Schedule>>();
 		}
 
 		[Fact]
@@ -50,14 +45,11 @@
 			}.AsQueryable();
 			this.repo.Setup(r => r.AllAsNoTracking()).Returns(classes.BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, null, null);
+			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
 
 			Assert.Equal(classes.Count(), await service.GetCountAsync());
 
 			this.repo.Verify(x => x.AllAsNoTracking(), Times.Once);
-
-
-
 		}
 
 		[Fact]
@@ -79,7 +71,7 @@
 			this.repo.Setup(x => x.AllAsNoTracking()).
 				Returns(list.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, null, null);
+			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
 			var result = await service.CreateClassAsync(dance);
 
 			this.repo.Verify(
@@ -109,7 +101,7 @@
 			this.repo.Setup(x => x.AllAsNoTracking()).
 				Returns(list.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, null, null);
+			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
 
 			var result = await service.GetCountAsync();
 			Assert.Equal(list.Count(), result);
@@ -118,19 +110,16 @@
 			var finalResult = await service.GetCountAsync();
 
 			Assert.Equal(list.Count(), finalResult);
-
-
 		}
 
 		[Fact]
 		public async Task DeleteClassById()
 		{
-			// Delete Class  With Added Review/Students' properties like phones'and delete's classId 
-
+			// Delete Class  With Added Review/Students' properties like phones'and delete's classId
 			var dance = new Class
 			{
 				Id = 5,
-				Students = new List<ClassStudent>()
+				Students = new List<ClassStudent>(),
 			};
 
 
@@ -141,7 +130,6 @@
 				Id = "2",
 				PhoneNumber = "taken",
 				ClassId = 5,
-
 			};
 			var userList = new List<ApplicationUser>();
 			userList.Add(userClass);
@@ -152,10 +140,11 @@
 			this.repo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
 			this.repo.Setup(x => x.All()).Returns(list.AsQueryable().BuildMock());
 
-
 			var review = new Review { ClassId = 5 };
-			var reviewList = new List<Review>();
-			reviewList.Add(review);
+			var reviewList = new List<Review>
+			{
+				review,
+			};
 			this.reviewRepo.Setup(m => m.Update(It.IsAny<Review>()))
 							.Callback(() => { reviewList.Remove(review); });
 			this.reviewRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
@@ -173,18 +162,31 @@
 			this.userRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
 			this.userRepo.Setup(x => x.All()).Returns(userList.AsQueryable().BuildMock());
 
-			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, this.reviewRepo.Object);
+			var schedule = new Schedule()
+			{
+				ClassId = 5,
+			};
+			var listedSchedule = new List<Schedule>
+			{
+				schedule,
+			};
+			this.scheduleRepo.Setup(m => m.Update(It.IsAny<Schedule>()))
+							.Callback(() => { listedSchedule.Remove(schedule); });
+			this.scheduleRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
+			this.scheduleRepo.Setup(x => x.All()).Returns(listedSchedule.AsQueryable().BuildMock());
+
+			var service = new ClassService(
+				this.comboRepo.Object,
+				this.repo.Object,
+				this.userRepo.Object,
+				null,
+				null,
+				this.reviewRepo.Object,
+				this.scheduleRepo.Object);
 
 			var result = await service.DeleteClass(dance.Id);
 
 			Assert.True(result.IsDeleted);
-
-
-
-
-
-			Assert.True(result.IsDeleted);
-
 		}
 
 		[Fact]
@@ -200,7 +202,7 @@
 
 			this.repo.Setup(x => x.All()).Returns(list.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, null, null);
+			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
 
 			var ex = await Assert.ThrowsAsync<NullReferenceException>
 				(
@@ -235,7 +237,7 @@
 			this.planRepo.Setup(x => x.AllAsNoTracking()).
 				Returns(list.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, null, null, this.planRepo.Object, null, null);
+			var service = new ClassService(null, null, null, this.planRepo.Object, null, null, null);
 			var result = await service.CreatePlan(plan);
 
 			this.planRepo.Verify(
@@ -245,6 +247,38 @@
 
 			Assert.Equal(result, plan.Id);
 
+		}
+
+		[Fact]
+		public async Task GetAllShouldReturnAllClasses()
+		{
+			var dances = GetCollectionOfClasses();
+			this.repo.Setup(x => x.AllAsNoTracking()).Returns(dances.ToList().BuildMock());
+
+			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
+
+			var result = await service.GetAllAsync();
+
+			Assert.Equal(dances.Count(), result.Count());
+
+			this.repo.Verify(x => x.AllAsNoTracking(), Times.Once);
+
+			Assert.Equal(dances[0].Name, result.Where(x => x.Id == dances[0].Id).Select(x => x.Name).FirstOrDefault());
+
+			Assert.Equal(dances[1].Instructor, result.Where(x => x.Id == dances[1].Id).Select(x => x.Instructor).FirstOrDefault());
+		}
+
+		public static List<ClassesViewModel> GetCollectionOfClasses()
+		{
+
+			return new List<ClassesViewModel>
+			{
+				new ClassesViewModel { Id = 1, Name = "Getting Hot ",Instructor="Abs"   },
+				new ClassesViewModel { Id = 2, Name = "Begging me To Dance", Instructor="Nick Symmons"},
+				new ClassesViewModel { Id = 3, Name = "Yoga Dance Up" ,Instructor="Bison Netflix" },
+				new ClassesViewModel { Id = 4, Name = "Advandages of Being Model", Instructor="KendalAsync" },
+				new ClassesViewModel { Id = 5, Name = "Wall Street", Instructor="Gigi  Handel"},
+			};
 		}
 
 		private AddClassViewModel CreateModel()
@@ -262,13 +296,7 @@
 			};
 		}
 
-		//public static List<Class> GetCollectionOfClasses()
-		//{
-		//	var dances = new List<Class>();
-		//	var studentOne = new ClassStudent() { ClassId = 1, StudentId = "1" };
-		//	var studentTwo = new ClassStudent() { ClassId = 2, StudentId = "2" };
-		//	//Finish when Add Category Test
-		//	//var levelCategories = 
+
 
 		private PlanViewModel CreatePlan()
 		{

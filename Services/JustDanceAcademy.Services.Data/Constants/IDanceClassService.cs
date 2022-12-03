@@ -2,6 +2,7 @@
 {
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
+
 	using JustDanceAcademy.Data.Models;
 	using JustDanceAcademy.Models;
 	using JustDanceAcademy.Web.ViewModels.Models;

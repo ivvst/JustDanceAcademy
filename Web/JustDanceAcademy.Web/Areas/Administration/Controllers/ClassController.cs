@@ -2,7 +2,8 @@
 {
 	using System;
 	using System.Threading.Tasks;
-
+	using JustDanceAcademy.Data.Models;
+	using JustDanceAcademy.Models;
 	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Services.Data.Constants;
 	using JustDanceAcademy.Web.ViewModels.Models;

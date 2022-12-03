@@ -13,7 +13,10 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 {
     public class AddScheduleViewModel
     {
-
+        public int Id
+        {
+            get; set;
+        }
         public DateTime StartClass
         {
             get; set;

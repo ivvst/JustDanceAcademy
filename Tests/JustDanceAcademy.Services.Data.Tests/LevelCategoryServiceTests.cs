@@ -1,14 +1,11 @@
 ﻿namespace JustDanceAcademy.Services.Data.Tests
 {
-	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Text;
 	using System.Threading.Tasks;
+
 	using JustDanceAcademy.Data.Common.Repositories;
 	using JustDanceAcademy.Data.Models;
-	using JustDanceAcademy.Data.Repositories;
-	using JustDanceAcademy.Web.ViewModels.Models;
 	using MockQueryable.Moq;
 	using Moq;
 	using Xunit;

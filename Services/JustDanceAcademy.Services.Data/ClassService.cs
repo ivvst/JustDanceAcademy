@@ -4,13 +4,15 @@
 	using System.Collections.Generic;
 	using System.Data;
 	using System.Linq;
+	using System.Reflection.Metadata.Ecma335;
 	using System.Threading.Tasks;
-
+	using AutoMapper.Internal.Mappers;
 	using JustDanceAcademy.Data.Common.Repositories;
 	using JustDanceAcademy.Data.Models;
 	using JustDanceAcademy.Models;
 	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Services.Data.Constants;
+	using JustDanceAcademy.Services.Mapping;
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.EntityFrameworkCore;
 
@@ -22,8 +24,9 @@
 		private readonly IRepository<LevelCategory> levelRepo;
 		private readonly IRepository<ClassStudent> comboRepo;
 		private readonly IRepository<Review> reviewRepo;
+		private readonly IRepository<Schedule> scheduleRepo;
 
-		public ClassService(IRepository<ClassStudent> comboRepo, IRepository<Class> classRepository, IRepository<ApplicationUser> userRepository, IRepository<MemberShip> planRepo, IRepository<LevelCategory> levelRepo, IRepository<Review> reviewRepo)
+		public ClassService(IRepository<ClassStudent> comboRepo, IRepository<Class> classRepository, IRepository<ApplicationUser> userRepository, IRepository<MemberShip> planRepo, IRepository<LevelCategory> levelRepo, IRepository<Review> reviewRepo, IRepository<Schedule> scheduleRepo)
 		{
 			this.classRepository = classRepository;
 			this.userRepository = userRepository;
@@ -31,6 +34,7 @@
 			this.levelRepo = levelRepo;
 			this.comboRepo = comboRepo;
 			this.reviewRepo = reviewRepo;
+			this.scheduleRepo = scheduleRepo;
 		}
 
 		public async Task<int> CreateClassAsync(AddClassViewModel model)
@@ -53,6 +57,7 @@
 
 		public async Task<IEnumerable<ClassesViewModel>> GetAllAsync()
 		{
+
 			return await this.classRepository.All()
 				.OrderBy(c => c.Name)
 				.Select(c => new ClassesViewModel()
@@ -417,6 +422,18 @@
 				}
 			}
 
+			var schedules = await this.scheduleRepo.All().Where(x => x.ClassId == classId).ToListAsync();
+
+			if (schedules.Any())
+			{
+				foreach (var plan in schedules)
+				{
+					plan.IsDeleted = true;
+					plan.DeletedOn = DateTime.UtcNow;
+					this.scheduleRepo.Update(plan);
+				}
+			}
+
 			dance.IsDeleted = true;
 			dance.DeletedOn = DateTime.Now;
 			this.classRepository.Update(dance);
@@ -425,6 +442,7 @@
 			await this.comboRepo.SaveChangesAsync();
 			await this.userRepository.SaveChangesAsync();
 			await this.reviewRepo.SaveChangesAsync();
+			await this.scheduleRepo.SaveChangesAsync();
 
 			return dance;
 

@@ -1,12 +1,7 @@
-﻿
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Web.ViewModels.Models
+﻿namespace JustDanceAcademy.Web.ViewModels.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class ScheduleViewModel
     {
 		public int Id
@@ -15,33 +10,33 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 		}
 
 		[Required]
-        public string Day
+
+		public string Day
         {
             get; set;
         }
 
-        public string Start
-        {
-
-            get; set;
-        }
-
-        public string End
+		public string Start
         {
             get; set;
         }
 
-        public string Class
+		public string End
         {
             get; set;
         }
 
-        public string Age
+		public string Class
         {
             get; set;
         }
 
-        public string LevelCategory
+		public string Age
+        {
+            get; set;
+        }
+
+		public string LevelCategory
         {
             get; set;
         }

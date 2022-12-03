@@ -6,11 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using JustDanceAcademy.Data.Models;
 using JustDanceAcademy.Data.Models.Enum;
+using Microsoft.AspNetCore.Identity;
 
 namespace JustDanceAcademy.Web.ViewModels.Models
 {
     public class PlanViewModel
     {
+
+        public int Id
+        {
+            get; set;
+        }
 
         [Required]
         [StringLength(25, ErrorMessage = "{0} must be choose carefully with {1} letters", MinimumLength = 5)]

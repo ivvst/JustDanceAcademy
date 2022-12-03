@@ -1,9 +1,10 @@
-﻿using JustDanceAcademy.Web.ViewModels.Administration.Users;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Services.Data.Constants
+﻿namespace JustDanceAcademy.Services.Data.Constants
 {
+	using System.Collections.Generic;
+	using System.Threading.Tasks;
+
+	using JustDanceAcademy.Web.ViewModels.Administration.Users;
+
 	public interface IUsersService
 	{
 		public Task<IEnumerable<UserListViewModel>> GetAllUsersAsync();
