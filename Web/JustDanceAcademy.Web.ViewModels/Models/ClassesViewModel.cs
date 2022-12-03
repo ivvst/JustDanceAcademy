@@ -1,8 +1,6 @@
-﻿using JustDanceAcademy.Data.Models;
-
-namespace JustDanceAcademy.Models
+﻿namespace JustDanceAcademy.Models
 {
-    public class ClassesViewModel :Class
+    public class ClassesViewModel 
     {
         public int Id
         {
