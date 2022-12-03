@@ -47,6 +47,15 @@
 
 		public async Task<IActionResult> New(InstructorViewModel model)
 		{
+			if (await this.serviceInstructor.DoesInstructorExist(model.FullName) == true)
+			{
+				this.ModelState.AddModelError(" ", ExceptionMessages.InstructorAlreadyExists);
+				return this.View(model);
+
+			}
+
+
+
 			if (!this.ModelState.IsValid)
 			{
 				model.ClassesOfInstructor = await this.serviceInstructor.GetClasses();

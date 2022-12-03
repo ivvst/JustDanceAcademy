@@ -12,6 +12,7 @@
 
 		Task<int> AddInstructor(InstructorViewModel model);
 
+		Task<bool> DoesInstructorExist(string name);
 		Task<InstructorsViewModel> TrainerDetailsById(int id);
 
 		Task<int> GetClassId(int trainerId);

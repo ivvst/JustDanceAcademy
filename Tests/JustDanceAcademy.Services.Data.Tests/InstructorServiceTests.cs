@@ -1,0 +1,183 @@
+﻿namespace JustDanceAcademy.Services.Data.Tests
+{
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
+
+	using JustDanceAcademy.Data.Common.Repositories;
+	using JustDanceAcademy.Data.Models;
+	using JustDanceAcademy.Web.ViewModels.Models;
+	using MockQueryable.Moq;
+	using Moq;
+	using Xunit;
+
+	public class InstructorServiceTests
+	{
+
+		private Mock<IRepository<Instrustor>> trainerRepo;
+
+		private Mock<IRepository<Class>> classRepo;
+
+		public InstructorServiceTests()
+		{
+			this.classRepo = new Mock<IRepository<Class>>();
+			this.trainerRepo = new Mock<IRepository<Instrustor>>();
+
+		}
+
+		[Fact]
+		public async Task TrainerWithExistingNameShouldThrowsError()
+		{
+			var trainer = new Instrustor
+			{
+				Id = 1,
+				Name = "Pamela Reif",
+			};
+
+			var trainerTwo = new Instrustor
+			{
+
+				Id = 2,
+				Name = "Pamela Reif",
+			};
+
+			var list = new List<Instrustor>();
+			list.Add(trainer);
+
+			this.trainerRepo.Setup(x => x.AllAsNoTracking()).
+				Returns(list.AsQueryable().BuildMock());
+
+			var service = new InstructorService(this.trainerRepo.Object, null);
+			var result = await service.DoesInstructorExist(trainerTwo.Name);
+
+			Assert.True(result);
+
+
+		}
+
+		[Fact]
+		public async Task TrainerWithNoExistingNameShouldBeAddedTo()
+		{
+			var trainer = new Instrustor
+			{
+				Id = 1,
+				Name = "Pamela Reif",
+			};
+
+			var trainerTwo = new Instrustor
+			{
+
+				Id = 2,
+				Name = "Pamela Anderson",
+			};
+
+			var list = new List<Instrustor>();
+			list.Add(trainer);
+
+			this.trainerRepo.Setup(x => x.AllAsNoTracking()).
+				Returns(list.AsQueryable().BuildMock());
+
+			var service = new InstructorService(this.trainerRepo.Object, null);
+			var result = await service.DoesInstructorExist(trainerTwo.Name);
+
+			Assert.False(result);
+
+
+		}
+
+
+		[Fact]
+		public async Task AddTrainerWithExistingNameShouldReturnValidId()
+		{
+			var trainer = new InstructorViewModel
+			{
+				Id = 1,
+				FullName = "Pamela Reif",
+				ClassId = 6,
+				ImageUrl = "https://thumbs.dreamstime.com/z/dance-logo-design-symbol-dance-logo-design-symbol-art-125584033.jpg",
+				ClassesOfInstructor = new List<Class>(),
+				AboutYou = "The test should work correctly await...",
+
+			};
+			var list = new List<Instrustor>();
+
+			this.trainerRepo.Setup(x => x.AddAsync(It.IsAny<Instrustor>()))
+						.Callback(() =>
+						{
+							return;
+						});
+			this.trainerRepo.Setup(x => x.SaveChangesAsync()).Callback(() =>
+			{
+				return;
+			});
+			this.trainerRepo.Setup(x => x.AllAsNoTracking()).
+				Returns(list.AsQueryable().BuildMock());
+
+			var service = new InstructorService(this.trainerRepo.Object, null);
+			var result = await service.AddInstructor(trainer);
+
+
+			this.trainerRepo.Verify(
+				x => x.AddAsync(It.IsAny<Instrustor>()),
+				Times.Once());
+			this.trainerRepo.Verify(x => x.SaveChangesAsync(), Times.Once());
+
+			Assert.Equal(result, trainer.Id);
+
+
+		}
+
+		[Fact]
+		public async Task EditTrainerShouldUpdatePropertiesCorrectly()
+		{
+			var classes = GetClassesList();
+
+			var trainer = new Instrustor
+			{
+				Id = 1,
+				Name = "Pamela Reif",
+				Biography = "Born in early 90's she become one of the most popular dance-trainer during 2020.",
+				Class = classes[0],
+				ClassId = 1,
+			};
+
+			var trainersList = new List<Instrustor>();
+			trainersList.Add(trainer);
+
+			var chosenTrainer = new InstructorViewModel
+			{
+				Id = 1,
+				AboutYou = "Born in 1990 she attract people with her pure beauty",
+				FullName = "Nina Dobrev",
+			};
+
+			this.trainerRepo.Setup(x => x.All()).Returns(trainersList.AsQueryable().BuildMock());
+			this.classRepo.Setup(x => x.All()).Returns(classes.AsQueryable().BuildMock());
+
+			var service = new InstructorService(this.trainerRepo.Object,
+				this.classRepo.Object);
+
+			await service.Edit(trainer.Id, chosenTrainer);
+
+			var updatedTrainer = trainersList.FirstOrDefault(x => x.Id == 1);
+
+			Assert.Equal(chosenTrainer.FullName, updatedTrainer.Name);
+			Assert.Equal(chosenTrainer.AboutYou, updatedTrainer.Biography);
+
+			this.trainerRepo.Verify(x => x.SaveChangesAsync(), Times.Once());
+
+		}
+
+		public static List<Class> GetClassesList()
+		{
+			return new List<Class>
+			{
+				new Class { Id = 1, Instructor = "Ignasio Montero", Description = "Middle Of the night" },
+				new Class { Id = 2, Instructor = "Jason Derulo", Description = "Light down low" },
+				new Class { Id = 3, Instructor = "Jame Ortega", Description = "Dance with my hands" },
+			};
+		}
+
+
+	}
+}
