@@ -268,19 +268,6 @@
 			Assert.Equal(dances[1].Instructor, result.Where(x => x.Id == dances[1].Id).Select(x => x.Instructor).FirstOrDefault());
 		}
 
-		public static List<ClassesViewModel> GetCollectionOfClasses()
-		{
-
-			return new List<ClassesViewModel>
-			{
-				new ClassesViewModel { Id = 1, Name = "Getting Hot ",Instructor="Abs"   },
-				new ClassesViewModel { Id = 2, Name = "Begging me To Dance", Instructor="Nick Symmons"},
-				new ClassesViewModel { Id = 3, Name = "Yoga Dance Up" ,Instructor="Bison Netflix" },
-				new ClassesViewModel { Id = 4, Name = "Advandages of Being Model", Instructor="KendalAsync" },
-				new ClassesViewModel { Id = 5, Name = "Wall Street", Instructor="Gigi  Handel"},
-			};
-		}
-
 		private AddClassViewModel CreateModel()
 		{
 			return new AddClassViewModel
