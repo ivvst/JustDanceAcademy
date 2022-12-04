@@ -2,7 +2,7 @@
 {
 	using System;
 	using System.Threading.Tasks;
-
+	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Services.Data.Constants;
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.AspNetCore.Authorization;
@@ -16,10 +16,12 @@
 	public class ScheduleController : AdministrationController
 	{
 		private readonly IScheduleService scheduleService;
+		private readonly ILevelCategoryService levelCategoryService;
 
-		public ScheduleController(IScheduleService scheduleService)
+		public ScheduleController(IScheduleService scheduleService, ILevelCategoryService levelCategoryService)
 		{
 			this.scheduleService = scheduleService;
+			this.levelCategoryService = levelCategoryService;
 		}
 
 		[HttpGet]
@@ -42,10 +44,17 @@
 		[HttpPost]
 		public async Task<IActionResult> Add(AddScheduleViewModel model)
 		{
+
 			if (!this.ModelState.IsValid)
 			{
 				model.AllClasses = await this.scheduleService.GetClasses();
 				return this.View(model);
+			}
+
+			if ((await this.levelCategoryService.DoesNameOfDanceCategoryExist(model.LevelCategory)) == string.Empty)
+			{
+				model.AllClasses = await this.scheduleService.GetClasses();
+				this.ModelState.AddModelError(" ", ExceptionMessages.InvalidDanceCategoryType);
 			}
 
 			try

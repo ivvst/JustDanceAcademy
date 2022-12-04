@@ -66,19 +66,18 @@
 				throw new NullReferenceException(string.Format(ExceptionMessages.InstructorNotFound));
 			}
 
-			var danceClass = await this.classRepository.All().FirstOrDefaultAsync(x => x.Id == trainer.ClassId);
-
-			if (danceClass == null)
-			{
-				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
-			}
-
 			trainer.Biography = model.AboutYou;
 			trainer.ImageUrl = model.ImageUrl;
 			trainer.Name = model.FullName;
 			trainer.ClassId = model.ClassId;
 
-			await this.repo.SaveChangesAsync();
+			var danceClass = await this.classRepository.All().FirstOrDefaultAsync(x => x.Id == model.ClassId);
+
+			if (danceClass == null)
+			{
+				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
+			}
+	await this.repo.SaveChangesAsync();
 		}
 
 		public async Task<bool> Exists(int id)
@@ -98,23 +97,7 @@
 			})
 				.ToListAsync();
 		}
-		//public async Task<IEnumerable<ClassesViewModel>> GetAllAsync()
-		//{
-		//    return await this.classRepository.All()
-		//        .OrderBy(c => c.Name)
-		//        .Select(c => new ClassesViewModel()
-		//        {
-		//            Id = c.Id,
-		//            Name = c.Name,
-		//            ImageUrl = c.ImageUrl,
-		//            Description = c.Description,
-		//            Instructor = c.Instructor,
-		//            Category = c.LevelCategory.Name,
 
-
-		//        })
-		//        .ToListAsync();
-		//}
 		public async Task<IEnumerable<Class>> GetClasses()
 		{
 			return await this.classRepository.All().ToListAsync();

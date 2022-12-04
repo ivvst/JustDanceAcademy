@@ -61,7 +61,7 @@
 			return await this.classRepository.All()
 				.OrderBy(c => c.Name)
 				.Select(c => new ClassesViewModel()
-				{
+			{
 					Id = c.Id,
 					Name = c.Name,
 					ImageUrl = c.ImageUrl,
@@ -229,15 +229,14 @@
 				   });
 				return result;
 			}
-
-			throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
+			return null;
 		}
 
 		public async Task Edit(int classId, EditDanceViewModel model)
 		{
 			var dance = await this.classRepository.All().Where(x => x.Id == classId).FirstOrDefaultAsync();
 
-			var danceCategory = await this.levelRepo.All().Where(x => x.Id == dance.LevelCategoryId).FirstOrDefaultAsync();
+
 
 			dance.Description = model.Description;
 			dance.ImageUrl = model.ImageUrl;
@@ -292,7 +291,7 @@
 				throw new NullReferenceException(string.Format(ExceptionMessages.StudentNotFound));
 			}
 
-			classId = student.ClassId.Value;
+
 
 			if (student.ClassId != classId)
 			{

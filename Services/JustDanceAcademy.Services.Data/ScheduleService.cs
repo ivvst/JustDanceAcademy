@@ -16,11 +16,15 @@ namespace JustDanceAcademy.Services.Data
 	{
 		private readonly IRepository<Class> classRepository;
 		private readonly IRepository<Schedule> scheduleRepo;
+		private readonly IRepository<LevelCategory> levelRepo;
 
-		public ScheduleService(IRepository<Schedule> scheduleRepo, IRepository<Class> classRepository)
+		public ScheduleService(IRepository<Schedule> scheduleRepo, IRepository<Class> classRepository, IRepository<LevelCategory> levelRepo)
 		{
 			this.scheduleRepo = scheduleRepo;
 			this.classRepository = classRepository;
+			this.levelRepo = levelRepo;
+
+
 
 		}
 
@@ -56,11 +60,11 @@ namespace JustDanceAcademy.Services.Data
 				ClassId = model.ClassId,
 				LevelCategory = model.LevelCategory,
 			};
-
 			await this.scheduleRepo.AddAsync(entity);
 			await this.scheduleRepo.SaveChangesAsync();
 
 			return entity.Id;
+
 		}
 
 		public async Task<Schedule> DeleteColumn(int test)

@@ -1,9 +1,10 @@
 ﻿@using JustDanceAcademy.Data.Models
+@using JustDanceAcademy.Models;
 
 
 
 
-@model IEnumerable<Class>
+@model IEnumerable<ClassesViewModel>
 
 @foreach (var item in Model)
 {
@@ -33,7 +34,7 @@
 				<h2>The Description</h2>
 				<ul>
 					<li><strong>Instructor: </strong>@item.Instructor</li>
-					<li><strong>Dance-Category: </strong>@item.LevelCategory.Name</li>
+					<li><strong>Dance-Category: </strong>@item.Category</li>
 					<br>
 					<li><strong>Age: </strong>Press "Schedule" for more Info</li>
 				</ul>
@@ -50,77 +51,3 @@
 }
 
 
-@*<section>
-
-
-
-
-	<div class="container">
-		<div class="row">
-			<div class="col-xs-12 text-center">
-				<div class="block-heading paddingbottom-80">
-					<h2>Dancing Classes</h2>
-					<p>Slave To The Rhythm</p>
-				</div>
-			</div>
-		</div>
-
-		@foreach (var dance in Model)
-		{
-			<div class="movie_card" id="bright">
-				<div class="info_section">
-					<div class="movie_header">
-						<h1>@dance.Name</h1>
-						<h4>By @dance.Instructor</h4>
-
-					</div>
-					<div class="movie_desc">
-						<p class="text">
-							@dance.Description
-						</p>
-					</div>
-				</div>
-				<button class="button" >
-					Instructor Info
-				</button>
-				<img
-					src="@dance.ImageUrl"
-					width="450"
-					height = "500"
-					/>
-				<button class="button">
-
-					<ul><a asp-area="" asp-controller="Class" asp-action="Plans">See Plans</a></ul>
-				</button>
-
-				<form class="input-group-sm" asp-controller="Class" asp-action="StartClass" asp-route-classId="@dance.Id">
-					<input type="submit" value="Start-ClassLessons" class="fs-6 btn btn-success mb-3 p-2" />
-				</form>
-
-			</div>
-		}
-
-		<h2 style="font-size:60px;font-weight:300">New class added every month.</h2>
-
-
-		<h2>What is included in a plan?</h2>
-		<button class="button button2">Get Started</button><br>
-
-
-	</div>
-</section>*@
-
-
-
-
-
-@*
-			Add-Plans-Remove-Plans
-			Get Plans Plans View
-
-			PayPal	Constructor-Fake Payment
-
-			ADMIN TABLE- User-Class-Payments-
-
-
-		*@

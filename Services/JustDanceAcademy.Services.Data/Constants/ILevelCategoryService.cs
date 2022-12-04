@@ -8,5 +8,9 @@
 	public interface ILevelCategoryService
 	{
 		Task<IEnumerable<LevelCategory>> AllCategories();
+
+		Task<string> DoesNameOfDanceCategoryExist(string name);
 	}
+
+
 }

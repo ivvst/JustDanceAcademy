@@ -96,6 +96,8 @@
 			catch (Exception)
 			{
 				this.ModelState.AddModelError(" ", "Something went wrong");
+				model.LevelsCategory = await this.levelCategoryService.AllCategories();
+
 
 				return this.View(model);
 			}
@@ -105,6 +107,7 @@
 		public async Task<IActionResult> ViewClasses()
 		{
 			var model = await this.danceService.GetAllAsync();
+
 
 			return this.View(model);
 		}
