@@ -105,7 +105,7 @@
 
 		public async Task<int> GetClassId(int trainerId)
 		{
-			return await this.repo.All().Where(x => x.Id == trainerId)
+			return await this.repo.AllAsNoTracking().Where(x => x.Id == trainerId)
 				.Select(x => x.ClassId)
 				.FirstOrDefaultAsync();
 		}

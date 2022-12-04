@@ -266,6 +266,32 @@
 			Assert.Equal(classesList[2].Name, result.Where(x => x.Id == classesList[2].Id).Select(x => x.Name).FirstOrDefault());
 		}
 
+		[Fact]
+		public async Task FindClassIdByGivenTrainerShouldReturnClass()
+		{
+			var classes = GetClassesList();
+			var trainer = new Instrustor
+			{
+				Id = 1,
+				Name = "Pamela Reif",
+				Class = classes[0],
+				ClassId = 1,
+			};
+			var list = new List<Instrustor>();
+			list.Add(trainer);
+
+
+			this.trainerRepo.Setup(x => x.AllAsNoTracking()).
+				Returns(list.AsQueryable().BuildMock());
+			this.classRepo.Setup(x => x.All()).Returns(classes.AsQueryable().BuildMock());
+
+			var service = new InstructorService(this.trainerRepo.Object, this.classRepo.Object);
+			var result = await service.GetClassId(trainer.Id);
+
+			Assert.Equal(trainer.ClassId, result);
+
+		}
+
 
 
 		public static List<Class> GetClassesList()
