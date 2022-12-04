@@ -1,11 +1,13 @@
 ﻿namespace JustDanceAcademy.Services.Data.Tests
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading.Tasks;
 
 	using JustDanceAcademy.Data.Common.Repositories;
 	using JustDanceAcademy.Data.Models;
+	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using MockQueryable.Moq;
 	using Moq;
@@ -168,13 +170,111 @@
 
 		}
 
+		[Fact]
+
+		public async Task EditTrainerWithGivenNullClassShouldThrowsError()
+		{
+			var classes = GetClassesList();
+
+			var trainer = new Instrustor
+			{
+				Id = 1,
+				Name = "Pamela Reif",
+				Biography = "Born in early 90's she become one of the most popular dance-trainer during 2020.",
+				Class = classes[0],
+				ClassId = 1,
+			};
+
+			var trainersList = new List<Instrustor>();
+			trainersList.Add(trainer);
+
+			var chosenTrainer = new InstructorViewModel
+			{
+				Id = 1,
+				AboutYou = "Born in 1990 she attract people with her pure beauty",
+				FullName = "Nina Dobrev",
+				ClassId = 15,
+			};
+			this.trainerRepo.Setup(x => x.All()).Returns(trainersList.AsQueryable().BuildMock());
+			this.classRepo.Setup(x => x.All()).Returns(classes.AsQueryable().BuildMock());
+
+			var service = new InstructorService(this.trainerRepo.Object, this.classRepo.Object);
+
+			var ex = await Assert.ThrowsAsync<NullReferenceException>(
+			async () => await service.Edit(trainer.Id, chosenTrainer));
+
+			var updatedTrainer = trainersList.FirstOrDefault(x => x.Id == 1);
+
+			await Assert.ThrowsAsync<NullReferenceException>(async () => await service.Edit(trainer.Id, chosenTrainer));
+
+			Assert.Equal(ExceptionMessages.ClassDanceNotFound, ex.Message);
+
+		}
+
+		[Fact]
+		public async Task EditTrainerWithNotExistTrainerShouldThrowsError()
+		{
+			var classes = GetClassesList();
+
+			var trainer = new Instrustor
+			{
+				Id = 1,
+				Name = "Pamela Reif",
+				Biography = "Born in early 90's she become one of the most popular dance-trainer during 2020.",
+				Class = classes[0],
+				ClassId = 1,
+			};
+			var chosenTrainer = new InstructorViewModel
+			{
+				Id = 1,
+				AboutYou = "Born in 1990 she attract people with her pure beauty",
+				FullName = "Nina Dobrev",
+				ClassId = 2,
+			};
+
+			var trainersList = new List<Instrustor>();
+			trainersList.Add(trainer);
+
+			this.trainerRepo.Setup(x => x.All()).Returns(trainersList.AsQueryable().BuildMock());
+			this.classRepo.Setup(x => x.All()).Returns(classes.AsQueryable().BuildMock());
+
+			var service = new InstructorService(this.trainerRepo.Object, this.classRepo.Object);
+
+			var ex = await Assert.ThrowsAsync<NullReferenceException>(
+			async () => await service.Edit(150, chosenTrainer));
+
+
+			await Assert.ThrowsAsync<NullReferenceException>(async () => await service.Edit(150, chosenTrainer));
+
+			Assert.Equal(ExceptionMessages.InstructorNotFound, ex.Message);
+		}
+
+		[Fact]
+		public async Task GetClassesShouldReturnAllListWithDances()
+		{
+			var classesList = GetClassesList();
+
+			this.classRepo.Setup(x => x.All()).Returns(classesList.AsQueryable().BuildMock());
+
+			var service = new InstructorService(this.trainerRepo.Object, this.classRepo.Object);
+			var result = await service.GetClasses();
+
+			Assert.Equal(classesList.Count(), result.Count());
+
+			Assert.Equal(classesList[0].Name, result.Where(x => x.Id == classesList[0].Id).Select(x => x.Name).FirstOrDefault());
+
+			Assert.Equal(classesList[2].Name, result.Where(x => x.Id == classesList[2].Id).Select(x => x.Name).FirstOrDefault());
+		}
+
+
+
 		public static List<Class> GetClassesList()
 		{
 			return new List<Class>
 			{
-				new Class { Id = 1, Instructor = "Ignasio Montero", Description = "Middle Of the night" },
-				new Class { Id = 2, Instructor = "Jason Derulo", Description = "Light down low" },
-				new Class { Id = 3, Instructor = "Jame Ortega", Description = "Dance with my hands" },
+				new Class { Id = 1, Name = "Tear-Dance", Instructor = "Ignasio Montero", Description = "Middle Of the night" },
+				new Class { Id = 2, Name = "Feel-Dance", Instructor = "Jason Derulo", Description = "Light down low" },
+				new Class { Id = 3, Name = "Anger-Dance", Instructor = "Jame Ortega", Description = "Dance with my hands" },
 			};
 		}
 
