@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics.Contracts;
 	using System.Linq;
 	using System.Threading.Tasks;
 
@@ -10,12 +9,10 @@
 	using JustDanceAcademy.Data.Models;
 	using JustDanceAcademy.Models;
 	using JustDanceAcademy.Services.Data.Common;
-	using JustDanceAcademy.Web.ViewModels.Administration.Users;
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using MockQueryable.Moq;
 	using Moq;
 	using Xunit;
-	using static NUnit.Framework.Constraints.Tolerance;
 
 	public class ClassServiceTests
 	{
@@ -442,7 +439,7 @@
 
 			await Assert.ThrowsAsync<NullReferenceException>(async () => await service.CreateReview(dance.Id, "120", review));
 
-			Assert.Equal(ExceptionMessages.ClassDanceNotFound, ex.Message);
+			Assert.Equal(ExceptionMessages.StudentNotFound, ex.Message);
 		}
 
 		[Fact]
@@ -807,6 +804,84 @@
 			this.repo.Verify(x => x.SaveChangesAsync(), Times.Once());
 		}
 
+		[Fact]
+		public async Task GetMyStartedClassViewShouldWorkProperly()
+		{
+			var dance = new Class { Id = 5, Name = "YouRelyOn", Instructor = "Indiana John", Students = new List<ClassStudent>() };
+
+			var danceList = new List<Class>();
+			danceList.Add(dance);
+
+			var user = new ApplicationUser { Id = "1", ClassId = dance.Id, Class = dance };
+
+			var userClass = new ClassStudent
+			{
+				Student = user,
+				StudentId = user.Id,
+				ClassId = dance.Id,
+				Class = dance,
+			};
+
+			var userList = new List<ApplicationUser>();
+			userList.Add(user);
+			dance.Students.Add(userClass);
+
+			this.userRepo.Setup(x => x.All()).Returns(userList.AsQueryable().BuildMock());
+			this.repo.Setup(x => x.All()).Returns(danceList.AsQueryable().BuildMock());
+			this.comboRepo.Setup(x => x.All()).Returns(dance.Students.AsQueryable().BuildMock());
+
+			var mydance = new MyClassViewModel
+			{
+				Id = 5,
+				Name = dance.Name,
+				Instructor = dance.Instructor,
+				Category = "Begginer",
+			};
+			var list = new List<MyClassViewModel>();
+			list.Add(mydance);
+
+			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, null, null);
+			var result = await service.GetMyClassAsync(user.Id);
+
+			Assert.Equal(list.Count(), result.Count());
+		}
+
+		[Fact]
+		public async Task GetDanceClassLevelCategory()
+		{
+			var categories = LevelCategoryServiceTests.GetLevelDancingList();
+			var dance = new Class { Id = 5, Name = "YouRelyOn", Instructor = "Indiana John", LevelCategory = categories[0], LevelCategoryId = 1, Students = new List<ClassStudent>() };
+
+			var danceList = new List<Class>();
+			danceList.Add(dance);
+
+			this.repo.Setup(x => x.All()).Returns(danceList.AsQueryable().BuildMock());
+
+
+			this.levelRepo.Setup(x => x.All()).Returns(categories.AsQueryable().BuildMock());
+
+			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
+			var result = await service.GetDanceLevelId(dance.Id);
+
+			Assert.Equal(dance.LevelCategoryId, result);
+		}
+
+		[Fact]
+		public async Task GetCategoriesByTheirNames()
+		{
+			var categories = LevelCategoryServiceTests.GetLevelDancingList();
+			var catNames = categories.Select(x => x.Name);
+
+			this.levelRepo.Setup(x => x.All()).Returns(categories.BuildMock());
+			var service = new ClassService(null, null, null, null, this.levelRepo.Object, null, null);
+
+			var result = await service.AllCategoriesNames();
+
+			Assert.Equal(catNames.Count(), result.Count());
+
+
+		}
+
 
 
 		private AddClassViewModel CreateModel()
@@ -834,42 +909,5 @@
 				AgeRequirement = "Must be between 16-18 ",
 			};
 		}
-		//private static List<Class> GetClasses()
-		//{
-		//	var categories = LevelCategoryServiceTests.GetLevelDancingList();
-		//	return new List<Class>()
-		//	{
-		//		new Class
-		//		{
-		//			Id = 6,
-		//			Name = "Test",
-		//			LevelCategory = categories[0],
-		//			LevelCategoryId=1,
-		//			Instructor = "Gabriel Otega",
-		//			Description = "This is final Call Please",
-		//			ImageUrl = "https://www.graphicsprings.com/filestorage/stencils/ab7e8c6f9711a06c5fb4abb593715a3e.png?width=500&height=500",
-		//		},
-		//		new Class
-		//		{
-		//			Id = 7,
-		//			Name = "Test",
-		//			LevelCategory = categories[1],
-		//			LevelCategoryId = 2,
-		//			Instructor = "Bella Hidiit",
-		//			Description = "This is final Call Please",
-		//			ImageUrl = "https://www.graphicsprings.com/filestorage/stencils/ab7e8c6f9711a06c5fb4abb593715a3e.png?width=500&height=500",
-		//		},
-		//		new Class
-		//		{
-		//			Id = 8,
-		//			Name = "Test",
-		//			LevelCategory = categories[2],
-		//			LevelCategoryId = 3,
-		//			Instructor = "Jenna Orgeta",
-		//			Description = "This is final Call Please",
-		//			ImageUrl = "https://www.graphicsprings.com/filestorage/stencils/ab7e8c6f9711a06c5fb4abb593715a3e.png?width=500&height=500",
-		//		},
-		//	};
-		//}
 	}
 }
