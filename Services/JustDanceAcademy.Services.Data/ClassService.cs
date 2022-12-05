@@ -130,6 +130,8 @@
 					Name = c.Name,
 					ImageUrl = c.ImageUrl,
 					Instructor = c.Instructor,
+					Category=c.LevelCategory.Name,
+
 				})
 				.ToListAsync();
 
