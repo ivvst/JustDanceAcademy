@@ -1,32 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Web.ViewModels.Models
+﻿namespace JustDanceAcademy.Web.ViewModels.Models
 {
-    public class ClassServiceViewModel
-    {
-        public int Id
-        {
-            get; init;
-        }
+	public class ClassServiceViewModel
+	{
+		public int Id
+		{
+			get; init;
+		}
 
-        public string Name
-        {
-            get; init;
-        } 
-            = null!;
+		public string Name
+		{
+			get; init;
+		}
 
-        public string Instructor
-        {
-            get; init;
-        } = null!;
+			= null!;
 
-        public string ImageUrl
-        {
-            get; init;
-        } = null!;
-    }
+		public string Instructor
+		{
+			get; init;
+		}
+
+			= null!;
+
+		public string Category
+		{
+			get; set;
+		}
+
+		   = null!;
+
+		public string ImageUrl
+		{
+			get; init;
+		}
+
+		= null!;
+	}
 }

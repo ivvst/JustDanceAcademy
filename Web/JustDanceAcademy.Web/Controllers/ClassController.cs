@@ -4,6 +4,7 @@
 	using System.Linq;
 	using System.Security.Claims;
 	using System.Threading.Tasks;
+
 	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Services.Data.Constants;
 	using JustDanceAcademy.Web.ViewModels.Models;
@@ -58,6 +59,8 @@
 			{
 				if ((await this.danceService.PhoneNotifyForClass(userId)) == true)
 				{
+					this.TempData["Alert"] = ExceptionMessages.UserAlreadyPaid;
+
 					return this.RedirectToAction(nameof(this.Train));
 				}
 
@@ -71,14 +74,6 @@
 		[HttpGet]
 		public async Task<IActionResult> Classes()
 		{
-			if (this.User.IsInRole("Administrator"))
-			{
-				return this.RedirectToAction("Index", "Admin", new
-				{
-					area = "Administration",
-				});
-			}
-
 			var model = await this.danceService.GetAllAsync();
 
 			return this.View(model);
@@ -95,15 +90,19 @@
 
 			if (this.User.IsInRole("Administrator"))
 			{
-				throw new NullReferenceException(string.Format(ExceptionMessages.AdminHaveNotClass, userId));
+				this.TempData["Msg"] = ExceptionMessages.AdminHaveNotClass;
 			}
 
 			if (await this.danceService.DoesUserHaveClass(userId) == true)
 			{
+				this.TempData["Msg"] = ExceptionMessages.ClassAlreadyIsStarted;
+
 				return this.RedirectToAction(nameof(this.Classes));
 			}
 
 			await this.danceService.AddStudentToClass(userId, classId);
+
+			this.TempData["Msg"] = ExceptionMessages.StartClass;
 
 			return this.RedirectToAction(nameof(this.Train));
 		}
@@ -114,7 +113,7 @@
 					.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 			if (await this.danceService.PhoneNotifyForClass(userId) == true)
 			{
-				this.TempData["mssg"] = "Succesfully Added";
+				this.TempData["Msg"] = ExceptionMessages.UserAlreadyPaid;
 				return this.RedirectToAction(nameof(this.Train));
 			}
 
@@ -141,7 +140,6 @@
 
 			var model = await this.danceService.GetMyClassAsync(userId);
 
-			this.ViewBag.mssg = this.TempData["mssg"] as string;
 
 			return this.View("Training", model);
 		}
