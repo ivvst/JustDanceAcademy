@@ -60,11 +60,20 @@ namespace JustDanceAcademy.Services.Data
 				ClassId = model.ClassId,
 				LevelCategory = model.LevelCategory,
 			};
-			await this.scheduleRepo.AddAsync(entity);
-			await this.scheduleRepo.SaveChangesAsync();
+			var existCategory = await this.levelRepo.All().Where(x => x.Name == model.LevelCategory).FirstOrDefaultAsync();
+			if (existCategory != null && model.StartClass < model.EndClass)
+			{
+				if (model.StartClass < model.EndClass)
+				{
 
-			return entity.Id;
+					await this.scheduleRepo.AddAsync(entity);
+					await this.scheduleRepo.SaveChangesAsync();
+					return entity.Id;
+				}
+			}
 
+
+			throw new NullReferenceException(string.Format(ExceptionMessages.InvalidDanceCategoryType));
 		}
 
 		public async Task<Schedule> DeleteColumn(int test)

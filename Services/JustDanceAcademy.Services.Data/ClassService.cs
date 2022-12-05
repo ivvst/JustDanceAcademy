@@ -162,7 +162,7 @@
 					.Where(c => c.Id == classId)
 					.FirstAsync();
 
-
+				student.ClassId = classId;
 
 				// danceClass.Name = student.Class.Name;
 				var getStarted = new ClassStudent()
