@@ -27,12 +27,15 @@
 	<form asp-controller="Account" asp-action="Login" id="loginForm" method="post">
 		<div class="form sign-in">
 			<h2>Welcome</h2>
+		
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<label>
+				<i class="fa fa-user" aria-hidden="true"></i>
 				<input asp-for="UserName" class="form-control" placeholder="Username">
 				<span asp-validation-for="UserName" class="small text-danger"></span>
 			</label>
 			<label>
+				<i class="fa fa-key" aria-hidden="true"></i>
 				<input asp-for="Password" class="form-control" placeholder="Password">
 				<span asp-validation-for="Password" class="small text-danger"></span>
 			</label>
