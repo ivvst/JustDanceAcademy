@@ -14,7 +14,7 @@
 	@if (Model == null)
 	{
 		<h2>Your body will become more flexible. You will feel more confident on the dance floor. You will feel music better.</h2>
-		<h3>Feel the rthym in you!-START NOW</h3>
+		<h3>Feel the rthym in you! <a asp-area="" asp-controller="Class" asp-action="All" class="site-btn2">START NOW</a></h3>
 	}
 	else
 	{
@@ -34,18 +34,18 @@
 				</div>
 
 				<form class="input-group-sm" asp-controller="Class" asp-action="LeaveClass" asp-route-classId="@item.Id">
-					<input class="fs-6 btn btn-success mb-3 p-2" type="submit" value="Leave Class" />
+					<input class="fs-6 btn btn-success mb-3 p-2" onclick="return confirm('You are going to leave a @item.Name Dance-class')" type="submit" value="Leave Class" />
 				</form>
 
 				<button>
 					<ul>
-						<a asp-area="" asp-controller="Class" asp-action="Plans">Get-Paid</a>
+						<a asp-area="" asp-controller="Class" asp-action="Plans">Get-Paid </a>
 					</ul>
 				</button>
 
 				<button>
 					<ul>
-						<a asp-area="" asp-controller="Class" asp-action="Write">Add-Review</a>
+						<a asp-area="" asp-controller="Class" asp-action="Write">Add-Review </a>
 					</ul>
 				</button>
 
@@ -58,21 +58,24 @@
 
 
 </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-@section Scripts{
+<script>
+	var msg = '@TempData["Msg"]';
+	if (msg.length) {
+		swal(msg);
+	}
+</script>
+
+@*@section Scripts{
 	<script>
 
-		const myConfirm = function (e) {
-			e = e || window.event;
-			e.preventDefault();
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Something went wrong!',
-				footer: '<a href="">Why do I have this issue?</a>'
-			})
+		var myConfirm = '@TempData["Alert"]';
+			if(myConfirm.length){
+			swal("Something went wrong", "error")
+			}
 		}
 	</script>
-}
+}*@
 
 

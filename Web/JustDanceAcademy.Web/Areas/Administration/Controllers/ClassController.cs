@@ -167,7 +167,7 @@
 
 			await this.danceService.Edit(model.Id, model);
 
-			return this.RedirectToAction("Index", "Admin");
+			return this.RedirectToAction(nameof(this.ViewClasses));
 		}
 
 		[HttpPost]

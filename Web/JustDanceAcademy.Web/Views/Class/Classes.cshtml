@@ -19,9 +19,10 @@
 			{
 
 				<form class="input-group-sm" asp-controller="Class" asp-action="StartClass" asp-route-classId="@item.Id">
-					<input type="submit" value="Start-Dance-Class" class="fs-6 btn btn-success mb-5 p-4" />
+					<input type="submit" onclick="return confirm('You are going to train Class with Name :@item.Name')" value="Start-Dance-Class"
+				   class="fs-6 btn btn-success mb-5 p-4" />
 				</form>
-				
+
 			}
 		</div>
 
@@ -29,7 +30,7 @@
 
 			<img src="@item.ImageUrl" alt="Omar Dsoky">
 
-			<!-- 	product Information-->
+			<!-- 	danceClass Information-->
 			<div class="info">
 				<h2>The Description</h2>
 				<ul>
@@ -40,14 +41,23 @@
 				</ul>
 			</div>
 		</div>
-		<!--  End product image  -->
+
 
 
 	</div>
 
 
 	<link href="~/Content/css/class-box.css" rel="stylesheet" />
+	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
 }
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+	var msg = '@TempData["Msg"]';
+	if (msg.length) {
+		swal(msg);
+	}
+</script>
 
 

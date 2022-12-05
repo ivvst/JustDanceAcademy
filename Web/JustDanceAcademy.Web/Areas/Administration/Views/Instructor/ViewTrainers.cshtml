@@ -8,9 +8,9 @@
 	<div class="row">
 		<div class="panel panel-default widget">
 			<div class="panel-heading">
-				<span class="glyphicon glyphicon-comment"></span>
+
 				<h3 class="panel-title" style="font-size:25px">
-					Dance-Classes
+					Instructors Of Dance-Classes
 				</h3>
 				<span class="label label-info" style="font-size:21px">
 					<!--InstructorsCount-->
@@ -44,7 +44,18 @@
 										</ul>
 										<i class="fas fa-pen"></i>
 									</button>
-									<button><i class="fas fa-eraser">Delete</i></button>
+
+									<button>
+
+										<a onclick="showPop('@Url.Action("Edit","Instructor",null,Context.Request.Scheme)','@person.FullName')"></a>
+									</button>
+
+									<i class="fas fa-pen"></i>
+
+
+									@*<form class="input-group-sm" asp-controller="Class" asp-action="LeaveClass" asp-route-classId="@item.Id">
+								<input class="fs-6 btn btn-success mb-3 p-2" onclick="return confirm('You are going to leave a @item.Name Dance-class')" type="submit" value="Leave Class" />
+								</form>*@
 								</div>
 							</div>
 						</li>
@@ -115,3 +126,22 @@
 		height: auto;
 	}
 </style>
+
+@section Scripts{
+	<script>
+		showPop = (url, title) => {
+			$.ajax({
+				type: "GET",
+				url: url,
+				success: function (res) {
+					$('#form-modal .modal-body').html(res);
+					$('#form-modal .modal-title').html(title);
+					$('#form-modal').modal('show');
+
+
+				}
+			})
+		}
+
+	</script>
+}
