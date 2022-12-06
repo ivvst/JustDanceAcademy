@@ -23,9 +23,58 @@
 			this.repo = new Mock<IRepository<Class>>();
 		}
 
+
+		[Fact]
+		public async Task GetAllSchedulesShouldReturnValidView()
+		{
+			var classes = InstructorServiceTests.GetClassesList();
+
+			var list = new List<Schedule>();
+
+			var scheduleOne = new Schedule
+			{
+				Id = 1,
+				Class = classes[0],
+				ClassId = 1,
+				Day = JustDanceAcademy.Data.Models.Enum.Day.Monday,
+			};
+
+
+			var scheduleTwo = new Schedule
+			{
+				Id = 2,
+				Class = classes[1],
+				ClassId = 2,
+				Day = JustDanceAcademy.Data.Models.Enum.Day.Tuesday,
+			};
+
+
+			var scheduleThree = new Schedule
+			{
+				Id = 3,
+				Class = classes[2],
+				ClassId = 3,
+				Day = JustDanceAcademy.Data.Models.Enum.Day.Friday,
+			};
+			list.Add(scheduleOne);
+			list.Add(scheduleTwo);
+			list.Add(scheduleThree);
+
+			this.scheduleRepo.Setup(x => x.AllAsNoTracking()).Returns(list.AsQueryable().BuildMock());
+
+			var service = new ScheduleService(this.scheduleRepo.Object, null, null);
+
+			var result = await service.AllSchedules();
+
+			Assert.Equal(list.Count(), result.Count());
+
+		}
+
 		[Fact]
 		public async Task AddScheduleShouldReturnValidId()
 		{
+			var categories = LevelCategoryServiceTests.GetLevelDancingList();
+
 			var schedule = new AddScheduleViewModel
 			{
 				Id = 1,
@@ -33,7 +82,6 @@
 				AllClasses = new List<Class>(),
 				Day = JustDanceAcademy.Data.Models.Enum.Day.Tuesday,
 				ClassId = 3,
-				LevelCategory = "InterMediate",
 				StartClass = DateTime.Now,
 				EndClass = DateTime.UtcNow,
 			};
@@ -70,7 +118,7 @@
 			var schedule = new Schedule
 			{
 				Id = 10,
-				LevelCategory = "Begginer",
+				ClassId = 1,
 			};
 
 			var list = new List<Schedule>();
@@ -95,7 +143,7 @@
 			var schedule = new Schedule
 			{
 				Id = 10,
-				LevelCategory = "Begginer",
+				ClassId = 3,
 			};
 
 			var list = new List<Schedule>();
@@ -110,6 +158,24 @@
 
 			Assert.Equal(schedule.Id, result);
 
+		}
+
+		[Fact]
+
+		public async Task GetClassesShouldReturnAllPlusTheirCategories()
+		{
+			var classesList = InstructorServiceTests.GetClassesList();
+
+			this.repo.Setup(x => x.All()).Returns(classesList.AsQueryable().BuildMock());
+
+			var service = new ScheduleService(this.scheduleRepo.Object, this.repo.Object, null);
+			var result = await service.GetClasses();
+
+			Assert.Equal(classesList.Count(), result.Count());
+
+			Assert.Equal(classesList[0].Name, result.Where(x => x.Id == classesList[0].Id).Select(x => x.Name).FirstOrDefault());
+
+			Assert.Equal(classesList[2].Name, result.Where(x => x.Id == classesList[2].Id).Select(x => x.Name).FirstOrDefault());
 		}
 
 	}

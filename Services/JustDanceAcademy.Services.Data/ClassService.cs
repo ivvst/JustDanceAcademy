@@ -307,7 +307,7 @@
 
 			if (student.ClassId != classId)
 			{
-				throw new ArgumentException(string.Format(ExceptionMessages.ReviewNotAllowed, classId));
+				throw new ArgumentException(string.Format(ExceptionMessages.ReviewNotAllowed));
 			}
 
 

@@ -58,8 +58,56 @@
 		}
 
 		[Fact]
+		public async Task GetClassesShouldReturnValidView()
+		{
+			var categories = LevelCategoryServiceTests.GetLevelDancingList();
+
+			var list = new List<Class>();
+
+			var classOne = new Class
+			{
+				Id = 1,
+				Name = "TestOne",
+				LevelCategory = categories[0],
+				LevelCategoryId = 1,
+				Instructor = "OneTestClass",
+			};
+			var classTwo = new Class
+			{
+				Id = 2,
+				Name = "TestOne",
+				LevelCategory = categories[1],
+				LevelCategoryId = 2,
+				Instructor = "OneTestClass",
+			};
+			var classThree = new Class
+			{
+				Id = 3,
+				Name = "TestOne",
+				LevelCategory = categories[2],
+				LevelCategoryId = 3,
+				Instructor = "OneTestClass",
+			};
+			list.Add(classOne);
+			list.Add(classTwo);
+			list.Add(classThree);
+
+			this.repo.Setup(x => x.AllAsNoTracking()).
+				Returns(list.AsQueryable().BuildMock());
+
+			this.levelRepo.Setup(x => x.AllAsNoTracking()).Returns(categories.AsQueryable().BuildMock());
+
+			var service = new ClassService(null, this.repo.Object, null, null, this.levelRepo.Object, null, null);
+			var result = await service.GetAllAsync();
+
+			Assert.Equal(list.Count(), result.Count());
+		}
+
+		[Fact]
 		public async Task AddClassShouldReturnsValidIdOfAddedMethod()
 		{
+			var categories = LevelCategoryServiceTests.GetLevelDancingList();
+
 			var dance = this.CreateModel();
 
 			var list = new List<Class>();
@@ -76,7 +124,10 @@
 			this.repo.Setup(x => x.AllAsNoTracking()).
 				Returns(list.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
+			this.levelRepo.Setup(x => x.AllAsNoTracking()).
+			Returns(categories.AsQueryable().BuildMock());
+
+			var service = new ClassService(null, this.repo.Object, null, null, this.levelRepo.Object, null, null);
 			var result = await service.CreateClassAsync(dance);
 
 			this.repo.Verify(
@@ -727,7 +778,7 @@
 			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, null, null);
 			var result = await service.GetClassForReview(user.Id);
 
-			Assert.Equal(dance.Name, result);
+			Assert.Equal(dance, result);
 
 
 		}
@@ -807,7 +858,9 @@
 		[Fact]
 		public async Task GetMyStartedClassViewShouldWorkProperly()
 		{
-			var dance = new Class { Id = 5, Name = "YouRelyOn", Instructor = "Indiana John", Students = new List<ClassStudent>() };
+			var categories = LevelCategoryServiceTests.GetLevelDancingList();
+
+			var dance = new Class { Id = 5, Name = "YouRelyOn", Instructor = "Indiana John", Students = new List<ClassStudent>(), LevelCategory = categories[1], LevelCategoryId = 2 };
 
 			var danceList = new List<Class>();
 			danceList.Add(dance);
@@ -829,18 +882,20 @@
 			this.userRepo.Setup(x => x.All()).Returns(userList.AsQueryable().BuildMock());
 			this.repo.Setup(x => x.All()).Returns(danceList.AsQueryable().BuildMock());
 			this.comboRepo.Setup(x => x.All()).Returns(dance.Students.AsQueryable().BuildMock());
+			this.levelRepo.Setup(x => x.All()).Returns(categories.AsQueryable().BuildMock());
+
 
 			var mydance = new MyClassViewModel
 			{
 				Id = 5,
 				Name = dance.Name,
 				Instructor = dance.Instructor,
-				Category = "Begginer",
+				Category = dance.LevelCategory.Name,
 			};
 			var list = new List<MyClassViewModel>();
 			list.Add(mydance);
 
-			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, null, null);
+			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, this.levelRepo.Object, null, null);
 			var result = await service.GetMyClassAsync(user.Id);
 
 			Assert.Equal(list.Count(), result.Count());

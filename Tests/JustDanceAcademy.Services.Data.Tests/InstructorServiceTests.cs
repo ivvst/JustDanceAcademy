@@ -28,6 +28,40 @@
 		}
 
 		[Fact]
+		public async Task GetAllInstructorsShouldReturnValidView()
+		{
+			var classes = GetClassesList();
+			//var categories = LevelCategoryServiceTests.GetLevelDancingList();
+			var list = new List<Instrustor>();
+
+			var trainerOne = new Instrustor
+			{
+				Id = 1,
+				Name = "TestOfOne",
+				Class = classes[0],
+				ClassId = 1,
+			};
+			var trainerTwo = new Instrustor
+			{
+				Id = 1,
+				Name = "TestOfTwo",
+				Class = classes[1],
+				ClassId = 2,
+			};
+			list.Add(trainerOne);
+			list.Add(trainerTwo);
+
+			this.trainerRepo.Setup(x => x.AllAsNoTracking()).
+				Returns(list.AsQueryable().BuildMock());
+
+			var service = new InstructorService(this.trainerRepo.Object, null);
+			var result = await service.GetAllInstructors();
+
+			Assert.Equal(list.Count(), result.Count());
+
+		}
+
+		[Fact]
 		public async Task TrainerWithExistingNameShouldThrowsError()
 		{
 			var trainer = new Instrustor
@@ -296,11 +330,13 @@
 
 		public static List<Class> GetClassesList()
 		{
+			var categories = LevelCategoryServiceTests.GetLevelDancingList();
+
 			return new List<Class>
 			{
-				new Class { Id = 1, Name = "Tear-Dance", Instructor = "Ignasio Montero", Description = "Middle Of the night" },
-				new Class { Id = 2, Name = "Feel-Dance", Instructor = "Jason Derulo", Description = "Light down low" },
-				new Class { Id = 3, Name = "Anger-Dance", Instructor = "Jame Ortega", Description = "Dance with my hands" },
+				new Class { Id = 1, Name = "Tear-Dance", Instructor = "Ignasio Montero", Description = "Middle Of the night", LevelCategory = categories[0], LevelCategoryId = 1 },
+				new Class { Id = 2, Name = "Feel-Dance", Instructor = "Jason Derulo", Description = "Light down low", LevelCategory = categories[1], LevelCategoryId = 2 },
+				new Class { Id = 3, Name = "Anger-Dance", Instructor = "Jame Ortega", Description = "Dance with my hands", LevelCategory = categories[2], LevelCategoryId = 3 },
 			};
 		}
 

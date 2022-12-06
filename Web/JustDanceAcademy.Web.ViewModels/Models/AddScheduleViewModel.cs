@@ -42,7 +42,8 @@
             get; set;
         }
 
-        public string LevelCategory
+
+        public Class Class
         {
             get; set;
         }

@@ -4,5 +4,10 @@
 
 	public class EditDanceViewModel : AddClassViewModel
 	{
+
+		public LevelCategory levelCategory
+		{
+			get; set;
+		}
 	}
 }
