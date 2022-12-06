@@ -1,6 +1,8 @@
-﻿@using JustDanceAcademy.Web.ViewModels.Models
+﻿@using JustDanceAcademy.Data.Models;
+@using JustDanceAcademy.Web.ViewModels.Models
 
-@model IEnumerable<ScheduleViewModel>
+
+@model IEnumerable<Schedule>
 
 
 
@@ -33,7 +35,7 @@
 		@*Create new Table*@
 
 		@*TABLE MONDAY*@
-		@if (Model.Where(x => x.Day == "Monday").Any() == true)
+		@if (Model.Where(x => x.Day==JustDanceAcademy.Data.Models.Enum.Day.Monday).Any() == true)
 		{
 			<div class="u-clearfix u-sheet u-sheet-1">
 				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Monday</h2>
@@ -53,14 +55,14 @@
 								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
 							</tr>
 						</thead>
-						@foreach (var item in Model.Where(x => x.Day == "Monday").OrderBy(x => x.Start))
+						@foreach (var item in Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Monday).OrderBy(x => x.StartTime.ToShortTimeString()))
 						{
 
 
 							<tbody class="u-black u-table-body u-table-body-1">
 								<tr style="height: 46px;">
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.StartTime.ToShortTimeString() - @item.EndTime.ToShortTimeString() &nbsp;&nbsp;@item.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class.Name-@item.Class.LevelCategory.Name</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
 								</tr>
 							</tbody>
@@ -69,7 +71,7 @@
 
 									<input type="submit" value="Delete"
 								   class="btn btn-danger mb-2"
-								   onclick="return confirm('You are going to delete :@item.Class' @item.Id)" />
+								   onclick="return confirm('You are going to delete :@item.Class.Name - @item.Class.LevelCategory.Name .Are you sure?' )" />
 								</div>
 							</form>
 
@@ -90,7 +92,7 @@
 		@*END MONDAY*@
 
 		@*TABLE TUESDAY*@
-		@if (Model.Where(x => x.Day == "Tuesday").Any() == true)
+		@if (Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Tuesday).Any() == true)
 		{
 			<div class="u-clearfix u-sheet u-sheet-1">
 				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Tuesday</h2>
@@ -110,14 +112,14 @@
 								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
 							</tr>
 						</thead>
-						@foreach (var el in Model.Where(x => x.Day == "Tuesday"))
+						@foreach (var el in Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Tuesday).OrderBy(x => x.StartTime.ToShortTimeString()))
 						{
 
 
 							<tbody class="u-black u-table-body u-table-body-1">
 								<tr style="height: 46px;">
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @el.Start-@el.End &nbsp;&nbsp; @el.Day</td>
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@el.Class-@el.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @el.StartTime.ToShortTimeString()-@el.EndTime.ToShortTimeString() &nbsp;&nbsp; @el.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@el.Class.Name - @el.Class.LevelCategory.Name</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@el.Age</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
 
@@ -127,7 +129,7 @@
 
 												<input type="submit" value="Delete"
 											   class="btn btn-danger mb-2"
-											   onclick="return confirm('Schedule for : @el.Class - @el.LevelCategory will be deleted. Are you sure?')" />
+											   onclick="return confirm('Schedule for : @el.Class.Name - @el.Class.LevelCategory.Name will be deleted. Are you sure?')" />
 											</div>
 										</form>
 									</td>
@@ -148,7 +150,7 @@
 
 
 		@*TABLE WEDNESDAY*@
-		@if (Model.Where(x => x.Day == "Wednesday").Any() == true)
+		@if (Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Wednesday).Any() == true)
 		{
 			<div class="u-clearfix u-sheet u-sheet-1">
 				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Wednesday</h2>
@@ -168,14 +170,14 @@
 								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
 							</tr>
 						</thead>
-						@foreach (var el in Model.Where(x => x.Day == "Wednesday"))
+						@foreach (var el in Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Wednesday).OrderBy(x => x.StartTime.ToShortTimeString()))
 						{
 
 
 							<tbody class="u-black u-table-body u-table-body-1">
 								<tr style="height: 46px;">
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @el.Start-@el.End &nbsp;&nbsp; @el.Day</td>
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@el.Class-@el.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @el.StartTime.ToShortTimeString()-@el.EndTime.ToShortTimeString() &nbsp;&nbsp; @el.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@el.Class.Name-@el.Class.LevelCategory.Name</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@el.Age</td>
 
 								</tr>
@@ -188,7 +190,7 @@
 
 										<input type="submit" value="Delete"
 									   class="btn btn-danger mb-2"
-									   onclick="return confirm('Schedule for : @el.Id @el.Class - @el.Id will be deleted. Are you sure?')" />
+									   onclick="return confirm('Schedule for : @el.Class.Name - @el.Class.LevelCategory.Name will be deleted. Are you sure?')" />
 									</div>
 								</form>
 							</button>
@@ -205,7 +207,7 @@
 		@*END WEDNESDAY*@
 
 		@*TABLE THURSDAY*@
-		@if (Model.Where(x => x.Day == "Thursday").Any() == true)
+		@if (Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Thursday).Any() == true)
 		{
 			<div class="u-clearfix u-sheet u-sheet-1">
 				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Thursday</h2>
@@ -225,14 +227,14 @@
 								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
 							</tr>
 						</thead>
-						@foreach (var item in Model.Where(x => x.Day == "Thursday").OrderBy(x => x.Start))
+						@foreach (var item in Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Thursday).OrderBy(x => x.StartTime.ToShortTimeString()))
 						{
 
 
 							<tbody class="u-black u-table-body u-table-body-1">
 								<tr style="height: 46px;">
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.StartTime.ToShortTimeString()-@item.EndTime.ToShortTimeString() &nbsp;&nbsp;@item.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class.Name - @item.Class.LevelCategory.Name</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
 
@@ -241,7 +243,7 @@
 
 												<input type="submit" value="Delete"
 											   class="btn btn-danger mb-2"
-											   onclick="return confirm('Schedule for : @item.Class - @item.LevelCategory will be deleted. Are you sure?')" />
+											   onclick="return confirm('Schedule for : @item.Class.Name - @item.Class.LevelCategory.Name will be deleted. Are you sure?')" />
 											</div>
 										</form>
 									</td>
@@ -260,7 +262,7 @@
 		@*END THURSDAY*@
 
 		@*TABLE FRIDAY*@
-		@if (Model.Where(x => x.Day == "Friday").Any() == true)
+		@if (Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Friday).Any() == true)
 		{
 			<div class="u-clearfix u-sheet u-sheet-1">
 				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Friday</h2>
@@ -280,14 +282,14 @@
 								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
 							</tr>
 						</thead>
-						@foreach (var item in Model.Where(x => x.Day == "Friday").OrderBy(x => x.Start))
+						@foreach (var item in Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Friday).OrderBy(x => x.StartTime.ToShortTimeString()))
 						{
 
 
 							<tbody class="u-black u-table-body u-table-body-1">
 								<tr style="height: 46px;">
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.StartTime.ToShortTimeString()-@item.EndTime.ToShortTimeString() &nbsp;&nbsp;@item.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class.Name-@item.Class.LevelCategory.Name</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
 
@@ -296,7 +298,7 @@
 
 												<input type="submit" value="Delete"
 											   class="btn btn-danger mb-2"
-											   onclick="return confirm('Schedule for : @item.Class - @item.LevelCategory will be deleted. Are you sure?')" />
+											   onclick="return confirm('Schedule for : @item.Class.Name - @item.Class.LevelCategory.Name will be deleted. Are you sure?')" />
 											</div>
 										</form>
 									</td>
@@ -315,7 +317,7 @@
 		@*END FRIDAY*@
 
 		@*TABLE SATURDAY*@
-		@if (Model.Where(x => x.Day == "Saturday").Any() == true)
+		@if (Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Saturday).Any() == true)
 		{
 			<div class="u-clearfix u-sheet u-sheet-1">
 				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Saturday</h2>
@@ -335,14 +337,14 @@
 								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
 							</tr>
 						</thead>
-						@foreach (var item in Model.Where(x => x.Day == "Saturday").OrderBy(x => x.Start))
+						@foreach (var item in Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Saturday).OrderBy(x => x.StartTime.ToShortTimeString()))
 						{
 
 
 							<tbody class="u-black u-table-body u-table-body-1">
 								<tr style="height: 46px;">
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.StartTime.ToShortTimeString()-@item.EndTime.ToShortTimeString() &nbsp;&nbsp;@item.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class.Name-@item.Class.LevelCategory.Name</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
 
@@ -351,7 +353,7 @@
 
 												<input type="submit" value="Delete"
 											   class="btn btn-danger mb-2"
-											   onclick="return confirm('Schedule for : @item.Class - @item.LevelCategory will be deleted. Are you sure?')" />
+											   onclick="return confirm('Schedule for : @item.Class.Name - @item.Class.LevelCategory.Name will be deleted. Are you sure?')" />
 											</div>
 										</form>
 									</td>
@@ -370,7 +372,7 @@
 		@*END SATURDAY*@
 
 		@*TABLE SUNDAY*@
-		@if (Model.Where(x => x.Day == "Sunday").Any() == true)
+		@if (Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Sunday).Any() == true)
 		{
 			<div class="u-clearfix u-sheet u-sheet-1">
 				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Sunday</h2>
@@ -390,14 +392,14 @@
 								<th class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-palette-5-dark-1 u-table-cell u-table-cell-3">Age</th>
 							</tr>
 						</thead>
-						@foreach (var item in Model.Where(x => x.Day == "Sunday").OrderBy(x => x.Start))
+						@foreach (var item in Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Sunday).OrderBy(x => x.StartTime.ToShortTimeString()))
 						{
 
 
 							<tbody class="u-black u-table-body u-table-body-1">
 								<tr style="height: 46px;">
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.Start-@item.End &nbsp;&nbsp;@item.Day</td>
-									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class-@item.LevelCategory</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.StartTime.ToShortTimeString()-@item.EndTime.ToShortTimeString() &nbsp;&nbsp;@item.Day</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class.Name-@item.Class.LevelCategory.Name</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
 
@@ -406,7 +408,7 @@
 
 												<input type="submit" value="Delete"
 											   class="btn btn-danger mb-2"
-											   onclick="return confirm('Schedule for : @item.Class - @item.LevelCategory will be deleted. Are you sure?')" />
+											   onclick="return confirm('Schedule for : @item.Class.Name. - @item.Class.LevelCategory.Name will be deleted. Are you sure?')" />
 											</div>
 										</form>
 									</td>

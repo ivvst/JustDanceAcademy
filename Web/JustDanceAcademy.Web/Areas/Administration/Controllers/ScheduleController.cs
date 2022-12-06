@@ -2,7 +2,7 @@
 {
 	using System;
 	using System.Threading.Tasks;
-	using JustDanceAcademy.Services.Data.Common;
+
 	using JustDanceAcademy.Services.Data.Constants;
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.AspNetCore.Authorization;
@@ -51,11 +51,6 @@
 				return this.View(model);
 			}
 
-			if ((await this.levelCategoryService.DoesNameOfDanceCategoryExist(model.LevelCategory)) == string.Empty)
-			{
-				model.AllClasses = await this.scheduleService.GetClasses();
-				this.ModelState.AddModelError(" ", ExceptionMessages.InvalidDanceCategoryType);
-			}
 
 			try
 			{
@@ -70,6 +65,8 @@
 			}
 			catch (Exception)
 			{
+				model.AllClasses = await this.scheduleService.GetClasses();
+
 				this.ModelState.AddModelError(" ", "Something went wrong");
 
 				return this.View(model);

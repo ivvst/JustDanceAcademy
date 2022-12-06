@@ -1,17 +1,16 @@
-﻿using JustDanceAcademy.Data.Common.Repositories;
-using JustDanceAcademy.Data.Models;
-using JustDanceAcademy.Services.Data.Common;
-using JustDanceAcademy.Services.Data.Constants;
-using JustDanceAcademy.Web.ViewModels.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Services.Data
+﻿namespace JustDanceAcademy.Services.Data
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
+
+	using JustDanceAcademy.Data.Common.Repositories;
+	using JustDanceAcademy.Data.Models;
+	using JustDanceAcademy.Services.Data.Constants;
+	using JustDanceAcademy.Web.ViewModels.Models;
+	using Microsoft.EntityFrameworkCore;
+
 	public class ScheduleService : IScheduleService
 	{
 		private readonly IRepository<Class> classRepository;
@@ -28,24 +27,9 @@ namespace JustDanceAcademy.Services.Data
 
 		}
 
-		public async Task<IEnumerable<ScheduleViewModel>> AllSchedules()
+		public async Task<IEnumerable<Schedule>> AllSchedules()
 		{
-			return await this.scheduleRepo.All()
-				.OrderBy(x => x.Day)
-				.Select(s => new ScheduleViewModel()
-				{
-					Id = s.Id,
-					Start = s.StartTime.ToShortTimeString(),
-					End = s.EndTime.ToShortTimeString(),
-					LevelCategory = s.LevelCategory,
-					Age = s.Age.ToString(),
-					Class = s.Class.Name,
-					Day = s.Day.ToString(),
-
-
-
-				})
-				.ToListAsync();
+			return await this.scheduleRepo.AllAsNoTracking().Include(x => x.Class).ThenInclude(x => x.LevelCategory).ToListAsync();
 		}
 
 		public async Task<int> CreateSchedule(AddScheduleViewModel model)
@@ -58,27 +42,21 @@ namespace JustDanceAcademy.Services.Data
 				Day = model.Day,
 				Age = model.Age,
 				ClassId = model.ClassId,
-				LevelCategory = model.LevelCategory,
+				Class = model.Class,
 			};
-			var existCategory = await this.levelRepo.All().Where(x => x.Name == model.LevelCategory).FirstOrDefaultAsync();
-			if (existCategory != null && model.StartClass < model.EndClass)
+			if (model.StartClass > model.EndClass)
 			{
-				if (model.StartClass < model.EndClass)
-				{
-
-					await this.scheduleRepo.AddAsync(entity);
-					await this.scheduleRepo.SaveChangesAsync();
-					return entity.Id;
-				}
+				throw new NullReferenceException();
 			}
 
-
-			throw new NullReferenceException(string.Format(ExceptionMessages.InvalidDanceCategoryType));
+			await this.scheduleRepo.AddAsync(entity);
+			await this.scheduleRepo.SaveChangesAsync();
+			return entity.Id;
 		}
 
 		public async Task<Schedule> DeleteColumn(int test)
 		{
-			var item = await scheduleRepo.All().FirstOrDefaultAsync(x => x.Id == test);
+			var item = await this.scheduleRepo.All().FirstOrDefaultAsync(x => x.Id == test);
 
 			if (item != null)
 			{
@@ -87,20 +65,19 @@ namespace JustDanceAcademy.Services.Data
 				this.scheduleRepo.Update(item);
 
 			}
+
 			else
 			{
-				throw new NullReferenceException(ExceptionMessages.ClassDanceNotFound);
+				throw new NullReferenceException();
 			}
 
 			await this.scheduleRepo.SaveChangesAsync();
 			return item;
-
-
 		}
 
 		public async Task<IEnumerable<Class>> GetClasses()
 		{
-			return await this.classRepository.All().ToListAsync();
+			return await this.classRepository.All().Include(x => x.LevelCategory).ToListAsync();
 		}
 
 		public async Task<int> GetScheduleById(int id)

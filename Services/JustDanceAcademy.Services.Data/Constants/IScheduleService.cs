@@ -11,7 +11,7 @@ namespace JustDanceAcademy.Services.Data.Constants
 {
     public interface IScheduleService
     {
-        Task<IEnumerable<ScheduleViewModel>> AllSchedules();
+        Task<IEnumerable<Schedule>> AllSchedules();
 
         Task<int> CreateSchedule(AddScheduleViewModel model);
 

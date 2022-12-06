@@ -1,5 +1,7 @@
 ﻿namespace JustDanceAcademy.Web.ViewModels.Models
 {
+    using Microsoft.VisualBasic;
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     public class ScheduleViewModel
@@ -16,12 +18,12 @@
             get; set;
         }
 
-		public string Start
+		public DateTime Start
         {
             get; set;
         }
 
-		public string End
+		public DateTime End
         {
             get; set;
         }

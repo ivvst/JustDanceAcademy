@@ -7,53 +7,52 @@
 
 <div class="container">
 	<form asp-action="Add" method="post" enctype="multipart/form-data">
-		<h3>Quick Contact</h3>
-		<h4>Contact us today, and get reply with in 24 hours!</h4>
+		<h3 style="text-align:center">Quick Add-Schedule</h3>
+		<hr />
+		<br />
 		<fieldset>
-			<label asp-for="@Model.StartClass">Start-Class</label>
-			<input asp-for="@Model.StartClass" type="time" />
+			<label asp-for="@Model.StartClass" style="font-size:2rem">Start-Class</label>
+			<input asp-for="@Model.StartClass" style="font-size:20px" type="time" />
 			<span asp-validation-for="StartClass"></span>
 		</fieldset>
 		<br />
 		<fieldset>
-			<label asp-for="@Model.EndClass">End-Class</label>
-			<input asp-for="@Model.EndClass" type="time" />
+			<label asp-for="@Model.EndClass" style="font-size:2rem">End-Class</label>
+			<input asp-for="@Model.EndClass" style="font-size:20px" type="time" />
 			<span asp-validation-for="EndClass"></span>
-		</fieldset>
-		<fieldset>
-			<label asp-for="@Model.LevelCategory">Dance-Level</label>
-			<input asp-for="@Model.LevelCategory" class="form-control" />
-			<span asp-validation-for="LevelCategory"></span>
 		</fieldset>
 		<br />
 		<fieldset>
-			<label asp-for="@Model.Day">Day</label>
-			<select class="browser-default custom-select" asp-for="Day" asp-items="Html.GetEnumSelectList<Day>()" multiple>
+			<label asp-for="@Model.Day" style="font-size:2rem">Day</label>
+			<select class="browser-default custom-select" asp-for="Day" style="font-size:20px" asp-items="Html.GetEnumSelectList<Day>()" multiple>
 			</select>
 			<span asp-validation-for="Day"></span>
 		</fieldset>
-			
-			
+
+
 		<br />
 		<fieldset>
-			<label asp-for="@Model.Age">Age</label>
-			<select class="browser-default custom-select" asp-for="Age" asp-items="Html.GetEnumSelectList<Age>()" multiple>
+			<label asp-for="@Model.Age" style="font-size:2rem">Age</label>
+			<select class="browser-default custom-select" asp-for="Age" style="font-size:20px" asp-items="Html.GetEnumSelectList<Age>()" multiple>
 			</select>
-			<h5 >Adult=18+</h5>
-			<h5>PreSchool=6-11</h5>
-			<h5 >Youth=12-15</h5>
-			<h5>Teen=16-18</h5>
+			
 
-				
+				<h5 style="font-size:3rem">Adult=18+</h5>
+				<h5 style="font-size:3rem">PreSchool=6-11</h5>
+				<h5 style="font-size:3rem">Youth=12-15</h5>
+				<h5 style ="font-size:3rem">Teen=16-18</h5>
+			
+
+
 			<span asp-validation-for="Age"></span>
 		</fieldset>
 		<br />
 		<fieldset>
-			<label asp-for="@Model.ClassId">Class-Dancing</label>
+			<label asp-for="@Model.ClassId" style="font-size:2rem">Class-Dancing</label>
 			<select asp-for="@Model.ClassId" class="form-control">
 				@foreach (var item in Model.AllClasses)
 				{
-					<option value="@item.Id">@item.Name</option>
+					<option value="@item.Id">@item.Name - @item.LevelCategory.Name</option>
 
 				}
 			</select>
