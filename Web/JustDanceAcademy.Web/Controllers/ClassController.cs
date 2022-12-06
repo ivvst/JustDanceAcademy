@@ -59,7 +59,7 @@
 			{
 				if ((await this.danceService.PhoneNotifyForClass(userId)) == true)
 				{
-					this.TempData["Alert"] = ExceptionMessages.UserAlreadyPaid;
+					this.TempData["Msg"] = ExceptionMessages.UserAlreadyPaid;
 
 					return this.RedirectToAction(nameof(this.Train));
 				}
@@ -67,6 +67,9 @@
 				var model = await this.danceService.GetAllPlans();
 				return this.View(model);
 			}
+
+			this.TempData["Msg"] = OperationalMessages.NotifyForCall;
+
 
 			return this.RedirectToAction(nameof(this.Classes));
 		}
@@ -102,8 +105,6 @@
 
 			await this.danceService.AddStudentToClass(userId, classId);
 
-			this.TempData["Msg"] = ExceptionMessages.StartClass;
-
 			return this.RedirectToAction(nameof(this.Train));
 		}
 
@@ -127,6 +128,8 @@
 						.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 			await this.danceService.LeaveClass(userId);
 
+			this.TempData["Msg"] = ExceptionMessages.LeaveClass;
+
 			return this.RedirectToAction(nameof(this.Classes));
 		}
 
@@ -138,14 +141,25 @@
 				return this.RedirectToAction(nameof(this.Classes));
 			}
 
-			var model = await this.danceService.GetMyClassAsync(userId);
+			var userPaid = await this.danceService.PhoneNotifyForClass(userId);
+			var userHaveClass = await this.danceService.DoesUserHaveClass(userId);
+			if (userHaveClass == true)
+			{
+				if (userPaid == false)
+				{
+					this.TempData["Msg"] = ExceptionMessages.MustPay;
+					var model = await this.danceService.GetMyClassAsync(userId);
 
+					return this.View("Training", model);
+				}
+			}
 
-			return this.View("Training", model);
+			var view = await this.danceService.GetMyClassAsync(userId);
+			return this.View("Training", view);
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Write()
+		public async Task<IActionResult> Write(int id)
 		{
 			var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
@@ -158,26 +172,28 @@
 			// return View("Training", model);
 			if ((await this.danceService.DoesUserHaveClass(userId)) == false)
 			{
-				throw new NullReferenceException(string.Format(ExceptionMessages.StudentNotFound, userId));
+				throw new NullReferenceException(string.Format(ExceptionMessages.StudentNotFound));
 			}
-
 
 			var danceClass = await this.danceService.GetClassForReview(userId);
 
 			var model = new ReviewViewModel()
 			{
-				NameClass = danceClass,
+				Id=id,
+				NameClass = danceClass.Name,
+
 			};
 			return this.View(model);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Write(string studentId, int classId, ReviewViewModel model)
+		public async Task<IActionResult> Write(int classId, ReviewViewModel model)
 		{
 			var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 			if (this.ModelState.IsValid == false)
 			{
-				model.NameClass = await this.danceService.GetClassForReview(userId);
+				var arg = await this.danceService.GetClassForReview(userId);
+				model.NameClass = arg.Name;
 				return this.View(model);
 			}
 

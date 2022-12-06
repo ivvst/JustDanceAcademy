@@ -1,6 +1,7 @@
-﻿@using JustDanceAcademy.Web.ViewModels.Models;
+﻿@using JustDanceAcademy.Data.Models;
+@using JustDanceAcademy.Web.ViewModels.Models;
 
-@model IEnumerable<ReviewViewModel>
+@model IEnumerable<Review>
 
 <section class="testimonial paddingTop-80" id="testimonial">
 	<div class="container-fluid">
@@ -37,12 +38,12 @@
 												<div class="client-list">
 													<div class=" client-info">
 														<div class="client-img">
-															@review.NameClass
+															@review.User.Class.Name-@review.User.Class.LevelCategory.Name
 															<i class="fa fa-quote-right"></i>
 														</div>
-														<p>@review.Context</p>
+														<p>@review.Content</p>
 														<h4>
-															@review.Student
+															@review.User.UserName
 														</h4>
 													</div>
 												</div>
@@ -57,12 +58,12 @@
 												<div class="client-list">
 													<div class=" client-info">
 														<div class="client-img">
-															@review.NameClass
+															@review.User.Class.Name-@review.User.Class.LevelCategory.Name
 															<i class="fa fa-quote-right"></i>
 														</div>
-														<p>@review.Context</p>
+														<p>@review.Content</p>
 														<h4>
-															@review.Student
+															@review.User.UserName
 
 														</h4>
 													</div>
