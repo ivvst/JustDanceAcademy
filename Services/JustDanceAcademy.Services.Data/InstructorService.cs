@@ -16,6 +16,8 @@
 	{
 		private readonly IRepository<Instrustor> repo;
 		private readonly IRepository<Class> classRepository;
+		
+
 
 
 
@@ -24,7 +26,9 @@
 			this.classRepository = classRepository;
 
 			this.repo = repo;
+			
 		}
+
 		public async Task<bool> DoesInstructorExist(string name)
 		{
 			var result = await this.repo.AllAsNoTracking().Where(x => x.Name == name).FirstOrDefaultAsync();
@@ -47,6 +51,7 @@
 				ImageUrl = model.ImageUrl,
 				Biography = model.AboutYou,
 				ClassId = model.ClassId,
+				Class = model.Class,
 			};
 
 			await this.repo.AddAsync(entity);
@@ -77,7 +82,7 @@
 			{
 				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
 			}
-	await this.repo.SaveChangesAsync();
+			await this.repo.SaveChangesAsync();
 		}
 
 		public async Task<bool> Exists(int id)
@@ -85,22 +90,23 @@
 			return await this.repo.All().AnyAsync(x => x.Id == id);
 		}
 
-		public async Task<IEnumerable<InstructorsViewModel>> GetAllInstructors()
+		public async Task<IEnumerable<Instrustor>> GetAllInstructors()
 		{
-			return await this.repo.All().Select(i => new InstructorsViewModel()
-			{
-				Id = i.Id,
-				FullName = i.Name,
-				ImageUrl = i.ImageUrl,
-				Class = i.Class.Name,
-				Intro = i.Biography,
-			})
-				.ToListAsync();
+			return await this.repo.AllAsNoTracking().Include(x => x.Class).ThenInclude(x => x.LevelCategory).ToListAsync();
+			//return await this.repo.All().Select(i => new InstructorsViewModel()
+			//{
+			//	Id = i.Id,
+			//	FullName = i.Name,
+			//	ImageUrl = i.ImageUrl,
+			//	Class = i.Class.Name,
+			//	Intro = i.Biography,
+			//})
+			//	.ToListAsync();
 		}
 
 		public async Task<IEnumerable<Class>> GetClasses()
 		{
-			return await this.classRepository.All().ToListAsync();
+			return await this.classRepository.AllAsNoTracking().Include(x => x.LevelCategory).ToListAsync();
 		}
 
 		public async Task<int> GetClassId(int trainerId)

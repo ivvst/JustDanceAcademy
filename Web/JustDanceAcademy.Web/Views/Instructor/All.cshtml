@@ -1,6 +1,6 @@
-﻿@using JustDanceAcademy.Web.ViewModels.Models
+﻿@using JustDanceAcademy.Data.Models
 
-@model IEnumerable<InstructorsViewModel>
+@model IEnumerable<Instrustor>
 
 
 
@@ -33,15 +33,15 @@
 		<header class="u-clearfix u-header u-header" id="sec-41c2"><div class="u-clearfix u-sheet u-sheet-1"></div></header>
 		<section class="u-align-center u-clearfix u-section-1" id="carousel_8920">
 			<div class="u-clearfix u-sheet u-sheet-1">
-				<h2 class="u-custom-font u-font-merriweather u-text u-text-default u-text-1" data-animation-name="slideIn" data-animation-duration="2000" data-animation-direction="Left">@person.Class</h2>
+				<h3 class="u-custom-font u-font-merriweather u-text u-text-default u-text-1" data-animation-name="slideIn" data-animation-duration="2000" data-animation-direction="Left">@person.Name</h3>
 				<div class="u-image u-image-circle u-image-1" alt="" data-image-width="721" data-image-height="1080" data-animation-name="rollIn" data-animation-duration="2000" data-animation-direction="">
 					<img src="@person.ImageUrl" alt="trainer" style="width:50%;height:70%;">
 				</div>
 				<h5 class="u-custom-font u-font-ubuntu u-text u-text-2">
-					@person.FullName
+                    is Trainer of <b>@person.Class.Name</b> for <b style="font-family:Calibri">@person.Class.LevelCategory.Name </b>category
 				</h5>
 				<p class="u-align-justify-lg u-align-justify-md u-align-justify-xl u-text u-text-black-40 u-text-3" data-animation-name="slideIn" data-animation-duration="2000" data-animation-direction="Right">
-					@person.Intro
+					@person.Biography
 					@if (User.IsInRole("Administrator"))
 					{
 

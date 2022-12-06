@@ -49,7 +49,10 @@
 		{
 			if (await this.serviceInstructor.DoesInstructorExist(model.FullName) == true)
 			{
-				this.ModelState.AddModelError(" ", ExceptionMessages.InstructorAlreadyExists);
+				model.ClassesOfInstructor = await this.serviceInstructor.GetClasses();
+
+				this.TempData["Msg"] = ExceptionMessages.InstructorAlreadyExists;
+
 				return this.View(model);
 
 			}
@@ -71,6 +74,8 @@
 			}
 			catch (Exception)
 			{
+				model.ClassesOfInstructor = await this.serviceInstructor.GetClasses();
+
 				this.ModelState.AddModelError("", "Something went wrong");
 
 				return this.View(model);

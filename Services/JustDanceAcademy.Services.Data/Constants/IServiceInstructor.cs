@@ -8,7 +8,7 @@
 
 	public interface IServiceInstructor
 	{
-		Task<IEnumerable<InstructorsViewModel>> GetAllInstructors();
+		Task<IEnumerable<Instrustor>> GetAllInstructors();
 
 		Task<int> AddInstructor(InstructorViewModel model);
 

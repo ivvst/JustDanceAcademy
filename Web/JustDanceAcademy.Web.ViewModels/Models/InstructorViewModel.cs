@@ -46,6 +46,11 @@ namespace JustDanceAcademy.Web.ViewModels.Models
             get; set;
         }
 
+        public Class Class
+        {
+            get; set;
+        }
+
         public IEnumerable<Class> ClassesOfInstructor { get; set; } = new List<Class>();
     }
 }
