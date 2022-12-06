@@ -1,4 +1,6 @@
-﻿namespace JustDanceAcademy.Services.Data.Common
+﻿using System.Data;
+
+namespace JustDanceAcademy.Services.Data.Common
 {
 	public class ExceptionMessages
 
@@ -21,7 +23,17 @@
 
 		public const string StartClass = "Welcome to your Class";
 
+		public const string LoginError = "Your Login Failed";
 
+		public const string RegisterError = "Your Register Failed.";
+
+		public const string UserNameTaken = "Username is already taken.";
+
+		public const string EmailTaken = "Email is already taken.";
+
+		public const string MustPay = "You have to pay for the class.";
+
+		public const string LeaveClass = "You leave the class.. Now you can start new one!!";
 
 		public const string ClassAlreadyIsStarted = " The Class is not added because you already start a class.";
 	}
