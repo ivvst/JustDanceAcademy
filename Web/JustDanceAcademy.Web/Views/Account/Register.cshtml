@@ -33,17 +33,6 @@
 				<h2>Create your Account</h2>
 				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 				<label>
-					<span asp-validation-for="FirstName" class="small text-danger"></span>
-					<input asp-for="FirstName" class="form-control" placeholder="First name">
-				</label>
-
-				<label>
-
-					<span asp-validation-for="LastName" class="small text-danger"></span>
-					<input asp-for="LastName" class="form-control" placeholder="Last name">
-				</label>
-
-				<label>
 
 					<span asp-validation-for="UserName" class="small text-danger"></span>
 					<input asp-for="UserName" class="form-control" placeholder="Username">
@@ -74,7 +63,14 @@
 
 
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+<script>
+	var msg = '@TempData["Msg"]';
+	if (msg.length) {
+		swal(msg);
+	}
+</script>
 
 <link rel="stylesheet" href="~/Content/css/form.css" />
 <script>
@@ -87,7 +83,7 @@
     }
 
 
-	@*				<br>
+@*				<br>
 <br>
 <div class="cont">
 		<div class="img">
@@ -171,7 +167,7 @@
 
 *@
 
-	@*
+@*
 						//Mine
 	<div class="cont">
 		<div class="form sign-in">

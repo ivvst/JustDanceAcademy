@@ -4,6 +4,7 @@
 
 	using JustDanceAcademy.Data.Models;
 	using JustDanceAcademy.Models;
+	using JustDanceAcademy.Services.Data.Common;
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Identity;
 	using Microsoft.AspNetCore.Mvc;
@@ -13,19 +14,12 @@
 		private readonly UserManager<ApplicationUser> userManager;
 		private readonly SignInManager<ApplicationUser> signInManager;
 
-
-
-
 		public AccountController(
-			SignInManager<ApplicationUser> _signInManager,
-			UserManager<ApplicationUser> _userManager
-		   )
+					SignInManager<ApplicationUser> _signInManager,
+					UserManager<ApplicationUser> _userManager)
 		{
 			this.signInManager = _signInManager;
 			this.userManager = _userManager;
-
-
-
 		}
 
 		[HttpGet]
@@ -47,16 +41,18 @@
 			}
 
 			var model = new RegisterViewModel();
-			return View(model);
+			return this.View(model);
 		}
 
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<IActionResult> Register(RegisterViewModel model)
 		{
-			if (!ModelState.IsValid)
+			if (!this.ModelState.IsValid)
 			{
-				return View(model);
+				this.TempData["Msg"] = ExceptionMessages.RegisterError;
+
+				return this.View(model);
 			}
 
 			var user = new ApplicationUser()
@@ -64,8 +60,20 @@
 				UserName = model.UserName,
 				Email = model.Email,
 			};
+			var exists = await this.userManager.FindByNameAsync(model.UserName);
+			var emailExist = await this.userManager.FindByEmailAsync(model.Email);
+			if (exists != null)
+			{
+				this.TempData["Msg"] = ExceptionMessages.UserNameTaken;
+				return this.View(model);
+			}
+			if (emailExist != null)
+			{
+				this.TempData["Msg"] = ExceptionMessages.EmailTaken;
+				return this.View(model);
+			}
 
-			var result = await userManager.CreateAsync(user, model.Password);
+			var result = await this.userManager.CreateAsync(user, model.Password);
 
 			if (result.Succeeded)
 			{
@@ -77,7 +85,9 @@
 				this.ModelState.AddModelError(string.Empty, item.Description);
 			}
 
-			return View(model);
+			this.TempData["Msg"] = ExceptionMessages.RegisterError;
+
+			return this.View(model);
 		}
 
 		[AllowAnonymous]
@@ -106,40 +116,43 @@
 		[AllowAnonymous]
 		public async Task<IActionResult> Login(LoginViewModel model)
 		{
-			if (!ModelState.IsValid)
+			if (!this.ModelState.IsValid)
 			{
-				return View(model);
+				this.TempData["Msg"] = ExceptionMessages.LoginError;
+
+				return this.View(model);
 			}
 
 			var user = await this.userManager.FindByNameAsync(model.UserName);
 
 			if (user != null)
 			{
-				var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+				var result = await this.signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
 				if (result.Succeeded)
 				{
-					var student = await userManager.FindByNameAsync(model.UserName);
+					var student = await this.userManager.FindByNameAsync(model.UserName);
 
-					if (student != null && await userManager.IsInRoleAsync(student, "Administrator"))
+					if (student != null && await this.userManager.IsInRoleAsync(student, "Administrator"))
 					{
 						return this.RedirectToAction("Index", "Admin", new
 						{
 							area = "Administration",
-						}
-						);
+						});
 					}
-					return RedirectToAction("Classes", "Class");
+
+					return this.RedirectToAction("Classes", "Class");
 				}
 				else if (result.Succeeded == false)
 				{
-					ModelState.AddModelError(" ", "Something went wrong");
+					this.TempData["Msg"] = ExceptionMessages.LoginError;
+
+					// ModelState.AddModelError(" ", "Something went wrong");
 				}
 			}
 
-			ModelState.AddModelError("", "TRY AGAIN");
-
-			return View(model);
+			this.TempData["Msg"] = ExceptionMessages.LoginError;
+			return this.View(model);
 		}
 
 		public async Task<IActionResult> Logout()
@@ -150,6 +163,3 @@
 		}
 	}
 }
-
-
-

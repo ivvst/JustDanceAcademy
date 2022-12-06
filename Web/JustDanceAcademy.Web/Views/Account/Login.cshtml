@@ -50,6 +50,14 @@
 
 @*STYLE-SHEET FOR LOG-REGISTER <---*@
 <link rel="stylesheet" href="~/Content/css/form.css" />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+	var msg = '@TempData["Msg"]';
+	if (msg.length) {
+		swal(msg);
+	}
+</script>
 
 
 
