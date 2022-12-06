@@ -9,7 +9,7 @@
 
 	public interface IDanceClassService
 	{
-		Task<IEnumerable<ClassesViewModel>> GetAllAsync();
+		Task<IEnumerable<Class>> GetAllAsync();
 
 		Task<int> GetCountAsync();
 
@@ -41,13 +41,13 @@
 
 		Task<IEnumerable<string>> AllCategoriesNames();
 
-		Task<IEnumerable<ReviewViewModel>> AllReviews();
+		Task<IEnumerable<Review>> AllReviews();
 
 		Task<int> CreateReview(int classId, string userId, ReviewViewModel model);
 
 		Task<bool> DoesUserHaveClass(string userId);
 
-		Task<string> GetClassForReview(string classId);
+		Task<Class> GetClassForReview(string classId);
 
 		Task<bool> PhoneNotifyForClass(string userId);
 

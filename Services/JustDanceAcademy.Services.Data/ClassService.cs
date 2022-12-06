@@ -55,21 +55,24 @@
 			return entity.Id;
 		}
 
-		public async Task<IEnumerable<ClassesViewModel>> GetAllAsync()
+		public async Task<IEnumerable<Class>> GetAllAsync()
 		{
+			var index = await this.classRepository.AllAsNoTracking().Include(x => x.LevelCategory).ToListAsync();
 
-			return await this.classRepository.All()
-				.OrderBy(c => c.Name)
-				.Select(c => new ClassesViewModel()
-			{
-					Id = c.Id,
-					Name = c.Name,
-					ImageUrl = c.ImageUrl,
-					Description = c.Description,
-					Instructor = c.Instructor,
-					Category = c.LevelCategory.Name,
-				})
-				.ToListAsync();
+			return index;
+			//return await this.classRepository.All()
+			//	.OrderBy(c => c.Name)
+			//	.Select(c => new ClassesViewModel()
+			//	{
+			//		Id = c.Id,
+			//		Name = c.Name,
+			//		ImageUrl = c.ImageUrl,
+			//		Description = c.Description,
+			//		Instructor = c.Instructor,
+			//		Category = c.LevelCategory.Name,
+			//		LevelCategory = c.LevelCategory,
+			//	})
+			//	.ToListAsync();
 		}
 
 		public async Task<IEnumerable<PlanViewModel>> GetAllPlans()
@@ -130,7 +133,7 @@
 					Name = c.Name,
 					ImageUrl = c.ImageUrl,
 					Instructor = c.Instructor,
-					Category=c.LevelCategory.Name,
+					Category = c.LevelCategory.Name,
 
 				})
 				.ToListAsync();
@@ -164,6 +167,7 @@
 					.Where(c => c.Id == classId)
 					.FirstAsync();
 
+				student.Class = danceClass;
 				student.ClassId = classId;
 
 				// danceClass.Name = student.Class.Name;
@@ -193,6 +197,7 @@
 			st.IsDeleted = true;
 
 			// var item = student.Class.Students.First(x => x.ClassId == classId).IsDeleted = true;
+			student.Class = null;
 			student.ClassId = null;
 			student.PhoneNumber = null;
 
@@ -219,6 +224,9 @@
 
 			if (user.ClassId.HasValue)
 			{
+				var index = await this.userRepository.All().Where(x => x.Id == userId).Select(x => x.Class).FirstOrDefaultAsync();
+				var category = await this.levelRepo.All().FirstOrDefaultAsync(x => x.Id == index.LevelCategoryId);
+
 				var result = user.Class.Students.Where(x => x.StudentId == user.Id)
 				   .Select(x => new MyClassViewModel()
 				   {
@@ -227,7 +235,7 @@
 					   ImageUrl = x.Class.ImageUrl,
 					   Instructor = x.Class.Instructor,
 					   Description = x.Class.Description,
-					   Category = x.Class.LevelCategory?.Name,
+					   Category = x.Class.LevelCategory.Name,
 				   });
 				return result;
 			}
@@ -243,9 +251,11 @@
 			dance.Description = model.Description;
 			dance.ImageUrl = model.ImageUrl;
 			dance.Instructor = model.Instructor;
+
 			dance.Name = model.Name;
 			dance.LevelCategoryId = model.LevelCategoryId;
-
+			model.levelCategory = await levelRepo.All().FirstOrDefaultAsync(x => x.Id == model.LevelCategoryId);
+			this.classRepository.Update(dance);
 			await this.classRepository.SaveChangesAsync();
 		}
 
@@ -311,6 +321,7 @@
 
 			student.Class.Reviews.Add(review);
 
+
 			await this.reviewRepo.AddAsync(review);
 			await this.classRepository.SaveChangesAsync();
 			await this.userRepository.SaveChangesAsync();
@@ -332,24 +343,33 @@
 			}
 		}
 
-		public async Task<string> GetClassForReview(string userId)
+		public async Task<Class> GetClassForReview(string userId)
 		{
-			var studentClass = await this.comboRepo.All().Where(s => s.StudentId == userId).Select(x => x.Class).FirstAsync();
-
-			return studentClass.Name;
+			var studentClass = await this.comboRepo.All().Where(s => s.StudentId == userId).Select(x => x.Class).FirstOrDefaultAsync();
+			return studentClass;
 		}
 
-		public async Task<IEnumerable<ReviewViewModel>> AllReviews()
+		public async Task<IEnumerable<Review>> AllReviews()
 		{
-			return await this.reviewRepo.All()
-				.Select(r => new ReviewViewModel()
-				{
-					Id = r.Id,
-					Context = r.Content,
-					Student = r.User.UserName,
-					NameClass = r.Class.Name,
-				})
-				.ToListAsync();
+
+
+			//var idofDance = await this.reviewRepo.All().ToListAsync();
+
+			//foreach (var item in idofDance)
+			//{
+			//	var dance = await this.classRepository.All().Where(x => x.Id == item.ClassId).FirstOrDefaultAsync();
+			//	item.Class = dance;
+			//	this.reviewRepo.Update(item);
+			//	await this.reviewRepo.SaveChangesAsync();
+
+
+
+			//}
+
+			var index = await this.reviewRepo.AllAsNoTracking().Include(x => x.User).ThenInclude(x => x.Class).ThenInclude(x => x.LevelCategory).ToListAsync();
+
+
+			return index;
 		}
 
 		public async Task<bool> PhoneNotifyForClass(string userId)

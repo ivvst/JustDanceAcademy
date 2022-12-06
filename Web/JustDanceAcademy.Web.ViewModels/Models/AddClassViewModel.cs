@@ -49,6 +49,10 @@ namespace JustDanceAcademy.Web.ViewModels.Models
         {
             get; set;
         }
+        public LevelCategory LevelCategoryAdd
+        {
+            get; set;
+        }
         public IEnumerable<LevelCategory> LevelsCategory { get; set; } = new List<LevelCategory>();
 
     }

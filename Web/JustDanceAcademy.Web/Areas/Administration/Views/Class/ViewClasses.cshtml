@@ -2,7 +2,7 @@
 @using JustDanceAcademy.Models;
 
 
-@model IEnumerable<ClassesViewModel>
+@model IEnumerable<Class>
 
 <div class="container bootstrap snippets bootdey">
 	<div class="row">
@@ -29,7 +29,7 @@
 								<div class="col-xs-10 col-md-11">
 									<div>
 										<a>
-											@dance.Name -@dance.Category
+											@dance.Name -@dance.LevelCategory.Name;
 										</a>
 										<div class="mic-info">
 											By: <a href="#">@dance.Instructor</a>

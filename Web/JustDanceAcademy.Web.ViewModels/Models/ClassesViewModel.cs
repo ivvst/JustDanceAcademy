@@ -1,4 +1,6 @@
-﻿namespace JustDanceAcademy.Models
+﻿using JustDanceAcademy.Data.Models;
+
+namespace JustDanceAcademy.Models
 {
     public class ClassesViewModel
     {
@@ -21,6 +23,11 @@
         public string Category
         {
             get;set;
+        }
+
+        public LevelCategory LevelCategory
+        {
+            get; set;
         }
 
     }

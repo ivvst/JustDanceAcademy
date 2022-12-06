@@ -4,7 +4,7 @@
 
 
 
-@model IEnumerable<ClassesViewModel>
+@model IEnumerable<Class>
 
 @foreach (var item in Model)
 {
@@ -35,7 +35,7 @@
 				<h2>The Description</h2>
 				<ul>
 					<li><strong>Instructor: </strong>@item.Instructor</li>
-					<li><strong>Dance-Category: </strong>@item.Category</li>
+					<li><strong>Dance-Category: </strong>@item.LevelCategory.Name</li>
 					<br>
 					<li><strong>Age: </strong>Press "Schedule" for more Info</li>
 				</ul>
@@ -48,7 +48,7 @@
 
 
 	<link href="~/Content/css/class-box.css" rel="stylesheet" />
-	
+
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
 }
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
