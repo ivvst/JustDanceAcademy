@@ -1,7 +1,9 @@
 ﻿namespace DanceAcademy.Controllers
 {
 	using DanceAcademy.Models;
+	using JustDanceAcademy.Models;
 	using JustDanceAcademy.Web.Controllers;
+	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
 
