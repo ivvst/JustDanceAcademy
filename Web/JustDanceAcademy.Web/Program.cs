@@ -12,6 +12,7 @@ namespace JustDanceAcademy.Web
 	using JustDanceAcademy.Services.Data.Constants;
 	using JustDanceAcademy.Services.Mapping;
 	using JustDanceAcademy.Services.Messaging;
+	using JustDanceAcademy.Web.Hubs;
 	using JustDanceAcademy.Web.ViewModels;
 
 	using Microsoft.AspNetCore.Builder;
@@ -21,6 +22,7 @@ namespace JustDanceAcademy.Web
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Hosting;
+
 
 	public class Program
 	{
@@ -60,6 +62,7 @@ namespace JustDanceAcademy.Web
 					options.CheckConsentNeeded = context => true;
 					options.MinimumSameSitePolicy = SameSiteMode.None;
 				});
+
 			//services.AddDefaultIdentity<ApplicationUser>(options =>
 			//{
 
@@ -74,9 +77,12 @@ namespace JustDanceAcademy.Web
 			{
 				options.LoginPath = "/Administration/Account/Login";
 				options.AccessDeniedPath = "/Administration/Account/AccessDenied";
+				options.LogoutPath = "/Account/Logout";
 
 			});
 
+			services.AddRazorPages();
+			services.AddSignalR();
 			services.AddControllersWithViews(
 				options =>
 				{
@@ -91,14 +97,20 @@ namespace JustDanceAcademy.Web
 			services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 			services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
+			// Session
+			services.AddDistributedMemoryCache();
+			services.AddSession();
+
 			// Application services
 			services.AddScoped<IUsersService, UsersService>();
 			services.AddScoped<IDanceClassService, ClassService>();
 			services.AddScoped<ILevelCategoryService, LevelDanceService>();
+
 			services.AddScoped<IServiceInstructor, InstructorService>();
 			services.AddScoped<IScheduleService, ScheduleService>();
 			services.AddTransient<IEmailSender, NullMessageSender>();
 			services.AddTransient<ISettingsService, SettingsService>();
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 		}
 
 		private static void Configure(WebApplication app)
@@ -128,6 +140,7 @@ namespace JustDanceAcademy.Web
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
 
+			app.UseSession();
 			app.UseRouting();
 
 			app.UseAuthentication();
@@ -141,19 +154,11 @@ namespace JustDanceAcademy.Web
 				name: "default",
 				pattern: "{controller=Home}/{action=Index}/{id?}");
 
-			//app.UseEndpoints(endpoints =>
-			//{
-			//	endpoints.MapControllerRoute(
-			//	  name: "Administration",
-			//	  pattern: "Administration/{controller=Home}/{action=Index}"
-			//	);
-
-			//	endpoints.MapControllerRoute(
-			//		name: "default",
-			//		pattern: "{controller=Home}/{action=Index}"
-			//	);
-			//});
-			app.MapRazorPages();
+			app.UseEndpoints(end =>
+						{
+							end.MapRazorPages();
+							end.MapHub<NotificationHub>("/notificationHub");
+						});
 		}
 	}
 }

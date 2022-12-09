@@ -1,7 +1,6 @@
 {
   "version": "1.0",
   "defaultProvider": "jsdelivr",
-
   "libraries": [
     {
       "library": "jquery@3.6.0",
@@ -41,6 +40,15 @@
       "provider": "cdnjs",
       "library": "limonte-sweetalert2@11.6.14",
       "destination": "wwwroot/lib/limonte-sweetalert2/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "@microsoft/signalr@6.0.6",
+      "destination": "wwwroot/Content/js/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
+      ]
     }
   ]
 }

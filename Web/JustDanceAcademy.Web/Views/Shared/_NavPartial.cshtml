@@ -32,6 +32,10 @@
 									
 									<a asp-area="" asp-controller="Class" asp-action="Train">My-Train</a>
 
+									<a asp-area="" asp-controller="Student" asp-action="Index">My-Notification</a>
+
+
+
 
 									<a asp-area="" asp-controller="Instructor" asp-action="All">Instructors</a>
 									<a asp-area="" asp-controller="Class" asp-action="Reviews">All-Reviews</a>
@@ -50,7 +54,7 @@
 									<a asp-area="" asp-controller="" asp-action="">Privacy</a>
 									<a asp-area="" asp-controller="" asp-action="">Term</a>
 
-									<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+									<form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout"  asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
 										<button type="submit" class="button">Logout</button>
 									</form>
 
