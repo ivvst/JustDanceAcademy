@@ -1,5 +1,6 @@
 ﻿namespace JustDanceAcademy.Web.ViewModels.Models
 {
+    using JustDanceAcademy.Data.Models;
     using Microsoft.VisualBasic;
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -38,7 +39,7 @@
             get; set;
         }
 
-		public string LevelCategory
+		public LevelCategory LevelCategory
         {
             get; set;
         }

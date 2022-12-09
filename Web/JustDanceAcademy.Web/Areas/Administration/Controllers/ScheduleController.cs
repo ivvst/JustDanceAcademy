@@ -2,7 +2,7 @@
 {
 	using System;
 	using System.Threading.Tasks;
-
+	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Services.Data.Constants;
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.AspNetCore.Authorization;
@@ -48,6 +48,8 @@
 			if (!this.ModelState.IsValid)
 			{
 				model.AllClasses = await this.scheduleService.GetClasses();
+				this.TempData["Msg"] = ExceptionMessages.ClassDanceNotFound;
+
 				return this.View(model);
 			}
 
@@ -67,7 +69,8 @@
 			{
 				model.AllClasses = await this.scheduleService.GetClasses();
 
-				this.ModelState.AddModelError(" ", "Something went wrong");
+				this.TempData["Msg"] = ExceptionMessages.ClassDanceNotFound;
+
 
 				return this.View(model);
 			}

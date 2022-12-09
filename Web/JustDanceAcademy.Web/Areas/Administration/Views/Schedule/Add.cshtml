@@ -69,6 +69,14 @@
 
 </div>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ 
+<script>
+	var msg = '@TempData["Msg"]';
+	if (msg.length) {
+		swal(msg);
+	}
+</script>
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />

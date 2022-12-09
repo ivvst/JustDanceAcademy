@@ -43,6 +43,7 @@
 				Age = model.Age,
 				ClassId = model.ClassId,
 				Class = model.Class,
+				// Change from write a text-to take with class 
 			};
 			if (model.StartClass > model.EndClass)
 			{

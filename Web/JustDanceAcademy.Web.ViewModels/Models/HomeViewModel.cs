@@ -1,4 +1,4 @@
-﻿namespace DanceAcademy.Models
+﻿namespace JustDanceAcademy.Models
 {
     public class HomeViewModel
     {
