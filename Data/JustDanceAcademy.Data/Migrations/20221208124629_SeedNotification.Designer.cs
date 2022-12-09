@@ -4,6 +4,7 @@ using JustDanceAcademy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JustDanceAcademy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221208124629_SeedNotification")]
+    partial class SeedNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,7 +153,7 @@ namespace JustDanceAcademy.Data.Migrations
                         {
                             Id = "200adb3d-b3f4-4bde-a9c8-2c6888d6be30",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7ad98ae3-eb06-44da-a04d-58ae142c5916",
+                            ConcurrencyStamp = "b406465c-10eb-4d39-8263-a4af426c6d44",
                             CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
@@ -159,9 +161,9 @@ namespace JustDanceAcademy.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@MAIL.com",
                             NormalizedUserName = "GUEST",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGvjQH+uZDq0msqMgKf+p8sEeia4RBEtrSeKonU+nIlVZTTItmTdFP2tT0hLfaHH7w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBFAR4v/3lZ1guDAgjTXpC3ciDwgxbZoXMalpNFdunH8xDDZbMDH42XG8VVC5UyKLQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "265241ce-dd8c-47b1-8648-749e3c243f66",
+                            SecurityStamp = "4833c2d6-5428-4623-9753-a8c214b23559",
                             TwoFactorEnabled = false,
                             UserName = "guest"
                         },
@@ -169,7 +171,7 @@ namespace JustDanceAcademy.Data.Migrations
                         {
                             Id = "8fe346ea-30ce-4b6e-b67a-fedc225845c1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "093e2101-8dc2-4e5c-96ff-0e16a1fa8fa6",
+                            ConcurrencyStamp = "d0b6b951-36b6-4b82-93dd-b04248cbf527",
                             CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "vanis@mail.com",
                             EmailConfirmed = false,
@@ -177,9 +179,9 @@ namespace JustDanceAcademy.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "VANIS@MAIL.com",
                             NormalizedUserName = "VANIS",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM3/NwYmSYG2qcaU475Evoeit2pckhCT/hJ9FCdBQ5PMLjirpmwPjCi96My6O8LRDA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHLNv/44K+uj7QT+l2e6WkIXWNg2H0bKi3sV3rRS29O1GwPsJ0hnxMtivT2u/jpacw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7c879ecf-5762-4b92-aa5f-b6b27f3b7a53",
+                            SecurityStamp = "e576a88e-3484-4f8f-b31c-c8b5e6c0f65c",
                             TwoFactorEnabled = false,
                             UserName = "vanis"
                         });
@@ -307,6 +309,25 @@ namespace JustDanceAcademy.Data.Migrations
                             Answear = "No, after you start to train a class you will receive details about payment if you don't pay during 7 days you will receive second email and then you will not have the opportunity to start a train. ",
                             Question = "Can I start a class without payment?"
                         });
+                });
+
+            modelBuilder.Entity("JustDanceAcademy.Data.Models.HubConnection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HubConnections");
                 });
 
             modelBuilder.Entity("JustDanceAcademy.Data.Models.Instrustor", b =>
@@ -478,6 +499,31 @@ namespace JustDanceAcademy.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Plans");
+                });
+
+            modelBuilder.Entity("JustDanceAcademy.Data.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NotificationDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("JustDanceAcademy.Data.Models.Review", b =>

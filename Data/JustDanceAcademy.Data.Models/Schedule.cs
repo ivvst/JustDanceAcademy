@@ -28,11 +28,7 @@ namespace JustDanceAcademy.Data.Models
             get; set;
         }
 
-        public string LevelCategory
-        {
-            get; set;
-        }
-
+     
         public DateTime StartTime
         {
             get;set;

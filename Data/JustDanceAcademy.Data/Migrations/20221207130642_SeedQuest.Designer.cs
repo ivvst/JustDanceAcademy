@@ -4,6 +4,7 @@ using JustDanceAcademy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JustDanceAcademy.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221207130642_SeedQuest")]
+    partial class SeedQuest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,7 +153,7 @@ namespace JustDanceAcademy.Data.Migrations
                         {
                             Id = "200adb3d-b3f4-4bde-a9c8-2c6888d6be30",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7ad98ae3-eb06-44da-a04d-58ae142c5916",
+                            ConcurrencyStamp = "d67d9f74-c9a6-463c-84e2-1888a8149d58",
                             CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
@@ -159,9 +161,9 @@ namespace JustDanceAcademy.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "GUEST@MAIL.com",
                             NormalizedUserName = "GUEST",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGvjQH+uZDq0msqMgKf+p8sEeia4RBEtrSeKonU+nIlVZTTItmTdFP2tT0hLfaHH7w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIDpaY47hDzlHr05mXXPApGsXGsyMe0dWiWQCVUoFqhM2PUKPGHPuljVYJL7GzGGNg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "265241ce-dd8c-47b1-8648-749e3c243f66",
+                            SecurityStamp = "a94d8484-770d-4995-aa91-e1426c3b3a5b",
                             TwoFactorEnabled = false,
                             UserName = "guest"
                         },
@@ -169,7 +171,7 @@ namespace JustDanceAcademy.Data.Migrations
                         {
                             Id = "8fe346ea-30ce-4b6e-b67a-fedc225845c1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "093e2101-8dc2-4e5c-96ff-0e16a1fa8fa6",
+                            ConcurrencyStamp = "e219f78f-8dc1-4a5d-81b3-dfc6b2d39e00",
                             CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "vanis@mail.com",
                             EmailConfirmed = false,
@@ -177,9 +179,9 @@ namespace JustDanceAcademy.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "VANIS@MAIL.com",
                             NormalizedUserName = "VANIS",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM3/NwYmSYG2qcaU475Evoeit2pckhCT/hJ9FCdBQ5PMLjirpmwPjCi96My6O8LRDA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOWfTgAlePPLqmasjyW1SruD3jI+GcBmwDUXXkQbzRtjd0scwxrFfCZ1CDil6f5Kpw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7c879ecf-5762-4b92-aa5f-b6b27f3b7a53",
+                            SecurityStamp = "6e804817-486a-4ea9-8ccd-aa5267428ea2",
                             TwoFactorEnabled = false,
                             UserName = "vanis"
                         });
