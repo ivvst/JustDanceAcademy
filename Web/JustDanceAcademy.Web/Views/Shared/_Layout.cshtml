@@ -1,6 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
+	@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,18 +11,20 @@
 	<title>JD-Academy</title>
 	<link rel="icon" href="~/Content/favicon.ico" />
 	<!-- Bootstrap core CSS -->
-	<link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+	<link href="~/Content/css/bootstrap.min.css" rel="stylesheet"> 
 	<!-- Custom styles for this template -->
 	<link href="~/Content/css/style.css" rel="stylesheet">
 	<link href="~/Content/css/responsive.css" rel="stylesheet">
+	
+
 	<link href="~/Content/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<link href="~/Content/fonts/website-font/stylesheet.css" rel="stylesheet" type="text/css" />
 	<link href="~/Content/css/mislider.css" rel="stylesheet" type="text/css" />
 	<link href="~/Content/css/mislider-custom.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="~/Content/css/animate.css">
 	<!--SWEETALERT CSS-->
-	<link href="~/lib/limonte-sweetalert2/sweetalert2.css" rel="stylesheet"  asp-append-version="true"/>
-	
+	<link href="~/lib/limonte-sweetalert2/sweetalert2.css" rel="stylesheet" asp-append-version="true" />
+
 
 
 
@@ -31,13 +36,13 @@
 
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
-	
 
-		
+
+
 	<header>
 
 
-	<partial name="_NavPartial" />
+		<partial name="_NavPartial" />
 
 		<div class="bgbanner" id="slider">
 
@@ -73,11 +78,10 @@
 				</div>
 			</div>
 		</div>
-		
+
 
 	</header>
 	<div class="container">
-		<partial name="_CookieConsentPartial" />
 		<main role="main" class="pb-3">
 			@RenderBody()
 		</main>
@@ -85,7 +89,7 @@
 
 	<!--FAQ-->
 	<partial name="_Questions" />
-	
+
 	<!-- footer -->
 	<footer>
 		<partial name="_FooterPartial" />
@@ -129,8 +133,12 @@
 	<script src="~/Content/js/custom.js" type="text/javascript"></script>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<!--SWEETALERT SCRIPT-->
-	
 	<script src="~/lib/limonte-sweetalert2/sweetalert2.js"></script>
+
+
+	<!--Toastr-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	@await RenderSectionAsync("Scripts", required: false)
 

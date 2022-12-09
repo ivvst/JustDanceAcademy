@@ -1,11 +1,12 @@
 ﻿namespace JustDanceAcademy.Web.Controllers
 {
 	using System.Threading.Tasks;
-
+	using JustDanceAcademy.Data.Common.Repositories;
 	using JustDanceAcademy.Data.Models;
 	using JustDanceAcademy.Models;
 	using JustDanceAcademy.Services.Data.Common;
 	using Microsoft.AspNetCore.Authorization;
+	using Microsoft.AspNetCore.Http;
 	using Microsoft.AspNetCore.Identity;
 	using Microsoft.AspNetCore.Mvc;
 
@@ -135,11 +136,16 @@
 
 					if (student != null && await this.userManager.IsInRoleAsync(student, "Administrator"))
 					{
+						this.HttpContext.Session.SetString("UserName", student.UserName);
 						return this.RedirectToAction("Index", "Admin", new
 						{
 							area = "Administration",
 						});
 					}
+
+					var userGetNotification = await this.userManager.FindByNameAsync(model.UserName);
+
+					 this.HttpContext.Session.SetString("UserName", userGetNotification.UserName);
 
 					return this.RedirectToAction("Classes", "Class");
 				}
@@ -158,6 +164,10 @@
 		public async Task<IActionResult> Logout()
 		{
 			await this.signInManager.SignOutAsync();
+
+			// not Bugs
+
+			this.HttpContext.Session.Remove("UserName");
 
 			return this.RedirectToAction("Index", "Home");
 		}
