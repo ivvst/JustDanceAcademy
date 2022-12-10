@@ -5,7 +5,6 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").
 connection.start();
 
 connection.on("ReceiveMsg", function (msg) {
-
     var li = document.createElement("li");
     li.textContent = msg;
    /* document.getElementById("msglist").appendChild(li);*/
@@ -16,7 +15,7 @@ connection.on("ReceiveMsg", function (msg) {
             showMethod: 'slideDown',
             timeOut: 4000
         };
-        toastr.info(msg);
+        toastr.info(msg,'Admin said: ');
 
     }, 1300);
 })
