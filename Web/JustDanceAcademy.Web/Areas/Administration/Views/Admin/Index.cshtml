@@ -1,87 +1,63 @@
 ﻿@{
 	ViewData["Title"] = "About us";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="~/Content/css/app.css" asp-append-version="true" />
 
-<section class="about" id="about">
+</head>
 
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-6 col-sm-12 col-xs-12">
-				<div class="about-para padding20">
-					<div class="block-heading">
-						<h2 style="font-size:30px; text-align:center">About Us</h2>
+
+<body>
+
+
+
+	<section class="about" id="about">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6 col-sm-12 col-xs-12">
+					<div class="about-para padding20">
+						<div class="block-heading">
+							
+						</div>
+
+						<div class="dropdown">
+							<button class="dropbtn">UserView-Mode</button>
+							<div class="dropdown-content">
+								<a asp-area="" asp-controller="Class" asp-action="Classes">Classes</a>
+								<a asp-area="" asp-controller="Schedule" asp-action="SeeAll">AllSchedules</a>
+								<a asp-area="" asp-controller="Instructor" asp-action="All">Instructors</a>
+
+							</div>
+						</div>
+
+						
+						
+						
 					</div>
-					<p style="margin-top:10px">
-						<b>As one of the founding members of the JD Culture Education Foundation, Just Dance Academy establishes from the outset a tradition of innovative arts education, pursuing a pure spirit of artistry. </b>
-
-					</p>
-					<br />
-					<br />
-					<text style="font-size:15px;color:dimgray">
-
-						Just Dance Academy is opening Spring 2020 and offers comprehensive dance programs for students of all ages and levels.
-						Here, dedicated, enthusiastic and professional teachers hailing from all over the world—from various language and culture backgrounds— are fully committed to students’ dance training and development.
-						Under the ownership and direction of Elena Salvatore, who has thirty years of extensive dance training and performance experience,
-						the school and staff are committed to empowering diverse students through dance and strive to support each student in their dance journey.
-
-					</text>
-					<br />
-					<br />
-					<br />
-					<p style="fill:aqua">Our dance academy is located at Broadway Learning Center and features newly modeled classrooms. The nurturing classroom environment is designed to encourage students to become lifelong lovers of movement and dance. Under the tutelage of our teachers, all of whom graduated from professional dance schools and are still active in the performance arena, students will gain both solid training in technique and creative artistic thinking towards dance as an art form.</p>
-					<br />
-					<br />
-					<content style="font-size:15px;">
-						<b>We are excited to have the opportunity to positively impact the community by equipping our students with the technical
-						and artistic skills that will enable them to express themselves through dance. At the Just Dance Academy,
-						students will develop discipline, build self-confidence, feel a great sense of achievement, and experience the 
-						liberty that movement and imagination can bring to any dancer.</b>
-					</content>
+					
 				</div>
-				<div class="row" style="margin-top:155px">
-					<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-blue" style="margin-top:16rem">
-						<div class="about-details padding20">
-							<h3>Begginer Classes</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt diam sit amet suscipit faucibus. Nam porttitor imperdiet metus sed dapibus. Mauris semper leo dolor, vel condimentum ipsum commodo ac. Proin est quam, pulvinar id nibh a, rutrum dictum felis. Fusce quis velit condimentum, gravida massa quis, rutrum arcu.</p>
-						</div>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-red" style="margin-top:2rem">
-						<div class="about-details padding20">
-							<h3>Intermediate Classes</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt diam sit amet suscipit faucibus. Nam porttitor imperdiet metus sed dapibus. Mauris semper leo dolor, vel condimentum ipsum commodo ac. Proin est quam, pulvinar id nibh a, rutrum dictum felis. Fusce quis velit condimentum, gravida massa quis, rutrum arcu.</p>
-						</div>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-blue" style="margin-bottom:6rem">
-						<div class="about-details padding20">
-							<h3>Advanced Classes</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt diam sit amet suscipit faucibus. Nam porttitor imperdiet metus sed dapibus. Mauris semper leo dolor, vel condimentum ipsum commodo ac. Proin est quam, pulvinar id nibh a, rutrum dictum felis. Fusce quis velit condimentum, gravida massa quis, rutrum arcu.</p>
-						</div>
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-red" style="margin-bottom:10px">
-						<div class="about-details padding20">
-							<h3>Classes for Kids</h3>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt diam sit amet suscipit faucibus. Nam porttitor imperdiet metus sed dapibus. Mauris semper leo dolor, vel condimentum ipsum commodo ac. Proin est quam, pulvinar id nibh a, rutrum dictum felis. Fusce quis velit condimentum, gravida massa quis, rutrum arcu.</p>
-						</div>
+				<div class="col-md-6 col-sm-12 col-xs-12 no-padding">
+
+
+					<div class="gfg">
+						<img src="~/Content/images/index_admin.jpeg" style="po" class="img-responsive" />
+						<h3 class="first-txt" style="color:whitesmoke">
+							Just <br />   Dance <br />   Academy
+						</h3>
+						<h3 class="second-txt">
+							Slave To The Rhythm
+						</h3>
 					</div>
 				</div>
+
 			</div>
-			<div class="col-md-6 col-sm-12 col-xs-12 no-padding">
-
-
-				<div class="gfg">
-					<img src="~/Content/images/index_admin.jpeg" class="img-responsive" />
-					<h3 class="first-txt" style="color:whitesmoke">
-						Just <br />   Dance <br />   Academy
-					</h3>
-					<h3 class="second-txt">
-						Slave To The Rhythm
-					</h3>
-				</div>
-			</div>
-
 		</div>
-	</div>
-</section>
+	</section>
+</body>
+</html>
+<script type="text/javascript" src="~/Content/js/app.js"></script>
 
 <style>
 	.gfg {

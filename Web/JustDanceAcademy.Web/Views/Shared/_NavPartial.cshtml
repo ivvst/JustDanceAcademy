@@ -24,12 +24,13 @@
 
 						@if (User.IsInRole("Administrator") == false)
 						{
+							<a asp-controller="User" asp-action="About">AboutMode</a>
 							<div class="dropdown">
 								<button class="dropbtn">Class</button>
 								<div class="dropdown-content">
 
 									<a asp-area="" asp-controller="Schedule" asp-action="SeeAll">Schedule</a>
-									
+
 									<a asp-area="" asp-controller="Class" asp-action="Train">My-Train</a>
 
 									<a asp-area="" asp-controller="Student" asp-action="Index">My-Notification</a>
@@ -54,7 +55,7 @@
 									<a asp-area="" asp-controller="" asp-action="">Privacy</a>
 									<a asp-area="" asp-controller="" asp-action="">Term</a>
 
-									<form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout"  asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+									<form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
 										<button type="submit" class="button">Logout</button>
 									</form>
 
@@ -65,10 +66,13 @@
 
 						else
 						{
-							<li>
+							<button class="dropdown">
+
 								<a asp-area="Administration" asp-controller="Admin" asp-action="Index">Admin-Mode</a>
 
-							</li>
+							</button>
+
+				
 						}
 
 
@@ -77,7 +81,7 @@
 					else
 					{
 
-						<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+						<li><a asp-area="" asp-controller="User" asp-action="About">About</a></li>
 						<li><a asp-area="" asp-controller="Account" asp-action="Register">REGISTER</a></li>
 						<li><a asp-area="" asp-controller="Account" asp-action="Login">EXISTING CUSTOMER LOGIN</a></li>
 

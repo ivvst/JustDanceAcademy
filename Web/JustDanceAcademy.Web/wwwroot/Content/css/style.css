@@ -94,11 +94,14 @@ h1,h2,h3,h4,h5,h6, .navbar-brand, .gallery-list .nav-tabs{
 .placeholder-fix:focus::-webkit-input-placeholder  {color:transparent !important; }
 .placeholder-fix:focus::-moz-placeholder   {color:transparent !important;}
 .placeholder-fix:-moz-placeholder   {color:transparent !important;}
+.bgcolor-red {
+    background: #b200ff
+}
 .bgcolor-blue{
     background: #1F1B18;
 }
-.bgcolor-red{
-    background: #e2001a;
+.bgcolor-red {
+    background: #b200ff
 }
 .no-padding{
     padding: 0;
