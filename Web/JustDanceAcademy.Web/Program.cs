@@ -154,6 +154,10 @@ namespace JustDanceAcademy.Web
 				name: "default",
 				pattern: "{controller=Home}/{action=Index}/{id?}");
 
+			app.MapControllerRoute(
+				name: "danceDetails",
+				pattern: "Class/ClassDetails/{id}/{information}");
+
 			app.UseEndpoints(end =>
 						{
 							end.MapRazorPages();

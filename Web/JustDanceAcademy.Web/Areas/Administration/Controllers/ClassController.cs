@@ -2,10 +2,9 @@
 {
 	using System;
 	using System.Threading.Tasks;
-	using JustDanceAcademy.Data.Models;
-	using JustDanceAcademy.Models;
 	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Services.Data.Constants;
+	using JustDanceAcademy.Services.Data.Extensions;
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
@@ -88,9 +87,10 @@
 			{
 				await this.danceService.CreateClassAsync(model);
 
-				return this.RedirectToAction("Index", "Admin", new
+				return this.RedirectToAction(nameof(this.ClassDetails), new
 				{
-					area = "Administration",
+					id = model.Id,
+					info = model.GetInformation(),
 				});
 			}
 			catch (Exception)
@@ -167,7 +167,29 @@
 
 			await this.danceService.Edit(model.Id, model);
 
-			return this.RedirectToAction(nameof(this.ViewClasses));
+			return this.RedirectToAction(nameof(this.ClassDetails), new
+			{
+				id = model.Id,
+				info = model.GetInformation(),
+			});
+		}
+
+		public async Task<IActionResult> ClassDetails(int id, string info)
+		{
+			if (await this.danceService.Exists(id) == false)
+			{
+				return this.RedirectToAction(nameof(this.ViewClasses));
+			}
+
+			var model = await this.danceService.DanceDetailsById(id);
+			if (info != model.GetInformation())
+			{
+				this.TempData["Msg"] = ExceptionMessages.ClassDanceNotFound;
+				return this.RedirectToAction(nameof(this.ViewClasses));
+			}
+
+			return this.View(model);
+
 		}
 
 		[HttpPost]
