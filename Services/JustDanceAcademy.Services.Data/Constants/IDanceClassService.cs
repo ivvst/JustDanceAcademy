@@ -45,14 +45,17 @@
 
 		Task<int> CreateReview(int classId, string userId, ReviewViewModel model);
 
+
 		Task<bool> DoesUserHaveClass(string userId);
 
 		Task<Class> GetClassForReview(string classId);
 
 		Task<bool> PhoneNotifyForClass(string userId);
 
-		Task<ApplicationUser> TakeNumberForStart(string userId);
+		Task<ApplicationUser> TakeNumberForStart(string userId,int planId);
 
 		Task<Class> DeleteClass(int classId);
+
+		Task<int> GetStaticticsTakenPlans(int id);
 	}
 }
