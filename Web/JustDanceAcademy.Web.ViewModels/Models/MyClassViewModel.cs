@@ -1,4 +1,6 @@
-﻿using JustDanceAcademy.Models;
+﻿using JustDanceAcademy.Data.Models;
+using JustDanceAcademy.Data.Models.Enum;
+using JustDanceAcademy.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,16 @@ namespace JustDanceAcademy.Web.ViewModels.Models
         }
 
         public string Category
+        {
+            get; set;
+        }
+
+        public decimal PlanPrice
+        {
+            get; set;
+        }
+
+        public Age AgeType
         {
             get; set;
         }

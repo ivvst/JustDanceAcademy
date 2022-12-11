@@ -4,15 +4,12 @@
 	using System.Collections.Generic;
 	using System.Data;
 	using System.Linq;
-	using System.Reflection.Metadata.Ecma335;
 	using System.Threading.Tasks;
-	using AutoMapper.Internal.Mappers;
 	using JustDanceAcademy.Data.Common.Repositories;
 	using JustDanceAcademy.Data.Models;
 	using JustDanceAcademy.Models;
 	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Services.Data.Constants;
-	using JustDanceAcademy.Services.Mapping;
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.EntityFrameworkCore;
 
@@ -25,8 +22,9 @@
 		private readonly IRepository<ClassStudent> comboRepo;
 		private readonly IRepository<Review> reviewRepo;
 		private readonly IRepository<Schedule> scheduleRepo;
+		private readonly IRepository<TestStudent> planUserRepo;
 
-		public ClassService(IRepository<ClassStudent> comboRepo, IRepository<Class> classRepository, IRepository<ApplicationUser> userRepository, IRepository<MemberShip> planRepo, IRepository<LevelCategory> levelRepo, IRepository<Review> reviewRepo, IRepository<Schedule> scheduleRepo)
+		public ClassService(IRepository<ClassStudent> comboRepo, IRepository<Class> classRepository, IRepository<ApplicationUser> userRepository, IRepository<MemberShip> planRepo, IRepository<LevelCategory> levelRepo, IRepository<Review> reviewRepo, IRepository<Schedule> scheduleRepo, IRepository<TestStudent> planUserRepo)
 		{
 			this.classRepository = classRepository;
 			this.userRepository = userRepository;
@@ -35,6 +33,7 @@
 			this.comboRepo = comboRepo;
 			this.reviewRepo = reviewRepo;
 			this.scheduleRepo = scheduleRepo;
+			this.planUserRepo = planUserRepo;
 		}
 
 		public async Task<int> CreateClassAsync(AddClassViewModel model)
@@ -60,19 +59,6 @@
 			var index = await this.classRepository.AllAsNoTracking().Include(x => x.LevelCategory).ToListAsync();
 
 			return index;
-			//return await this.classRepository.All()
-			//	.OrderBy(c => c.Name)
-			//	.Select(c => new ClassesViewModel()
-			//	{
-			//		Id = c.Id,
-			//		Name = c.Name,
-			//		ImageUrl = c.ImageUrl,
-			//		Description = c.Description,
-			//		Instructor = c.Instructor,
-			//		Category = c.LevelCategory.Name,
-			//		LevelCategory = c.LevelCategory,
-			//	})
-			//	.ToListAsync();
 		}
 
 		public async Task<IEnumerable<PlanViewModel>> GetAllPlans()
@@ -80,10 +66,12 @@
 			return await this.planRepo.All()
 				.Select(p => new PlanViewModel()
 				{
+					Id = p.Id,
 					Title = p.Title,
 					Price = p.Price,
 					Age = p.Age,
 					AgeRequirement = p.DetailOne,
+					StudentsCount = p.Students.Count(),
 				})
 				.ToListAsync();
 		}
@@ -92,6 +80,7 @@
 		{
 			var plan = new MemberShip()
 			{
+				Id = model.Id,
 				Title = model.Title,
 				Price = model.Price,
 				Age = model.Age,
@@ -134,7 +123,6 @@
 					ImageUrl = c.ImageUrl,
 					Instructor = c.Instructor,
 					Category = c.LevelCategory.Name,
-
 				})
 				.ToListAsync();
 
@@ -181,8 +169,6 @@
 				danceClass.Students.Add(getStarted);
 				await this.comboRepo.AddAsync(getStarted);
 				await this.comboRepo.SaveChangesAsync();
-
-
 			}
 		}
 
@@ -195,13 +181,24 @@
 
 			var st = student.Class.Students.First(x => x.StudentId == userId);
 			st.IsDeleted = true;
+			this.comboRepo.Update(st);
+
+			var studentPlan = await this.userRepository.All().Where(x => x.Id == userId).Include(x => x.Plan.Students).FirstOrDefaultAsync();
+			if (studentPlan.Plan != null)
+			{
+				var sp = studentPlan.Plan.Students.FirstOrDefault(x => x.StudentId == userId);
+				sp.IsDeleted = true;
+				this.planUserRepo.Update(sp);
+				await this.planUserRepo.SaveChangesAsync();
+			}
 
 			// var item = student.Class.Students.First(x => x.ClassId == classId).IsDeleted = true;
 			student.Class = null;
 			student.ClassId = null;
 			student.PhoneNumber = null;
+			student.Plan = null;
+			student.PlanId = null;
 
-			this.comboRepo.Update(st);
 			await this.comboRepo.SaveChangesAsync();
 			this.userRepository.Update(student);
 			await this.userRepository.SaveChangesAsync();
@@ -227,6 +224,8 @@
 				var index = await this.userRepository.All().Where(x => x.Id == userId).Select(x => x.Class).FirstOrDefaultAsync();
 				var category = await this.levelRepo.All().FirstOrDefaultAsync(x => x.Id == index.LevelCategoryId);
 
+				var studentPlan = await this.planUserRepo.All().Where(x => x.StudentId == userId).Select(x => x.Plan).FirstOrDefaultAsync();
+
 				var result = user.Class.Students.Where(x => x.StudentId == user.Id)
 				   .Select(x => new MyClassViewModel()
 				   {
@@ -236,25 +235,25 @@
 					   Instructor = x.Class.Instructor,
 					   Description = x.Class.Description,
 					   Category = x.Class.LevelCategory.Name,
+					   PlanPrice = studentPlan != null ? studentPlan.Price : 0,
+					   AgeType = studentPlan != null ? studentPlan.Age : default,
 				   });
 				return result;
 			}
+
 			return null;
 		}
 
 		public async Task Edit(int classId, EditDanceViewModel model)
 		{
 			var dance = await this.classRepository.All().Where(x => x.Id == classId).FirstOrDefaultAsync();
-
-
-
 			dance.Description = model.Description;
 			dance.ImageUrl = model.ImageUrl;
 			dance.Instructor = model.Instructor;
 
 			dance.Name = model.Name;
 			dance.LevelCategoryId = model.LevelCategoryId;
-			model.levelCategory = await levelRepo.All().FirstOrDefaultAsync(x => x.Id == model.LevelCategoryId);
+			model.levelCategory = await this.levelRepo.All().FirstOrDefaultAsync(x => x.Id == model.LevelCategoryId);
 			this.classRepository.Update(dance);
 			await this.classRepository.SaveChangesAsync();
 		}
@@ -289,13 +288,11 @@
 
 		public async Task<int> CreateReview(int classId, string userId, ReviewViewModel model)
 		{
-
 			var dance = await this.classRepository.All().Where(d => d.Id == classId).FirstOrDefaultAsync();
 			if (dance == null)
 			{
 				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
 			}
-
 
 			var student = await this.userRepository.All().Where(s => s.Id == userId).FirstOrDefaultAsync();
 			if (student == null)
@@ -303,13 +300,10 @@
 				throw new NullReferenceException(string.Format(ExceptionMessages.StudentNotFound));
 			}
 
-
-
 			if (student.ClassId != classId)
 			{
 				throw new ArgumentException(string.Format(ExceptionMessages.ReviewNotAllowed));
 			}
-
 
 			var review = new Review()
 			{
@@ -320,8 +314,6 @@
 			};
 
 			student.Class.Reviews.Add(review);
-
-
 			await this.reviewRepo.AddAsync(review);
 			await this.classRepository.SaveChangesAsync();
 			await this.userRepository.SaveChangesAsync();
@@ -351,27 +343,15 @@
 
 		public async Task<IEnumerable<Review>> AllReviews()
 		{
-
-
-			//var idofDance = await this.reviewRepo.All().ToListAsync();
-
-			//foreach (var item in idofDance)
-			//{
-			//	var dance = await this.classRepository.All().Where(x => x.Id == item.ClassId).FirstOrDefaultAsync();
-			//	item.Class = dance;
-			//	this.reviewRepo.Update(item);
-			//	await this.reviewRepo.SaveChangesAsync();
-
-
-
-			//}
-
 			var index = await this.reviewRepo.AllAsNoTracking().Include(x => x.User).ThenInclude(x => x.Class).ThenInclude(x => x.LevelCategory).ToListAsync();
-
-
 			return index;
 		}
 
+		/// <summary>
+		/// check if user buy a membership or not  just check the value of his phoneNumber
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns></returns>
 		public async Task<bool> PhoneNotifyForClass(string userId)
 		{
 			var student = await this.userRepository.All().Where(x => x.Id == userId).FirstAsync();
@@ -384,23 +364,45 @@
 			return false;
 		}
 
-		public async Task<ApplicationUser> TakeNumberForStart(string userId)
-		{
-			var student = await this.userRepository.All().Where(x => x.Id == userId).FirstAsync();
+		/// <summary>
+		/// When User choose his MemberShip  set  his phone number to taken
+		/// Add him to ClassStudent collection and set his plan.
+		/// </summary>
 
+		/// <returns></returns>
+		public async Task<ApplicationUser> TakeNumberForStart(string userId, int planId)
+		{
+			var student = await this.userRepository.All().Where(x => x.Id == userId).FirstOrDefaultAsync();
+
+			var plan = await this.planRepo.All().FirstOrDefaultAsync(x => x.Id == planId);
+
+			student.Plan = plan;
+			student.PlanId = plan.Id;
 			string start = "taken";
 			student.PhoneNumber = start;
-			this.userRepository.Update(student);
-			await this.userRepository.SaveChangesAsync();
 
+			var studentPlan = new TestStudent()
+			{
+				Student = student,
+				StudentId = student.Id,
+				Plan = plan,
+				PlanId = plan.Id,
+			};
+			plan.Students.Add(studentPlan);
+			await this.planUserRepo.AddAsync(studentPlan);
+			await this.planUserRepo.SaveChangesAsync();
+
+			// TEST COMBO REPO UPDATE AND PLAN and PLAN ID FOR PAYING
 			return student;
 		}
 
+		/// <summary>
+		/// When CLass in Deleted in All tables with reference to it add Deleted-Date.
+		/// </summary>
+		/// <returns></returns>
 		public async Task<Class> DeleteClass(int classId)
 		{
 			var dance = await this.classRepository.All().Where(d => d.Id == classId).FirstOrDefaultAsync();
-
-
 			if (dance == null)
 			{
 				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
@@ -409,22 +411,17 @@
 			var reviews = await this.reviewRepo.All().Where(x => x.ClassId == classId).ToListAsync();
 			if (reviews.Any())
 			{
-
-
 				foreach (var item in reviews)
 				{
 					item.IsDeleted = true;
 					item.DeletedOn = DateTime.Now;
 					this.reviewRepo.Update(item);
-
 				}
 			}
 
 			if (await this.comboRepo.All().Where(x => x.ClassId == classId).FirstOrDefaultAsync() == null)
 			{
-
 			}
-
 			var students = await this.comboRepo.All().Where(x => x.ClassId == classId).Select(x => x.Class.Students).ToListAsync();
 
 			if (students.Any())
@@ -437,8 +434,19 @@
 							.All()
 					.Where(u => u.Id == arg.StudentId)
 					.FirstOrDefaultAsync();
+
+						var studentsPlan = await this.planUserRepo.All().FirstOrDefaultAsync(x => x.StudentId == arg.StudentId);
+						if (studentsPlan != null)
+						{
+							studentsPlan.IsDeleted = true;
+							this.planUserRepo.Update(studentsPlan);
+						}
+
 						student.PhoneNumber = null;
 						student.ClassId = null;
+						student.Class = null;
+						student.Plan = null;
+						student.PlanId = null;
 
 						this.userRepository.Update(student);
 
@@ -469,6 +477,7 @@
 			await this.userRepository.SaveChangesAsync();
 			await this.reviewRepo.SaveChangesAsync();
 			await this.scheduleRepo.SaveChangesAsync();
+			await this.planUserRepo.SaveChangesAsync();
 
 			return dance;
 
@@ -486,6 +495,13 @@
 		public async Task<int> GetCountAsync()
 		{
 			return await this.classRepository.AllAsNoTracking().CountAsync();
+		}
+
+		public async Task<int> GetStaticticsTakenPlans(int id)
+		{
+			var count = await this.planRepo.All().Where(x => x.Id == id).Select(x => x.Students).ToListAsync();
+
+			return count.Count();
 		}
 	}
 }

@@ -42,5 +42,10 @@ namespace JustDanceAcademy.Web.ViewModels.Models
         {
             get; set;
         }
+
+        public int StudentsCount
+        {
+            get; set;
+        }
     }
 }

@@ -55,7 +55,20 @@ namespace JustDanceAcademy.Data.Models
             get; set;
         }
 
-        public virtual ICollection<IdentityUserRole<string>> Roles
+		 public int? PlanId
+		{
+			get; set;
+		}
+
+		public virtual MemberShip Plan
+		{
+			get; set;
+		}
+
+
+
+
+		public virtual ICollection<IdentityUserRole<string>> Roles
         {
             get; set;
         }

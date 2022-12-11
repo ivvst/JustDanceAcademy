@@ -67,10 +67,6 @@
 				var model = await this.danceService.GetAllPlans();
 				return this.View(model);
 			}
-
-			this.TempData["Msg"] = OperationalMessages.NotifyForCall;
-
-
 			return this.RedirectToAction(nameof(this.Classes));
 		}
 
@@ -99,8 +95,8 @@
 			if (await this.danceService.DoesUserHaveClass(userId) == true)
 			{
 				this.TempData["Msg"] = ExceptionMessages.ClassAlreadyIsStarted;
-
 				return this.RedirectToAction(nameof(this.Classes));
+
 			}
 
 			await this.danceService.AddStudentToClass(userId, classId);
@@ -108,7 +104,7 @@
 			return this.RedirectToAction(nameof(this.Train));
 		}
 
-		public async Task<IActionResult> GetNumber()
+		public async Task<IActionResult> GetNumber(int planId)
 		{
 			var userId = this.User.Claims
 					.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -118,7 +114,10 @@
 				return this.RedirectToAction(nameof(this.Train));
 			}
 
-			await this.danceService.TakeNumberForStart(userId);
+			this.TempData["Msg"] = OperationalMessages.NotifyForCall;
+
+			await this.danceService.TakeNumberForStart(userId, planId);
+
 			return this.RedirectToAction(nameof(this.Train));
 		}
 
@@ -179,7 +178,7 @@
 
 			var model = new ReviewViewModel()
 			{
-				Id=id,
+				Id = id,
 				NameClass = danceClass.Name,
 
 			};

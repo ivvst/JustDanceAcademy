@@ -31,5 +31,7 @@ namespace JustDanceAcademy.Data.Models
 
             get; set;
         }
+
+
     }
 }

@@ -42,6 +42,10 @@
 		{
 			get; set;
 		}
+		public DbSet<TestStudent> TestStudents
+		{
+			get; set;
+		}
 
 		public DbSet<Review> Reviews
 		{
