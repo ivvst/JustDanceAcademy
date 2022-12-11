@@ -136,16 +136,11 @@
 
 					if (student != null && await this.userManager.IsInRoleAsync(student, "Administrator"))
 					{
-						this.HttpContext.Session.SetString("UserName", student.UserName);
 						return this.RedirectToAction("Index", "Admin", new
 						{
 							area = "Administration",
 						});
 					}
-
-					var userGetNotification = await this.userManager.FindByNameAsync(model.UserName);
-
-					 this.HttpContext.Session.SetString("UserName", userGetNotification.UserName);
 
 					return this.RedirectToAction("Classes", "Class");
 				}
@@ -166,8 +161,6 @@
 			await this.signInManager.SignOutAsync();
 
 			// not Bugs
-
-			this.HttpContext.Session.Remove("UserName");
 
 			return this.RedirectToAction("Index", "Home");
 		}

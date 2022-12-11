@@ -11,7 +11,7 @@
 
 		var list = new List<string>();
 		var current = new Class { };
-		var first = false;
+		
 		
 	}
 	<section>
@@ -48,7 +48,7 @@
 								<td>@item.StartTime.ToShortTimeString() - @item.EndTime.ToShortTimeString() </td>
 								<td>@current.LevelCategory.Name</td>
 								<td>@current.Instructor</td>
-								<td>@item.Age</td>
+								<td>@item.Age.ToString()</td>
 							</tr>
 
 						</tbody>

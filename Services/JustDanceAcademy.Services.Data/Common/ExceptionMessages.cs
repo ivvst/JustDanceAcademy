@@ -36,5 +36,8 @@ namespace JustDanceAcademy.Services.Data.Common
 		public const string LeaveClass = "You leave the class.. Now you can start new one!!";
 
 		public const string ClassAlreadyIsStarted = " The Class is not added because you already start a class.";
+
+		public const string QuestionAlreadyExists = "Question already exists";
+
 	}
 }
