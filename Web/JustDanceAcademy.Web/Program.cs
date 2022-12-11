@@ -81,13 +81,18 @@ namespace JustDanceAcademy.Web
 
 			});
 
-			services.AddRazorPages();
 			services.AddSignalR();
 			services.AddControllersWithViews(
 				options =>
 				{
 					options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-				}).AddRazorRuntimeCompilation();
+				}).AddRazorRuntimeCompilation().AddSessionStateTempDataProvider();
+			services.AddRazorPages().AddSessionStateTempDataProvider();
+
+			services.Configure<CookieTempDataProviderOptions>(options =>
+			{
+				options.Cookie.IsEssential = true;
+			});
 			services.AddDatabaseDeveloperPageExceptionFilter();
 
 			services.AddSingleton(configuration);
@@ -98,7 +103,7 @@ namespace JustDanceAcademy.Web
 			services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
 			// Session
-			services.AddDistributedMemoryCache();
+			services.AddMemoryCache();
 			services.AddSession();
 
 			// Application services
@@ -107,10 +112,12 @@ namespace JustDanceAcademy.Web
 			services.AddScoped<ILevelCategoryService, LevelDanceService>();
 
 			services.AddScoped<IServiceInstructor, InstructorService>();
+			services.AddScoped<IFaQService, FaQService>();
+
 			services.AddScoped<IScheduleService, ScheduleService>();
 			services.AddTransient<IEmailSender, NullMessageSender>();
 			services.AddTransient<ISettingsService, SettingsService>();
-			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 		}
 
 		private static void Configure(WebApplication app)
@@ -138,9 +145,7 @@ namespace JustDanceAcademy.Web
 
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
-			app.UseCookiePolicy();
 
-			app.UseSession();
 			app.UseRouting();
 
 			app.UseAuthentication();
@@ -158,11 +163,14 @@ namespace JustDanceAcademy.Web
 				name: "danceDetails",
 				pattern: "Class/ClassDetails/{id}/{information}");
 
+
+			app.UseSession();
 			app.UseEndpoints(end =>
 						{
 							end.MapRazorPages();
 							end.MapHub<NotificationHub>("/notificationHub");
 						});
+			app.UseCookiePolicy();
 		}
 	}
 }
