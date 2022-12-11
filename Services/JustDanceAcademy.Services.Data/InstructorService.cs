@@ -76,12 +76,12 @@
 			trainer.Name = model.FullName;
 			trainer.ClassId = model.ClassId;
 
-			var danceClass = await this.classRepository.All().FirstOrDefaultAsync(x => x.Id == model.ClassId);
+			//var danceClass = await this.classRepository.All().FirstOrDefaultAsync(x => x.Id == model.ClassId);
 
-			if (danceClass == null)
-			{
-				throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
-			}
+			//if (danceClass == null)
+			//{
+			//	throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
+			//}
 			await this.repo.SaveChangesAsync();
 		}
 

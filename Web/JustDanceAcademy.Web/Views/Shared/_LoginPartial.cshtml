@@ -1,9 +1,8 @@
 ﻿@using JustDanceAcademy.Data.Models
-@using Microsoft.AspNetCore.Http;
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
 <ul class="nav navbar-nav navbar-right">
 	
 	@if (SignInManager.IsSignedIn(User))
@@ -11,9 +10,9 @@
 
 
 		
-		var entity = @HttpContextAccessor.HttpContext?.Session.GetString("UserName");
+		
 		
 
-	<h1 class="display-4">Welcome,@entity</h1>
+	<h1 class="display-4">Welcome</h1>
 	}
 </ul>

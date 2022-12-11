@@ -1,9 +1,6 @@
 ﻿@using JustDanceAcademy.Data.Models
 @using JustDanceAcademy.Models;
 
-
-
-
 @model IEnumerable<Class>
 
 @foreach (var item in Model)
@@ -36,7 +33,6 @@
 				<ul>
 					<li><strong>Instructor: </strong>@item.Instructor</li>
 					<li><strong>Dance-Category: </strong>@item.LevelCategory.Name</li>
-					<br>
 					<li><strong>Age: </strong>Press "Schedule" for more Info</li>
 				</ul>
 			</div>
@@ -70,6 +66,7 @@
 	if (msg.length) {
 		swal(msg);
 	}
+
 </script>
 
 

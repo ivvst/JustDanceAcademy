@@ -174,7 +174,7 @@
 				Name = "Pamela Reif",
 				Biography = "Born in early 90's she become one of the most popular dance-trainer during 2020.",
 				Class = classes[0],
-				ClassId = 1,
+				ClassId = classes[0].Id,
 			};
 
 			var trainersList = new List<Instrustor>();
@@ -190,8 +190,7 @@
 			this.trainerRepo.Setup(x => x.All()).Returns(trainersList.AsQueryable().BuildMock());
 			this.classRepo.Setup(x => x.All()).Returns(classes.AsQueryable().BuildMock());
 
-			var service = new InstructorService(this.trainerRepo.Object,
-				this.classRepo.Object);
+			var service = new InstructorService(this.trainerRepo.Object, this.classRepo.Object);
 
 			await service.Edit(trainer.Id, chosenTrainer);
 
@@ -288,7 +287,7 @@
 		{
 			var classesList = GetClassesList();
 
-			this.classRepo.Setup(x => x.All()).Returns(classesList.AsQueryable().BuildMock());
+			this.classRepo.Setup(x => x.AllAsNoTracking()).Returns(classesList.AsQueryable().BuildMock());
 
 			var service = new InstructorService(this.trainerRepo.Object, this.classRepo.Object);
 			var result = await service.GetClasses();

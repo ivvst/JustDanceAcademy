@@ -192,6 +192,18 @@
 
 		}
 
+		public async Task<IActionResult> GetPlanStatictic(int id)
+		{
+			var model = await this.danceService.GetStaticticsTakenPlans(id);
+			return this.View(model);
+		}
+
+		public async Task<IActionResult> GetPlans()
+		{
+			var model = await this.danceService.GetAllPlans();
+			return this.View(model);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> Delete(int id)
 		{

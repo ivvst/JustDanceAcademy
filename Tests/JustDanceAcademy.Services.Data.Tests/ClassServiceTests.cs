@@ -10,6 +10,7 @@
 	using JustDanceAcademy.Models;
 	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Web.ViewModels.Models;
+	using Microsoft.AspNetCore.Routing.Matching;
 	using MockQueryable.Moq;
 	using Moq;
 	using Xunit;
@@ -23,6 +24,8 @@
 		private Mock<IRepository<MemberShip>> planRepo;
 		private Mock<IRepository<Schedule>> scheduleRepo;
 		private Mock<IRepository<LevelCategory>> levelRepo;
+		private Mock<IRepository<TestStudent>> planUserRepo;
+
 
 
 		public ClassServiceTests()
@@ -34,6 +37,7 @@
 			this.planRepo = new Mock<IRepository<MemberShip>>();
 			this.scheduleRepo = new Mock<IRepository<Schedule>>();
 			this.levelRepo = new Mock<IRepository<LevelCategory>>();
+			this.planUserRepo = new Mock<IRepository<TestStudent>>();
 
 
 		}
@@ -50,7 +54,7 @@
 			}.AsQueryable();
 			this.repo.Setup(r => r.AllAsNoTracking()).Returns(classes.BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
+			var service = new ClassService(null, this.repo.Object, null, null, null, null, null, null);
 
 			Assert.Equal(classes.Count(), await service.GetCountAsync());
 
@@ -97,7 +101,7 @@
 
 			this.levelRepo.Setup(x => x.AllAsNoTracking()).Returns(categories.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, this.levelRepo.Object, null, null);
+			var service = new ClassService(null, this.repo.Object, null, null, this.levelRepo.Object, null, null, null);
 			var result = await service.GetAllAsync();
 
 			Assert.Equal(list.Count(), result.Count());
@@ -127,7 +131,7 @@
 			this.levelRepo.Setup(x => x.AllAsNoTracking()).
 			Returns(categories.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, this.levelRepo.Object, null, null);
+			var service = new ClassService(null, this.repo.Object, null, null, this.levelRepo.Object, null, null, null);
 			var result = await service.CreateClassAsync(dance);
 
 			this.repo.Verify(
@@ -157,7 +161,7 @@
 			this.repo.Setup(x => x.AllAsNoTracking()).
 				Returns(list.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
+			var service = new ClassService(null, this.repo.Object, null, null, null, null, null, null);
 
 			var result = await service.GetCountAsync();
 			Assert.Equal(list.Count(), result);
@@ -171,7 +175,7 @@
 		[Fact]
 		public async Task DeleteClassById()
 		{
-			// Delete Class  With Added Review/Students' properties like phones'and delete's classId
+			// Delete Class  With Added Plans/Review/Students' properties like phones'and delete's classId
 			var dance = new Class
 			{
 				Id = 5,
@@ -218,6 +222,16 @@
 			this.userRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
 			this.userRepo.Setup(x => x.All()).Returns(userList.AsQueryable().BuildMock());
 
+			var plan = new MemberShip { Id = 1, Students = new List<TestStudent>() };
+			var planList = new List<MemberShip>() { plan };
+			var studentPlan = new TestStudent { Student = userClass, StudentId = userClass.Id, Plan = plan, PlanId = plan.Id };
+			plan.Students.Add(studentPlan);
+
+			this.planUserRepo.Setup(m => m.Update(It.IsAny<TestStudent>()))
+							.Callback(() => { plan.Students.Remove(studentPlan); });
+			this.planUserRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
+			this.planUserRepo.Setup(x => x.All()).Returns(plan.Students.AsQueryable().BuildMock());
+
 			var schedule = new Schedule()
 			{
 				ClassId = 5,
@@ -238,7 +252,8 @@
 				null,
 				null,
 				this.reviewRepo.Object,
-				this.scheduleRepo.Object);
+				this.scheduleRepo.Object,
+				this.planUserRepo.Object);
 
 			var result = await service.DeleteClass(dance.Id);
 
@@ -258,7 +273,7 @@
 
 			this.repo.Setup(x => x.All()).Returns(list.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
+			var service = new ClassService(null, this.repo.Object, null, null, null, null, null, null);
 
 			var ex = await Assert.ThrowsAsync<NullReferenceException>
 				(
@@ -289,7 +304,7 @@
 			this.planRepo.Setup(x => x.AllAsNoTracking()).
 				Returns(list.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, null, null, this.planRepo.Object, null, null, null);
+			var service = new ClassService(null, null, null, this.planRepo.Object, null, null, null, null);
 			var result = await service.CreatePlan(plan);
 
 			this.planRepo.Verify(
@@ -356,7 +371,7 @@
 			this.reviewRepo.Setup(x => x.AllAsNoTracking()).
 				Returns(reviewList.AsQueryable().BuildMock());
 
-			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, this.reviewRepo.Object, null);
+			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, this.reviewRepo.Object, null, null);
 
 			var result = await service.CreateReview(dance.Id, userClass.Id, review);
 
@@ -419,7 +434,7 @@
 			this.reviewRepo.Setup(x => x.AllAsNoTracking()).
 				Returns(reviewList.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, null, this.reviewRepo.Object, null);
+			var service = new ClassService(null, this.repo.Object, null, null, null, this.reviewRepo.Object, null, null);
 
 			var ex = await Assert.ThrowsAsync<NullReferenceException>(
 			async () => await service.CreateReview(8, userClass.Id, review));
@@ -483,7 +498,7 @@
 			this.reviewRepo.Setup(x => x.AllAsNoTracking()).
 				Returns(reviewList.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, this.userRepo.Object, null, null, this.reviewRepo.Object, null);
+			var service = new ClassService(null, this.repo.Object, this.userRepo.Object, null, null, this.reviewRepo.Object, null, null);
 
 			var ex = await Assert.ThrowsAsync<NullReferenceException>(
 			async () => await service.CreateReview(dance.Id, "150", review));
@@ -560,7 +575,7 @@
 			this.reviewRepo.Setup(x => x.AllAsNoTracking()).
 				Returns(reviewList.AsQueryable().BuildMock());
 
-			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, this.reviewRepo.Object, null);
+			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, this.reviewRepo.Object, null, null);
 
 			var ex = await Assert.ThrowsAsync<ArgumentException>(
 			async () => await service.CreateReview(testDance.Id, userClass.Id, review));
@@ -621,7 +636,7 @@
 			this.comboRepo.Setup(x => x.AllAsNoTracking()).
 				Returns(allListOfUserClass.AsQueryable().BuildMock());
 
-			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, null, null);
+			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, null, null, null);
 
 			await service.AddStudentToClass(user.Id, dance.Id);
 
@@ -630,16 +645,16 @@
 		}
 
 		[Fact]
-		// ADD OPITON : IF USER PAID CLASS CANNOT LEAVE THE CLASS-CLASS SERVICE TODO;
 		public async Task LeavingAClassShouldWorkProperly()
 		{
+			var plan = new MemberShip { Id = 1, Students = new List<TestStudent>() };
+			var planList = new List<MemberShip>();
+			planList.Add(plan);
 			var dance = new Class
 			{
 				Id = 5,
 				Students = new List<ClassStudent>(),
 			};
-
-
 			var list = new List<Class>();
 
 			var user = new ApplicationUser
@@ -648,6 +663,8 @@
 				PhoneNumber = "taken",
 				Class = dance,
 				ClassId = 5,
+				Plan = plan,
+				PlanId = plan.Id,
 			};
 			var userList = new List<ApplicationUser>();
 			userList.Add(user);
@@ -656,9 +673,11 @@
 
 			var student = new ClassStudent { ClassId = 5, StudentId = "2", Class = dance };
 			dance.Students.Add(student);
+			var studentPlan = new TestStudent { StudentId = "2", Plan = plan, PlanId = plan.Id };
+			plan.Students.Add(studentPlan);
 
 			this.userRepo.Setup(m => m.Update(It.IsAny<ApplicationUser>()))
-							.Callback(() => { userList.Remove(user); });
+										.Callback(() => { userList.Remove(user); });
 			this.userRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
 			this.userRepo.Setup(x => x.All()).Returns(userList.AsQueryable().BuildMock());
 
@@ -667,6 +686,11 @@
 			this.comboRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
 			this.comboRepo.Setup(x => x.All()).Returns(dance.Students.AsQueryable().BuildMock());
 
+			this.planUserRepo.Setup(m => m.Update(It.IsAny<TestStudent>()))
+							.Callback(() => { dance.Students.Remove(student); });
+			this.planUserRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
+			this.planUserRepo.Setup(x => x.All()).Returns(plan.Students.AsQueryable().BuildMock());
+
 			var service = new ClassService(
 				this.comboRepo.Object,
 				null,
@@ -674,22 +698,43 @@
 				null,
 				null,
 				null,
-				null);
+				null,
+				this.planUserRepo.Object);
 
 			var result = await service.LeaveClass(user.Id);
 
 			Assert.True(result.IsDeleted);
-
 		}
 
 		[Fact]
 		public async Task TakePhoneNumberIsOrderToPayWorkCorrectly()
 		{
+			var plan = new MemberShip { Id = 1 };
+			var planList = new List<MemberShip> { plan };
+
 			var user = new ApplicationUser
 			{
 				Id = "2",
 				ClassId = 5,
 			};
+
+			var studentPlan = new TestStudent { StudentId = user.Id, Plan = plan, PlanId = plan.Id };
+			this.planRepo.Setup(x => x.All()).Returns(planList.AsQueryable().BuildMock());
+
+			var planStudentList = new List<TestStudent>();
+
+			this.planUserRepo.Setup(x => x.AddAsync(It.IsAny<TestStudent>()))
+					.Callback(() =>
+					{
+						return;
+					});
+			this.planUserRepo.Setup(x => x.SaveChangesAsync()).Callback(() =>
+			{
+				return;
+			});
+			this.planUserRepo.Setup(x => x.AllAsNoTracking()).
+				Returns(planStudentList.AsQueryable().BuildMock());
+
 			var userList = new List<ApplicationUser>();
 			userList.Add(user);
 			this.userRepo.Setup(m => m.Update(It.IsAny<ApplicationUser>()))
@@ -697,10 +742,12 @@
 			this.userRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
 			this.userRepo.Setup(x => x.All()).Returns(userList.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, null, this.userRepo.Object, null, null, null, null);
-			var result = await service.TakeNumberForStart(user.Id);
+			var service = new ClassService(null, null, this.userRepo.Object, this.planRepo.Object, null, null, null, this.planUserRepo.Object);
+			var result = await service.TakeNumberForStart(user.Id, plan.Id);
 
 			Assert.Equal("taken", result.PhoneNumber);
+			this.planUserRepo.Verify(m => m.AddAsync(It.IsAny<TestStudent>()), Times.Once());
+			this.planUserRepo.Verify(m => m.SaveChangesAsync(), Times.Once());
 		}
 
 		[Fact]
@@ -718,7 +765,7 @@
 			this.userRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
 			this.userRepo.Setup(x => x.All()).Returns(userList.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, null, this.userRepo.Object, null, null, null, null);
+			var service = new ClassService(null, null, this.userRepo.Object, null, null, null, null, null);
 			var result = await service.PhoneNotifyForClass(user.Id);
 
 			Assert.False(result);
@@ -741,7 +788,7 @@
 			this.userRepo.Setup(x => x.SaveChangesAsync()).Callback(() => { return; });
 			this.userRepo.Setup(x => x.All()).Returns(userList.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, null, this.userRepo.Object, null, null, null, null);
+			var service = new ClassService(null, null, this.userRepo.Object, null, null, null, null, null);
 			var result = await service.PhoneNotifyForClass(user.Id);
 
 			Assert.True(result);
@@ -775,7 +822,7 @@
 			this.comboRepo.Setup(x => x.All()).Returns(dance.Students.AsQueryable().BuildMock());
 
 
-			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, null, null);
+			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, null, null, null, null);
 			var result = await service.GetClassForReview(user.Id);
 
 			Assert.Equal(dance, result);
@@ -794,7 +841,7 @@
 			userList.Add(user);
 			this.userRepo.Setup(x => x.All()).Returns(userList.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, null, this.userRepo.Object, null, null, null, null);
+			var service = new ClassService(null, null, this.userRepo.Object, null, null, null, null, null);
 			var result = await service.DoesUserHaveClass(user.Id);
 
 			Assert.False(result);
@@ -813,7 +860,7 @@
 			userList.Add(user);
 			this.userRepo.Setup(x => x.All()).Returns(userList.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, null, this.userRepo.Object, null, null, null, null);
+			var service = new ClassService(null, null, this.userRepo.Object, null, null, null, null, null);
 			var result = await service.DoesUserHaveClass(user.Id);
 
 			Assert.True(result);
@@ -843,6 +890,7 @@
 				null,
 				null,
 				this.levelRepo.Object,
+				null,
 				null,
 				null
 			);
@@ -884,6 +932,12 @@
 			this.comboRepo.Setup(x => x.All()).Returns(dance.Students.AsQueryable().BuildMock());
 			this.levelRepo.Setup(x => x.All()).Returns(categories.AsQueryable().BuildMock());
 
+			var plan = new MemberShip { Id = 1, Price = 80, Age = JustDanceAcademy.Data.Models.Enum.Age.Teen, Students = new List<TestStudent>() };
+			var planList = new List<MemberShip>() { plan };
+			var studentPlan = new TestStudent { Student = user, StudentId = user.Id, Plan = plan, PlanId = plan.Id };
+			plan.Students.Add(studentPlan);
+
+			this.planUserRepo.Setup(x => x.All()).Returns(plan.Students.AsQueryable().BuildMock());
 
 			var mydance = new MyClassViewModel
 			{
@@ -891,11 +945,13 @@
 				Name = dance.Name,
 				Instructor = dance.Instructor,
 				Category = dance.LevelCategory.Name,
+				PlanPrice = plan.Price,
+				AgeType = plan.Age,
 			};
 			var list = new List<MyClassViewModel>();
 			list.Add(mydance);
 
-			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, this.levelRepo.Object, null, null);
+			var service = new ClassService(this.comboRepo.Object, this.repo.Object, this.userRepo.Object, null, this.levelRepo.Object, null, null, this.planUserRepo.Object);
 			var result = await service.GetMyClassAsync(user.Id);
 
 			Assert.Equal(list.Count(), result.Count());
@@ -915,7 +971,7 @@
 
 			this.levelRepo.Setup(x => x.All()).Returns(categories.AsQueryable().BuildMock());
 
-			var service = new ClassService(null, this.repo.Object, null, null, null, null, null);
+			var service = new ClassService(null, this.repo.Object, null, null, null, null, null, null);
 			var result = await service.GetDanceLevelId(dance.Id);
 
 			Assert.Equal(dance.LevelCategoryId, result);
@@ -928,7 +984,7 @@
 			var catNames = categories.Select(x => x.Name);
 
 			this.levelRepo.Setup(x => x.All()).Returns(categories.BuildMock());
-			var service = new ClassService(null, null, null, null, this.levelRepo.Object, null, null);
+			var service = new ClassService(null, null, null, null, this.levelRepo.Object, null, null, null);
 
 			var result = await service.AllCategoriesNames();
 

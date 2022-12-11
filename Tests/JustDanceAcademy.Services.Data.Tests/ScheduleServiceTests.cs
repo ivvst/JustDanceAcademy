@@ -82,8 +82,8 @@
 				AllClasses = new List<Class>(),
 				Day = JustDanceAcademy.Data.Models.Enum.Day.Tuesday,
 				ClassId = 3,
-				StartClass = DateTime.Now,
-				EndClass = DateTime.UtcNow,
+				StartClass = DateTime.UtcNow,
+				EndClass = DateTime.Now,
 			};
 			var list = new List<Schedule>();
 

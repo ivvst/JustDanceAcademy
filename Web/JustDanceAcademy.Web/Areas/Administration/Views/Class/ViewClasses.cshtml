@@ -42,6 +42,11 @@
 											<a asp-area="Administration" asp-controller="Class" asp-action="EditDance" asp-route-id="@dance.Id">Edit</a>
 										</ul>
 										<i class="fas fa-pen"></i>
+										<button class="button">
+											<ul>
+												<a asp-area="Administration" asp-controller="Class" asp-action="GetPlans">SeePlans</a>
+											</ul>
+										</button>
 									</button>
 									<form class="mt-2" asp-area="Administration" asp-controller="Class" asp-action="Delete" asp-route-id="@dance.Id">
 										<div class="d-grid gap-2">

@@ -5,144 +5,31 @@
 	ViewData["Title"] = "Class-Details";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 style="text-align:center">@ViewData["Title"]</h1>
 
 
-<link rel="stylesheet" href="css/style.css" />
-<link rel="stylesheet"
-	  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
-	  integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
-	  crossorigin="anonymous" />
+<link href="~/Content/css/class-box.css" rel="stylesheet" />
 
-<div class="container">
-	<img src="@Model.ImageUrl"
-		 alt="Class" />
-	<div class="container__text">
-		<h1>@Model.Name</h1>
-		<div class="container__text__star">
-			<span class="fa fa-star checked"></span>
-			<span class="fa fa-star checked"></span>
-			<span class="fa fa-star checked"></span>
-			<span class="fa fa-star checked"></span>
-			<span class="fa fa-star checked"></span>
-		</div>
-		<p>
-			@Model.Description
-		</p>
-		<div class="container__text__timing">
-			<div class="container__text__timing_time">
-				<h2>Dance-Level-Category</h2>
-				<p>@Model.Category</p>
-			</div>
-			<div class="container__text__timing_time">
-				<h2>Instructor</h2>
-				<p>@Model.Instructor</p>
-			</div>
-		</div>
-		<button class="btn">
-			<ul>
-				<a asp-area="Administration" asp-controller="Class" asp-action="ViewClasses">View All</a>
-			</ul>
-			<i class="fa fa-arrow-right" style="margin-left: 20px;
-		font-size: 1.5rem;"></i>
-		</button>
+<div id="container">
+	<!-- Start	Class details -->
+	<div class="product-details">
+		<!-- 	Class Name -->
+		<h1>@Model.Name for category @Model.Category</h1>
+
+		<p class="information">with Instructor : "@Model.Instructor"</p>
+		<br />
+		<br />
+		<!-- The most important information about the product -->
+		<p class="information">"@Model.Description"</p>
+	</div>
+
+	<div class="product-image">
+
+		<img src="@Model.ImageUrl" alt="Omar Dsoky">
+	</div>
+	<div id="servermsg">
+		<ul id="msglist">
+		</ul>
 	</div>
 </div>
 
-<style>
-
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
-
-	body {
-		background-color: #c2a3d1;
-		font-family: Arial, Helvetica, sans-serif;
-		display: grid;
-		place-items: center;
-		min-height: 100vh;
-	}
-
-	.container {
-		background-color: #fff;
-		position: relative;
-		display: grid;
-		grid-template-columns: 300px 600px;
-		border-radius: 5px;
-		box-shadow: 0 15px 20px rgba(0, 0, 0, 0.356);
-		
-		img
-
-	{
-		width: 300px;
-		height: 300px;
-		border-radius: 5px 0 0 5px;
-	}
-
-	.btn {
-		position: absolute;
-		bottom: -20px;
-		right: -20px;
-		border: none;
-		outline: none;
-		display: flex;
-		align-items: center;
-		background-color: #fc9400;
-		color: #fff;
-		padding: 22px 45px;
-		font-size: 1rem;
-		text-transform: uppercase;
-		border-radius: 5px;
-		cursor: pointer;
-		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.294);
-	}
-
-
-	.container__text {
-		padding: 40px 40px 0;
-		h1
-
-	{
-		color: #351897;
-		font-weight: 400;
-	}
-
-	.container__text__star span {
-		font-size: 0.8rem;
-		color: #ffa800;
-		margin: -5px 0 20px;
-	}
-
-	p {
-		font-size: 0.9rem;
-	}
-
-	.container__text__timing {
-		display: flex;
-		margin: 20px 0 10px;
-
-
-		.container__text__timing_time{}
-
-	{
-		margin-right: 40px;
-	}
-
-	h2 {
-		margin-bottom: 5px;
-		font-size: 1rem;
-		font-weight: 400;
-		color: #818189;
-	}
-
-	p {
-		color: #351897;
-		font-weight: bold;
-		font-size: 1.2rem;
-	}
-
-	}
-	}
-</style>
