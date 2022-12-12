@@ -39,5 +39,8 @@ namespace JustDanceAcademy.Services.Data.Common
 
 		public const string QuestionAlreadyExists = "Question already exists";
 
+		public const string TrainerHasClass = "Trainer still have Class.";
+
+
 	}
 }
