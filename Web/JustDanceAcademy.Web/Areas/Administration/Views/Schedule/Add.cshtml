@@ -11,19 +11,19 @@
 		<hr />
 		<br />
 		<fieldset>
-			<label asp-for="@Model.StartClass" style="font-size:2rem">Start-Class</label>
+			<label asp-for="@Model.StartClass" style="font-size:1rem">Start-Class</label>
 			<input asp-for="@Model.StartClass" style="font-size:20px" type="time" />
 			<span asp-validation-for="StartClass"></span>
 		</fieldset>
 		<br />
 		<fieldset>
-			<label asp-for="@Model.EndClass" style="font-size:2rem">End-Class</label>
+			<label asp-for="@Model.EndClass" style="font-size:1rem">End-Class</label>
 			<input asp-for="@Model.EndClass" style="font-size:20px" type="time" />
 			<span asp-validation-for="EndClass"></span>
 		</fieldset>
 		<br />
 		<fieldset>
-			<label asp-for="@Model.Day" style="font-size:2rem">Day</label>
+			<label asp-for="@Model.Day" style="font-size:1rem">Day</label>
 			<select class="browser-default custom-select" asp-for="Day" style="font-size:20px" asp-items="Html.GetEnumSelectList<Day>()" multiple>
 			</select>
 			<span asp-validation-for="Day"></span>
@@ -32,15 +32,15 @@
 
 		<br />
 		<fieldset>
-			<label asp-for="@Model.Age" style="font-size:2rem">Age</label>
+			<label asp-for="@Model.Age" style="font-size:1rem">Age</label>
 			<select class="browser-default custom-select" asp-for="Age" style="font-size:20px" asp-items="Html.GetEnumSelectList<Age>()" multiple>
 			</select>
 			
 
-				<h5 style="font-size:3rem">Adult=18+</h5>
-				<h5 style="font-size:3rem">PreSchool=6-11</h5>
-				<h5 style="font-size:3rem">Youth=12-15</h5>
-				<h5 style ="font-size:3rem">Teen=16-18</h5>
+				<h5 style="font-size:1rem">Adult=18+</h5>
+				<h5 style="font-size:1rem">PreSchool=6-11</h5>
+				<h5 style="font-size:1rem">Youth=12-15</h5>
+				<h5 style ="font-size:1rem">Teen=16-18</h5>
 			
 
 
@@ -48,7 +48,7 @@
 		</fieldset>
 		<br />
 		<fieldset>
-			<label asp-for="@Model.ClassId" style="font-size:2rem">Class-Dancing</label>
+			<label asp-for="@Model.ClassId" style="font-size:1rem">Class-Dancing</label>
 			<select asp-for="@Model.ClassId" class="form-control">
 				@foreach (var item in Model.AllClasses)
 				{

@@ -209,6 +209,8 @@
 		{
 			await this.danceService.DeleteClass(id);
 
+			this.TempData["Msg"] = OperationalMessages.DeletedClass;
+
 			return this.RedirectToAction(nameof(this.ViewClasses));
 		}
 	}
