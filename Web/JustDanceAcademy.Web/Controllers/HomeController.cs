@@ -26,6 +26,27 @@
 			return this.View(model);
 		}
 
+		public IActionResult Error(int statusCode)
+		{
+			if (statusCode == 400)
+			{
+				return this.View("Error400");
+			}
+
+			if (statusCode == 401)
+			{
+				return this.View("Error401");
+			}
+
+			if (statusCode == 404)
+			{
+				return this.View("Error404");
+			}
+
+
+			return this.View();
+		}
+
 
 	}
 }
