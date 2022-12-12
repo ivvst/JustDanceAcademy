@@ -33,7 +33,7 @@ namespace JustDanceAcademy.Web.ViewModels.Models
 
 
         [Required]
-        [StringLength(200,ErrorMessage ="The {0} its too short", MinimumLength =5)]
+        [StringLength(600,ErrorMessage ="The {0} its too short", MinimumLength =5)]
         public string AboutYou
         {
             get; set;
