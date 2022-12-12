@@ -1,0 +1,31 @@
+﻿@{
+	var Dictionary = (Dictionary<string, List<string>>)ViewData["obj"];
+}
+<link rel="stylesheet" href="~/Content/css/category-details.css">
+
+<div class="col-md-4 col-sm-6 content-card" style="text-align:center">
+	<div class="card-big-shadow">
+		<div class="card card-just-text" data-background="color" data-color="purple" data-radius="none">
+			<div class="content">
+				@foreach (var item in Dictionary)
+				{
+
+					<h4 class="title"><a>The @item.Key Dance-Class </a></h4>
+					<h6 class="category">with category/ies:</h6>
+						<hr />
+					@foreach (var arg in item.Value)
+					{
+						<p class="description" dance-category>@arg</p>
+						<br />
+						
+					}
+				}
+
+			</div> <!-- end card -->
+		</div>
+	</div>
+
+
+
+</div>
+

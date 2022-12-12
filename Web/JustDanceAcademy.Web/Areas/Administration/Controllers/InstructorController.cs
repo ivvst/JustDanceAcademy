@@ -30,6 +30,7 @@
 			return this.View(model);
 		}
 
+
 		[HttpGet]
 		[Authorize(Roles = "Administrator")]
 
@@ -70,7 +71,7 @@
 				await this.serviceInstructor.AddInstructor(model);
 
 
-				return this.RedirectToAction("All", "Instructor");
+				return this.RedirectToAction("ViewTrainers", "Instructor");
 			}
 			catch (Exception)
 			{
@@ -90,7 +91,7 @@
 			if ((await this.serviceInstructor.Exists(id)) == false)
 			{
 				throw new NullReferenceException(
-					string.Format(ExceptionMessages.InstructorNotFound, id));
+					string.Format(ExceptionMessages.InstructorNotFound));
 
 			}
 
@@ -122,10 +123,36 @@
 
 			await this.serviceInstructor.Edit(model.Id, model);
 
-			return this.RedirectToAction("Index", "Admin", new
+			return this.RedirectToAction("ViewTrainers", "Instructor", new
 			{
 				area = "Administration",
 			});
+		}
+
+		public async Task<IActionResult> Delete(int id)
+		{
+			try
+			{
+				await this.serviceInstructor.DeleteInstructor(id);
+				this.TempData["Msg"] = OperationalMessages.DeletedTrainer;
+				return this.RedirectToAction(nameof(this.ViewTrainers));
+
+			}
+			catch (Exception)
+			{
+				this.TempData["Msg"] = ExceptionMessages.TrainerHasClass;
+				return this.RedirectToAction(nameof(this.ViewTrainers));
+
+			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> ShowAllClasses(int classId)
+		{
+          var result = await this.serviceInstructor.GetClassWithAllCategoriesView(classId);
+
+			this.ViewData["obj"] = result;
+			return this.View(this.ViewData);
 		}
 	}
 }

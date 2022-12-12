@@ -22,5 +22,9 @@
 		Task Edit(int trainerId, InstructorViewModel model);
 
 		Task<IEnumerable<Class>> GetClasses();
+
+		Task<Instrustor> DeleteInstructor(int trainerId);
+
+		 Task<Dictionary<string, List<string>>> GetClassWithAllCategoriesView(int classId);
 	}
 }

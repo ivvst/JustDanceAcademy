@@ -31,6 +31,14 @@
 			var model = await this.serviceInstructor.GetAllInstructors();
 			return this.View(model);
 		}
+
+		public async Task<IActionResult> ShowCategories(int classId)
+		{
+			var result = await this.serviceInstructor.GetClassWithAllCategoriesView(classId);
+
+			this.ViewData["obj"] = result;
+			return this.View(this.ViewData);
+		}
 	}
 }
 

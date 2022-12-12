@@ -32,27 +32,39 @@
 											@person.Name
 										</a>
 										<div class="mic-info">
-											Trainer at : <a href="#">@person.Class.Name-@person.Class.LevelCategory.Name</a>
+											Trainer at : <a href="#">@person.Class.Name</a>
+
 										</div>
-										<p>Students train this class : @person.Class.Students.Count()</p>
 									</div>
 									<div class="comment-text">
 										@person.Biography
 									</div>
-									<button class="button">
+									<button class="button" style="margin-bottom:5px">
 										<ul>
+											<i class="fa fa-pencil-square"></i>
 											<a asp-area="Administration" asp-controller="Instructor" asp-action="Edit" asp-route-id="@person.Id">Edit</a>
+
 										</ul>
-										<i class="fas fa-pen"></i>
+
 									</button>
+									
+									<form class="mt-2" asp-area="Administration" asp-controller="Instructor" asp-action="ShowAllClasses" asp-route-classId="@person.Class.Id">
+										<div class="d-grid gap-2" style="margin-bottom:5px">
 
-									<button>
+											<input type="submit" value="Show Dance Categories"
+											   class="btn btn-danger mb-2" />
+										</div>
+									</form>
 
-										<a onclick="showPop('@Url.Action("Edit","Instructor",null,Context.Request.Scheme)','@person.Name')"></a>
-									</button>
 
-									<i class="fas fa-pen"></i>
+									<form class="mt-2" asp-area="Administration" asp-controller="Instructor" asp-action="Delete" asp-route-id="@person.Id">
+										<div class="d-grid gap-2">
 
+											<input type="submit" value="Delete"
+											   class="btn btn-danger mb-2"
+											   onclick="return confirm('You are going to delete :@person.Name')" />
+										</div>
+									</form>
 
 									@*<form class="input-group-sm" asp-controller="Class" asp-action="LeaveClass" asp-route-classId="@item.Id">
 								<input class="fs-6 btn btn-success mb-3 p-2" onclick="return confirm('You are going to leave a @item.Name Dance-class')" type="submit" value="Leave Class" />
@@ -128,21 +140,19 @@
 	}
 </style>
 
-@section Scripts{
-	<script>
-		showPop = (url, title) => {
-			$.ajax({
-				type: "GET",
-				url: url,
-				success: function (res) {
-					$('#form-modal .modal-body').html(res);
-					$('#form-modal .modal-title').html(title);
-					$('#form-modal').modal('show');
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-				}
-			})
-		}
+<script>
+	var msg = '@TempData["Msg"]';
+	if (msg.length) {
+		//swal(msg,"success");
+		swal({
+			text: msg,
+			icon: "info",
+			button: "Ok",
+		});
+	}
+</script>
 
-	</script>
-}

@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Net;
 	using System.Threading.Tasks;
 
 	using JustDanceAcademy.Data.Common.Repositories;
@@ -16,17 +17,12 @@
 	{
 		private readonly IRepository<Instrustor> repo;
 		private readonly IRepository<Class> classRepository;
-		
-
-
-
-
 		public InstructorService(IRepository<Instrustor> repo, IRepository<Class> classRepository)
 		{
 			this.classRepository = classRepository;
 
 			this.repo = repo;
-			
+
 		}
 
 		public async Task<bool> DoesInstructorExist(string name)
@@ -93,15 +89,6 @@
 		public async Task<IEnumerable<Instrustor>> GetAllInstructors()
 		{
 			return await this.repo.AllAsNoTracking().Include(x => x.Class).ThenInclude(x => x.LevelCategory).ToListAsync();
-			//return await this.repo.All().Select(i => new InstructorsViewModel()
-			//{
-			//	Id = i.Id,
-			//	FullName = i.Name,
-			//	ImageUrl = i.ImageUrl,
-			//	Class = i.Class.Name,
-			//	Intro = i.Biography,
-			//})
-			//	.ToListAsync();
 		}
 
 		public async Task<IEnumerable<Class>> GetClasses()
@@ -128,6 +115,54 @@
 					 Class = t.Class.Name,
 				 })
 				 .FirstAsync();
+		}
+
+		public async Task<Instrustor> DeleteInstructor(int trainerId)
+		{
+			var trainerName = await this.repo.All().Where(x => x.Id == trainerId).Select(x => x.Name).FirstOrDefaultAsync();
+
+			var dance = await this.classRepository.All().AnyAsync(x => x.Instructor == trainerName);
+
+			if (dance == true)
+			{
+				throw new ArgumentException();
+			}
+
+			var trainer = await this.repo.All().FirstOrDefaultAsync(x => x.Id == trainerId);
+			trainer.IsDeleted = true;
+			trainer.DeletedOn = DateTime.Now;
+
+			this.repo.Update(trainer);
+			await this.repo.SaveChangesAsync();
+
+			return trainer;
+		}
+
+		public async Task<Dictionary<string, List<string>>> GetClassWithAllCategoriesView(int classId)
+		{
+			var result = await this.classRepository.AllAsNoTracking().Include(x => x.LevelCategory).ToListAsync();
+			var list = new Dictionary<string, List<string>>();
+
+			var danceClass = await this.classRepository.All().FirstOrDefaultAsync(x => x.Id == classId);
+
+			foreach (var dance in result)
+			{
+				if (danceClass.Name == dance.Name)
+				{
+					if (list.ContainsKey(dance.Name))
+					{
+						list[dance.Name].Add(dance.LevelCategory.Name);
+					}
+					else
+					{
+						list.Add(dance.Name, new List<string>());
+						list[dance.Name].Add(dance.LevelCategory.Name);
+					}
+				}
+			}
+
+			return list;
+
 		}
 	}
 }

@@ -25,6 +25,8 @@
 	<meta property="og:title" content="Page 2">
 	<meta property="og:type" content="website">
 </head>
+
+
 @foreach (var person in Model)
 {
 
@@ -38,7 +40,15 @@
 					<img src="@person.ImageUrl" alt="trainer" style="width:50%;height:70%;">
 				</div>
 				<h5 class="u-custom-font u-font-ubuntu u-text u-text-2">
-                    is Trainer of <b>@person.Class.Name</b> for <b style="font-family:Calibri">@person.Class.LevelCategory.Name </b>category
+					is Trainer of <b>@person.Class.Name</b>
+                    for category/ies:
+					<form class="mt-2" asp-area="" asp-controller="Instructor" asp-action="ShowCategories" asp-route-classId="@person.Class.Id">
+						<div class="d-grid gap-2" style="margin-bottom:5px">
+
+							<input type="submit" value="Show Dance Categories"
+							   class="btn btn-danger mb-2" />
+						</div>
+					</form>
 				</h5>
 				<p class="u-align-justify-lg u-align-justify-md u-align-justify-xl u-text u-text-black-40 u-text-3" data-animation-name="slideIn" data-animation-duration="2000" data-animation-direction="Right">
 					@person.Biography
@@ -47,10 +57,10 @@
 
 						<button class="button">
 							<ul>
-								<a asp-area="" asp-controller="Instructor" asp-action="Edit" asp-route-id="@person.Id">Edit</a>
+								<a asp-area="Administration" asp-controller="Instructor" asp-action="Edit" asp-route-id="@person.Id">Edit</a>
 							</ul>
 						</button>
-						<button>Delete</button>
+
 					}
 				</p>
 			</div>
