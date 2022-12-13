@@ -10,6 +10,10 @@
 
 		public const string DeletedTrainer = "Successfulyy deleted Trainer.";
 
+		public const string EmptyReviewPage = "Be  the first who will add review for a class.";
+
+		public const string DeletedReview = "Successfully deleted Review.";
+
 
 	}
 }
