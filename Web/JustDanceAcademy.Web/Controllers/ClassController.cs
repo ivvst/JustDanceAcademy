@@ -155,7 +155,7 @@
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Write(int id)
+		public async Task<IActionResult> WriteReview(int id)
 		{
 			var userId = this.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
@@ -201,6 +201,11 @@
 		public async Task<IActionResult> Reviews()
 		{
 			var model = await this.danceService.AllReviews();
+			if (!model.Any())
+			{
+				this.TempData["Msg"] = OperationalMessages.EmptyReviewPage;
+			}
+
 			return this.View(model);
 		}
 	}

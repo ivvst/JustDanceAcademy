@@ -37,15 +37,22 @@
 					<input class="fs-6 btn btn-success mb-3 p-2" onclick="return confirm('You are going to leave a @item.Name Dance-class')" type="submit" value="Leave Class" />
 				</form>
 				<br>
-				<button>
-					<ul>
-						<a asp-area="" asp-controller="Class" asp-action="Plans">Get-Paid </a>
-					</ul>
-				</button>
+				@if (item.PlanPrice == 0)
+				{
+					<button>
+						<ul>
+							<a asp-area="" asp-controller="Class" asp-action="Plans">Get-Paid </a>
+						</ul>
+					</button>
+				}
+				else
+				{
+					<p class="information"> You paid  <b>@item.PlanPrice</b> $ -  for  <b>@item.AgeType</b> age-category</p>
+				}
 				<hr />
 				<button>
 					<ul>
-						<a asp-area="" asp-controller="Class" asp-action="Write" asp-route-classId="@item.Id">Add-Review </a>
+						<a asp-area="" asp-controller="Class" asp-action="WriteReview" asp-route-classId="@item.Id">Add-Review </a>
 					</ul>
 				</button>
 
