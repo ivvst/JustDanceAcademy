@@ -95,6 +95,62 @@
 		<partial name="_FooterPartial" />
 	</footer>
 	<!-- //footer -->
+
+	<!-- SOCIAL PANEL HTML -->
+	<div class="social-panel-container" style="margin-bottom:15px">
+		<div class="social-panel">
+			<button class="close-btn"><i class="fa fa-times"></i></button>
+			<h4>Get in touch on</h4>
+			<ul>
+
+				<li>
+					<a href="https://github.com/ivvst/JustDanceAcademy" target="_blank">
+						<i class="fa fa-github"></i>
+					</a>
+				</li>
+
+				<li>
+					<a href="https://facebook.com/florinpop17" target="_blank">
+						<i class="fa fa-facebook"></i>
+					</a>
+				</li>
+				<li>
+					<a href="https://instagram.com/florinpop17" target="_blank">
+						<i class="fa fa-instagram"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<button class="floating-btn" style="margin-bottom:35px">
+		Get in Touch
+	</button>
+
+	<link href="~/Content/css/faq-style.css" rel="stylesheet">
+	<script>
+		const toggles = document.querySelectorAll('.faq-toggle');
+
+		toggles.forEach(toggle => {
+			toggle.addEventListener('click', () => {
+				toggle.parentNode.classList.toggle('active');
+			});
+		});
+
+		// SOCIAL PANEL JS
+		const floating_btn = document.querySelector('.floating-btn');
+		const close_btn = document.querySelector('.close-btn');
+		const social_panel_container = document.querySelector('.social-panel-container');
+
+		floating_btn.addEventListener('click', () => {
+			social_panel_container.classList.toggle('visible')
+		});
+
+		close_btn.addEventListener('click', () => {
+			social_panel_container.classList.remove('visible')
+		});
+	</script>
+	<!-- SOCIAL PANEL HTML ENDS -->
+
 	<script src="~/Content/js/wow.min.js"></script>
 	<script src="~/Content/js/mislider.js" type="text/javascript"></script>
 	<script>
