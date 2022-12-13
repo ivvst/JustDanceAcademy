@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Web.ViewModels
+﻿namespace JustDanceAcademy.Web.ViewModels
 {
+	using System.ComponentModel.DataAnnotations;
+
 	public class AddPhoneViewModel
 	{
 		[Required]
