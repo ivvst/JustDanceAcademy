@@ -19,8 +19,6 @@
 			get; set;
 		}
 
-		[Required]
-		[StringLength(20, ErrorMessage = "The {0} must be at least with {1}", MinimumLength = 5)]
 		public string Student
 		{
 			get; set;

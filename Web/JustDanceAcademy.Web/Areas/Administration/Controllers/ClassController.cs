@@ -25,41 +25,7 @@
 			this.danceService = danceService;
 		}
 
-		[Authorize(Roles = "Administrator")]
-		[HttpGet]
-		public IActionResult Create()
-		{
-			var model = new PlanViewModel();
-
-			return this.View(model);
-		}
-
-		[HttpPost]
-		[Authorize(Roles = "Administrator")]
-
-		public async Task<IActionResult> Create(PlanViewModel model)
-		{
-			if (!this.ModelState.IsValid)
-			{
-				return this.View(model);
-			}
-
-			try
-			{
-				await this.danceService.CreatePlan(model);
-
-				return this.RedirectToAction("Index", "Admin", new
-				{
-					area = "Administration",
-				});
-			}
-			catch (Exception)
-			{
-				this.ModelState.AddModelError(" ", "Something went wrong");
-				return this.View(model);
-			}
-		}
-
+		// Class Actions
 		[HttpGet]
 		[Authorize(Roles = "Administrator")]
 		public async Task<IActionResult> Add()
@@ -188,6 +154,52 @@
 			return this.View(model);
 		}
 
+		[HttpPost]
+		public async Task<IActionResult> Delete(int id)
+		{
+			await this.danceService.DeleteClass(id);
+
+			this.TempData["Msg"] = OperationalMessages.DeletedClass;
+
+			return this.RedirectToAction(nameof(this.ViewClasses));
+		}
+
+		// Plan Actions
+		[Authorize(Roles = "Administrator")]
+		[HttpGet]
+		public IActionResult Create()
+		{
+			var model = new PlanViewModel();
+
+			return this.View(model);
+		}
+
+		[HttpPost]
+		[Authorize(Roles = "Administrator")]
+
+		public async Task<IActionResult> Create(PlanViewModel model)
+		{
+			if (!this.ModelState.IsValid)
+			{
+				return this.View(model);
+			}
+
+			try
+			{
+				await this.danceService.CreatePlan(model);
+
+				return this.RedirectToAction("Index", "Admin", new
+				{
+					area = "Administration",
+				});
+			}
+			catch (Exception)
+			{
+				this.ModelState.AddModelError(" ", "Something went wrong");
+				return this.View(model);
+			}
+		}
+
 		public async Task<IActionResult> GetPlanStatictic(int id)
 		{
 			var model = await this.danceService.GetStaticticsTakenPlans(id);
@@ -200,14 +212,23 @@
 			return this.View(model);
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> Delete(int id)
+		// Reviews
+		[HttpGet]
+		public async Task<IActionResult> AllReviews()
 		{
-			await this.danceService.DeleteClass(id);
+			var model = await this.danceService.AllReviews();
 
-			this.TempData["Msg"] = OperationalMessages.DeletedClass;
+			return this.View(model);
+		}
 
-			return this.RedirectToAction(nameof(this.ViewClasses));
+		[HttpPost]
+		public async Task<IActionResult> DeleteReview(int reviewId)
+		{
+			await this.danceService.DeleteReview(reviewId);
+
+			this.TempData["Msg"] = OperationalMessages.DeletedReview;
+
+			return this.RedirectToAction(nameof(this.AllReviews));
 		}
 	}
 }

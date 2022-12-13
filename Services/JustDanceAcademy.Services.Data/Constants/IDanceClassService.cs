@@ -52,9 +52,11 @@
 
 		Task<bool> PhoneNotifyForClass(string userId);
 
-		Task<ApplicationUser> TakeNumberForStart(string userId,int planId);
+		Task<ApplicationUser> TakeNumberForStart(string userId, int planId);
 
 		Task<Class> DeleteClass(int classId);
+
+		Task<Review> DeleteReview(int reviewId);
 
 		Task<int> GetStaticticsTakenPlans(int id);
 	}

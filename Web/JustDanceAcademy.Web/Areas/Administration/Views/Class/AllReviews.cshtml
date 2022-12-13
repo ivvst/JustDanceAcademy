@@ -1,0 +1,75 @@
+﻿@using JustDanceAcademy.Data.Models;
+@using JustDanceAcademy.Web.ViewModels.Models;
+
+@model IEnumerable<Review>
+@if (Model.Count() == 0)
+{
+	<div class="col-md-4 col-sm-6 content-card">
+		<div class="card-big-shadow">
+			<div class="card card-just-text" data-background="color" data-color="blue" data-radius="none">
+				<div class="content">
+					<h6 class="category">Admin</h6>
+					<h4 class="title"><a href="#">No Reviews yet.</a></h4>
+				</div>
+			</div> <!-- end card -->
+		</div>
+	</div>
+	<link rel="stylesheet" href="~/Content/css/category-details.css" />
+
+}
+<h3 class="text-center">All Review</h3>
+<h4 class="text-center">(@Model.Count() Total Reviews)</h4>
+<hr />
+<br />
+@foreach (var review in Model)
+{
+
+
+
+	<div class="col-md-4 margin-btm-20">
+		<div class="quote green">
+			<blockquote>
+				<form class="mt-2" asp-area="Administration" asp-controller="Class" asp-action="DeleteReview" asp-route-id="@review.Id">
+					<div class="d-grid gap-2">
+
+						<input type="submit" value="Delete"
+						   class="btn btn-danger mb-2"
+						   onclick="return confirm('You are going to delete review from User : @review.User.UserName')" />
+					</div>
+				</form>
+				<p>
+					@review.Content
+				</p>
+			</blockquote>
+		</div>
+		<div class="quote-footer text-right">
+			<div class="quote-author-img">
+				<img src="https://i.etsystatic.com/9071676/r/il/76f454/632210422/il_570xN.632210422_ev54.jpg" alt="">
+			</div>
+			<h4>@review.User.UserName</h4>
+			<p>
+				Review for :
+				<strong>@review.User.Class.Name class  category @review.User.Class.LevelCategory.Name</strong>
+			</p>
+		</div>
+	</div>
+
+	<link rel="stylesheet" href="~/Content/css/admin-view-reviews.css" />
+
+	<!--colored quote box col-->
+}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+	var msg = '@TempData["Msg"]';
+	if (msg.length) {
+		//swal(msg,"success");
+		swal({
+			text: msg,
+			icon: "success",
+			button: "Ok",
+		});
+	}
+</script>

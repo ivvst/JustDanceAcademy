@@ -493,7 +493,7 @@
 			// await this.userRepository.SaveChangesAsync();
 		}
 
-        public async Task<int> GetCountAsync()
+		public async Task<int> GetCountAsync()
 		{
 			return await this.classRepository.AllAsNoTracking().CountAsync();
 		}
@@ -503,6 +503,21 @@
 			var count = await this.planRepo.All().Where(x => x.Id == id).Select(x => x.Students).ToListAsync();
 
 			return count.Count();
+		}
+
+		public async Task<Review> DeleteReview(int reviewId)
+		{
+			var review = await this.reviewRepo.All().FirstOrDefaultAsync(x => x.Id == reviewId);
+			if (review != null)
+			{
+				review.IsDeleted = true;
+				review.ModifiedOn= DateTime.Now;
+				this.reviewRepo.Update(review);
+				await this.reviewRepo.SaveChangesAsync();
+				return review;
+			}
+
+			return null;
 		}
 	}
 }
