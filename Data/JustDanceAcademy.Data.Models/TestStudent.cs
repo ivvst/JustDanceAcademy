@@ -1,8 +1,7 @@
-﻿using JustDanceAcademy.Data.Common.Models;
-using System.Runtime.InteropServices;
-
-namespace JustDanceAcademy.Data.Models
+﻿namespace JustDanceAcademy.Data.Models
 {
+	using JustDanceAcademy.Data.Common.Models;
+
 	public class TestStudent : BaseDeletableModel<int>
 	{
 		public MemberShip Plan
@@ -24,7 +23,5 @@ namespace JustDanceAcademy.Data.Models
 		{
 			get; set;
 		}
-
-
 	}
 }

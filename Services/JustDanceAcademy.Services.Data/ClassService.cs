@@ -5,6 +5,7 @@
 	using System.Data;
 	using System.Linq;
 	using System.Threading.Tasks;
+
 	using JustDanceAcademy.Data.Common.Repositories;
 	using JustDanceAcademy.Data.Models;
 	using JustDanceAcademy.Models;
@@ -348,7 +349,7 @@
 		}
 
 		/// <summary>
-		/// check if user buy a membership or not  just check the value of his phoneNumber
+		/// check if user buy a membership or not  just check the value of his phoneNumber.
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
@@ -422,6 +423,7 @@
 			if (await this.comboRepo.All().Where(x => x.ClassId == classId).FirstOrDefaultAsync() == null)
 			{
 			}
+
 			var students = await this.comboRepo.All().Where(x => x.ClassId == classId).Select(x => x.Class.Students).ToListAsync();
 
 			if (students.Any())
@@ -491,8 +493,7 @@
 			// await this.userRepository.SaveChangesAsync();
 		}
 
-
-		public async Task<int> GetCountAsync()
+        public async Task<int> GetCountAsync()
 		{
 			return await this.classRepository.AllAsNoTracking().CountAsync();
 		}

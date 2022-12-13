@@ -5,7 +5,6 @@
 
 	public class UserController : Controller
 	{
-
 		public IActionResult About()
 		{
 			var model = new HomeViewModel();

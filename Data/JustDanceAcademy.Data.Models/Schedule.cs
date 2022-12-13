@@ -1,55 +1,46 @@
-﻿using JustDanceAcademy.Data.Common.Models;
-using JustDanceAcademy.Data.Models.Enum;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Data.Models
+﻿namespace JustDanceAcademy.Data.Models
 {
-    public class Schedule:BaseDeletableModel<int>
-    {
-        public int Id
-        {
-            get; set;
-        }
+	using System;
 
-         // CLASS NAME
-        public int ClassId
-        {
-            get; set;
-        }
+	using JustDanceAcademy.Data.Common.Models;
+	using JustDanceAcademy.Data.Models.Enum;
 
-        public Class Class
-        {
-            get; set;
-        }
+	public class Schedule : BaseDeletableModel<int>
+	{
+		public int Id
+		{
+			get; set;
+		}
 
-     
-        public DateTime StartTime
-        {
-            get;set;
-        }
+		// CLASS NAME
+		public int ClassId
+		{
+			get; set;
+		}
 
-        public DateTime EndTime
-        {
-            get; set;
-        }
+		public Class Class
+		{
+			get; set;
+		}
 
-        public Day Day
-        {
-            get; set;
-        }
+		public DateTime StartTime
+		{
+			get; set;
+		}
 
-        public Age Age
-        {
+		public DateTime EndTime
+		{
+			get; set;
+		}
 
-            get; set;
-        }
+		public Day Day
+		{
+			get; set;
+		}
 
-       
-    }
+		public Age Age
+		{
+			get; set;
+		}
+	}
 }

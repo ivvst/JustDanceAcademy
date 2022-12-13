@@ -26,11 +26,10 @@
 			{
 				Id = x.Id,
 				UserName = x.UserName,
-				CreatedOn= x.CreatedOn,
+				CreatedOn = x.CreatedOn,
 				ClassName = x.Class.Name,
 				PhoneNumber = x.PhoneNumber,
 				Email = x.Email,
-
 			}).ToListAsync();
 		}
 	}

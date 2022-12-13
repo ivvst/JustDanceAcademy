@@ -13,7 +13,6 @@
 
 	[Authorize]
 	public class ClassController : BaseController
-
 	{
 		private readonly IDanceClassService danceService;
 		private readonly ILevelCategoryService levelCategoryService;
@@ -29,16 +28,17 @@
 		[AllowAnonymous]
 		public async Task<IActionResult> All([FromQuery] AllClassesQueryModel query)
 		{
-
-			var result = await this.danceService.All(
+			query.TotalClassesCount = (await this.danceService.All(
 				query.Category,
 				query.SearchTerm,
 				query.CurrentPage,
-				AllClassesQueryModel.ClassesPerPage);
-
-			query.TotalClassesCount = result.TotalClassesCount;
+				AllClassesQueryModel.ClassesPerPage)).TotalClassesCount;
 			query.LevelsCategory = await this.danceService.AllCategoriesNames();
-			query.Classes = result.Classes;
+			query.Classes = (await this.danceService.All(
+				query.Category,
+				query.SearchTerm,
+				query.CurrentPage,
+				AllClassesQueryModel.ClassesPerPage)).Classes;
 
 			return this.View(query);
 		}
@@ -67,6 +67,7 @@
 				var model = await this.danceService.GetAllPlans();
 				return this.View(model);
 			}
+
 			return this.RedirectToAction(nameof(this.Classes));
 		}
 
@@ -78,14 +79,11 @@
 			return this.View(model);
 		}
 
-
-		// When user is  administrator let's not See the button 
+		// When user is  administrator let's not See the button
 		public async Task<IActionResult> StartClass(int classId)
 		{
-
 			var userId = this.User.Claims
 				.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-
 
 			if (this.User.IsInRole("Administrator"))
 			{
@@ -96,7 +94,6 @@
 			{
 				this.TempData["Msg"] = ExceptionMessages.ClassAlreadyIsStarted;
 				return this.RedirectToAction(nameof(this.Classes));
-
 			}
 
 			await this.danceService.AddStudentToClass(userId, classId);
@@ -180,7 +177,6 @@
 			{
 				Id = id,
 				NameClass = danceClass.Name,
-
 			};
 			return this.View(model);
 		}

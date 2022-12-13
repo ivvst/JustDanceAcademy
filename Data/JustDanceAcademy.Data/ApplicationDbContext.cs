@@ -7,13 +7,10 @@
 	using System.Threading.Tasks;
 
 	using JustDanceAcademy.Data.Common.Models;
-	using JustDanceAcademy.Data.Configurations;
 	using JustDanceAcademy.Data.Models;
 	using Microsoft.AspNetCore.Identity;
 	using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore;
-	using Microsoft.Extensions.Options;
-	using static System.Net.WebRequestMethods;
 
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
 	{
@@ -25,23 +22,27 @@
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 			: base(options)
 		{
-
 		}
 
 		public DbSet<CommonQuestion> FAQuestions
 		{
 			get; set;
-		} = null!;
+		}
+
+= null!;
 
 		public DbSet<Class> Classes
 		{
 			get; set;
-		} = null!;
+		}
+
+= null!;
 
 		public DbSet<ClassStudent> ClassStudents
 		{
 			get; set;
 		}
+
 		public DbSet<TestStudent> TestStudents
 		{
 			get; set;
@@ -55,15 +56,16 @@
 		public DbSet<Instrustor> Instrustors
 		{
 			get; set;
-		} = null!;
+		}
 
-
+= null!;
 
 		public DbSet<MemberShip> Plans
 		{
 			get; set;
-		} = null!;
+		}
 
+= null!;
 
 		public DbSet<Setting> Settings
 		{
@@ -78,7 +80,9 @@
 		public DbSet<LevelCategory> LevelsCategory
 		{
 			get; set;
-		} = null!;
+		}
+
+= null!;
 
 		private ApplicationUser GuestUser
 		{
@@ -122,7 +126,6 @@
 
 		private Instrustor Instrustor
 		{
-
 			get;
 			set;
 		}
@@ -131,8 +134,6 @@
 		{
 			get; set;
 		}
-
-
 
 		public override int SaveChanges() => this.SaveChanges(true);
 
@@ -155,7 +156,6 @@
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
-
 			this.SeedQuestion();
 			builder.Entity<CommonQuestion>()
 				.HasData(this.Question);
@@ -237,8 +237,6 @@
 			{
 				Id = 1,
 				Name = "Getting Started",
-
-
 			};
 			this.BegginerLevel = new LevelCategory()
 			{
@@ -263,8 +261,6 @@
 			};
 		}
 
-
-
 		private void SeedInstructor()
 		{
 			this.Instrustor = new Instrustor()
@@ -275,7 +271,6 @@
 				"Aaliyah Dana Haughton was an American singer. She has been credited for helping to redefine contemporary R&B, pop and hip hop, earning her the nicknames the -Princess of R&B- and -Queen of Urban Pop-",
 				ImageUrl = "https://th.bing.com/th/id/OIP.qe-SelqFhGlvOpoOrNKO-AHaJr?pid=ImgDet&rs=1",
 				ClassId = 1,
-
 			};
 		}
 
@@ -290,7 +285,6 @@
 				NormalizedUserName = "GUEST",
 				Email = "guest@mail.com",
 				NormalizedEmail = "GUEST@MAIL.com",
-
 			};
 
 			this.GuestUser.PasswordHash = hasher.HashPassword(this.GuestUser, "guest");
@@ -302,7 +296,6 @@
 				NormalizedUserName = "VANIS",
 				Email = "vanis@mail.com",
 				NormalizedEmail = "VANIS@MAIL.com",
-
 			};
 			this.AdminUser.PasswordHash = hasher.HashPassword(this.AdminUser, "vanis");
 		}

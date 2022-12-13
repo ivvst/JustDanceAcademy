@@ -22,9 +22,6 @@
 			this.scheduleRepo = scheduleRepo;
 			this.classRepository = classRepository;
 			this.levelRepo = levelRepo;
-
-
-
 		}
 
 		public async Task<IEnumerable<Schedule>> AllSchedules()
@@ -43,7 +40,6 @@
 				Age = model.Age,
 				ClassId = model.ClassId,
 				Class = model.Class,
-				// Change from write a text-to take with class 
 			};
 			if (model.StartClass > model.EndClass)
 			{
@@ -64,9 +60,7 @@
 				item.IsDeleted = true;
 				item.DeletedOn = DateTime.UtcNow;
 				this.scheduleRepo.Update(item);
-
 			}
-
 			else
 			{
 				throw new NullReferenceException();
@@ -89,6 +83,7 @@
 			{
 				return schedule.Id;
 			}
+
 			return 0;
 		}
 	}

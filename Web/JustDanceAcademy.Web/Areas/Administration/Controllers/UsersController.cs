@@ -1,5 +1,7 @@
 ﻿namespace JustDanceAcademy.Web.Areas.Administration.Controllers
 {
+	using System.Threading.Tasks;
+
 	using JustDanceAcademy.Data.Models;
 	using JustDanceAcademy.Services.Data.Constants;
 	using JustDanceAcademy.Web.Hubs;
@@ -7,7 +9,6 @@
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.AspNetCore.Mvc;
 	using Microsoft.AspNetCore.SignalR;
-	using System.Threading.Tasks;
 
 	public class UsersController : AdministrationController
 	{
@@ -45,4 +46,3 @@
 		}
 	}
 }
-

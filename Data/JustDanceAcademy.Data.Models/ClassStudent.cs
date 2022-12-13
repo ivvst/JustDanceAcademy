@@ -1,37 +1,30 @@
-﻿using JustDanceAcademy.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Data.Models
+﻿namespace JustDanceAcademy.Data.Models
 {
-    public class ClassStudent:BaseDeletableModel<int>
-    {
-        public int ClassId
-        {
-            get; set;
-        }
+	using System.ComponentModel.DataAnnotations.Schema;
 
-        public  virtual Class Class
-        {
-            get; set;
-        }
+	using JustDanceAcademy.Data.Common.Models;
 
-        public virtual ApplicationUser Student
-        {
-            get; set;
-        }
+	public class ClassStudent : BaseDeletableModel<int>
+	{
+		public int ClassId
+		{
+			get; set;
+		}
 
-        [ForeignKey(nameof(StudentId))]
-        public string StudentId
-        {
+		public virtual Class Class
+		{
+			get; set;
+		}
 
-            get; set;
-        }
+		public virtual ApplicationUser Student
+		{
+			get; set;
+		}
 
-
-    }
+		[ForeignKey(nameof(StudentId))]
+		public string StudentId
+		{
+			get; set;
+		}
+	}
 }

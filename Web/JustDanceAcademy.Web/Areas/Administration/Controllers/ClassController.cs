@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Threading.Tasks;
+
 	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Services.Data.Constants;
 	using JustDanceAcademy.Services.Data.Extensions;
@@ -98,7 +99,6 @@
 				this.ModelState.AddModelError(" ", "Something went wrong");
 				model.LevelsCategory = await this.levelCategoryService.AllCategories();
 
-
 				return this.View(model);
 			}
 		}
@@ -107,8 +107,6 @@
 		public async Task<IActionResult> ViewClasses()
 		{
 			var model = await this.danceService.GetAllAsync();
-
-
 			return this.View(model);
 		}
 
@@ -150,7 +148,6 @@
 			{
 				if ((await this.danceService.GetDanceLevelId(model.Id)) == default)
 				{
-
 					model.LevelsCategory = await this.levelCategoryService.AllCategories();
 					throw new NullReferenceException(string.Format(ExceptionMessages.InvalidDanceCategoryType));
 				}
@@ -189,7 +186,6 @@
 			}
 
 			return this.View(model);
-
 		}
 
 		public async Task<IActionResult> GetPlanStatictic(int id)

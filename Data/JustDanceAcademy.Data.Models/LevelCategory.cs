@@ -1,30 +1,22 @@
-﻿using JustDanceAcademy.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Data.Models
+﻿namespace JustDanceAcademy.Data.Models
 {
-    public class LevelCategory : BaseDeletableModel<int>
-    {
-    
+	using System.ComponentModel.DataAnnotations;
 
-        [Key]
-        public int Id
-        {
-            get; set;
-        }
+	using JustDanceAcademy.Data.Common.Models;
 
-        [Required]
-        [StringLength(50)]
-        public string Name
-        {
-            get; set;
-        }
+	public class LevelCategory : BaseDeletableModel<int>
+	{
+		[Key]
+		public int Id
+		{
+			get; set;
+		}
 
-
-    }
+		[Required]
+		[StringLength(50)]
+		public string Name
+		{
+			get; set;
+		}
+	}
 }

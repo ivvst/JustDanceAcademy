@@ -13,6 +13,7 @@
 		Task<int> AddInstructor(InstructorViewModel model);
 
 		Task<bool> DoesInstructorExist(string name);
+
 		Task<InstructorsViewModel> TrainerDetailsById(int id);
 
 		Task<int> GetClassId(int trainerId);
@@ -25,6 +26,6 @@
 
 		Task<Instrustor> DeleteInstructor(int trainerId);
 
-		 Task<Dictionary<string, List<string>>> GetClassWithAllCategoriesView(int classId);
+		Task<Dictionary<string, List<string>>> GetClassWithAllCategoriesView(int classId);
 	}
 }

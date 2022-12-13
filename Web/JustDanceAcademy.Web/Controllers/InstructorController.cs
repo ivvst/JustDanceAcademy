@@ -28,6 +28,7 @@
 					area = "Administration",
 				});
 			}
+
 			var model = await this.serviceInstructor.GetAllInstructors();
 			return this.View(model);
 		}
@@ -60,4 +61,4 @@
 //    Id = x.Id,
 //    Name = x.Name,
 // });
-// return this.View(model);
+// return this.View(model)

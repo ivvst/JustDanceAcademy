@@ -1,13 +1,13 @@
 ﻿namespace JustDanceAcademy.Web.Areas.Administration.Controllers
 {
+	using System;
+	using System.Threading.Tasks;
+
+	using JustDanceAcademy.Services.Data.Common;
+	using JustDanceAcademy.Services.Data.Constants;
 	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
-	using System.Data;
-	using System.Threading.Tasks;
-	using System;
-	using JustDanceAcademy.Services.Data.Constants;
-	using JustDanceAcademy.Services.Data.Common;
 
 	public class FAQController : AdminController
 	{
@@ -36,6 +36,7 @@
 			{
 				return this.View(model);
 			}
+
 			if (await this.questService.IsQuestionAdded(model.Question) == true)
 			{
 				this.TempData["Msg"] = ExceptionMessages.QuestionAlreadyExists;
@@ -59,5 +60,3 @@
 		}
 	}
 }
-
-

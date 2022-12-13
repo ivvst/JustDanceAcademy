@@ -1,14 +1,10 @@
-﻿using JustDanceAcademy.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Data.Models
+﻿namespace JustDanceAcademy.Data.Models
 {
-    public class Review: BaseDeletableModel<int>
+    using System.ComponentModel.DataAnnotations;
+
+    using JustDanceAcademy.Data.Common.Models;
+
+    public class Review : BaseDeletableModel<int>
     {
         public int Id
         {

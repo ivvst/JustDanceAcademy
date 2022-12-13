@@ -30,7 +30,6 @@
 			return this.View(model);
 		}
 
-
 		[HttpGet]
 		[Authorize(Roles = "Administrator")]
 
@@ -55,10 +54,7 @@
 				this.TempData["Msg"] = ExceptionMessages.InstructorAlreadyExists;
 
 				return this.View(model);
-
 			}
-
-
 
 			if (!this.ModelState.IsValid)
 			{
@@ -69,19 +65,16 @@
 			try
 			{
 				await this.serviceInstructor.AddInstructor(model);
-
-
 				return this.RedirectToAction("ViewTrainers", "Instructor");
 			}
 			catch (Exception)
 			{
 				model.ClassesOfInstructor = await this.serviceInstructor.GetClasses();
 
-				this.ModelState.AddModelError("", "Something went wrong");
+				this.ModelState.AddModelError(" ", "Something went wrong");
 
 				return this.View(model);
 			}
-
 		}
 
 		[HttpGet]
@@ -92,7 +85,6 @@
 			{
 				throw new NullReferenceException(
 					string.Format(ExceptionMessages.InstructorNotFound));
-
 			}
 
 			var trainer = await this.serviceInstructor.TrainerDetailsById(id);
@@ -113,7 +105,7 @@
 
 		[HttpPost]
 		[Authorize(Roles = "Administrator")]
-		public async Task<IActionResult> Edit(int id, InstructorViewModel model)
+		public async Task<IActionResult> Edit(InstructorViewModel model)
 		{
 			if (this.ModelState.IsValid == false)
 			{
@@ -136,20 +128,18 @@
 				await this.serviceInstructor.DeleteInstructor(id);
 				this.TempData["Msg"] = OperationalMessages.DeletedTrainer;
 				return this.RedirectToAction(nameof(this.ViewTrainers));
-
 			}
 			catch (Exception)
 			{
 				this.TempData["Msg"] = ExceptionMessages.TrainerHasClass;
 				return this.RedirectToAction(nameof(this.ViewTrainers));
-
 			}
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> ShowAllClasses(int classId)
 		{
-          var result = await this.serviceInstructor.GetClassWithAllCategoriesView(classId);
+			var result = await this.serviceInstructor.GetClassWithAllCategoriesView(classId);
 
 			this.ViewData["obj"] = result;
 			return this.View(this.ViewData);

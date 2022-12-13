@@ -1,9 +1,10 @@
 ﻿namespace JustDanceAcademy.Web.Controllers
 {
+	using System.Threading.Tasks;
+
 	using JustDanceAcademy.Services.Data.Constants;
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
-	using System.Threading.Tasks;
 
 	public class FAQController : Controller
 	{

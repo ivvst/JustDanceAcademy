@@ -28,18 +28,18 @@
 			get; set;
 		}
 
-
 		public string ImageUrl
 		{
 			get; set;
-		} = null!;
+		}
+
+= null!;
 
 		[Required]
 		public string Description
 		{
 			get; set;
 		}
-
 
 		[Required]
 		public string Instructor
@@ -58,8 +58,6 @@
 			get; set;
 		}
 
-
-
 		public virtual ICollection<ClassStudent> Students
 		{
 			get; set;
@@ -69,7 +67,5 @@
 		{
 			get; set;
 		}
-
 	}
 }
-

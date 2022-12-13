@@ -17,12 +17,12 @@
 	{
 		private readonly IRepository<Instrustor> repo;
 		private readonly IRepository<Class> classRepository;
+
 		public InstructorService(IRepository<Instrustor> repo, IRepository<Class> classRepository)
 		{
 			this.classRepository = classRepository;
 
 			this.repo = repo;
-
 		}
 
 		public async Task<bool> DoesInstructorExist(string name)
@@ -33,12 +33,11 @@
 			{
 				return true;
 			}
+
 			return false;
 		}
 
-
 		public async Task<int> AddInstructor(InstructorViewModel model)
-
 		{
 			var entity = new Instrustor()
 			{
@@ -56,7 +55,6 @@
 			return entity.Id;
 		}
 
-
 		public async Task Edit(int trainerId, InstructorViewModel model)
 		{
 			var trainer = await this.repo.All()
@@ -72,12 +70,6 @@
 			trainer.Name = model.FullName;
 			trainer.ClassId = model.ClassId;
 
-			//var danceClass = await this.classRepository.All().FirstOrDefaultAsync(x => x.Id == model.ClassId);
-
-			//if (danceClass == null)
-			//{
-			//	throw new NullReferenceException(string.Format(ExceptionMessages.ClassDanceNotFound));
-			//}
 			await this.repo.SaveChangesAsync();
 		}
 
@@ -162,7 +154,6 @@
 			}
 
 			return list;
-
 		}
 	}
 }

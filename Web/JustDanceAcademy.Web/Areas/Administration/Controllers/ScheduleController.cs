@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Threading.Tasks;
+
 	using JustDanceAcademy.Services.Data.Common;
 	using JustDanceAcademy.Services.Data.Constants;
 	using JustDanceAcademy.Web.ViewModels.Models;
@@ -44,7 +45,6 @@
 		[HttpPost]
 		public async Task<IActionResult> Add(AddScheduleViewModel model)
 		{
-
 			if (!this.ModelState.IsValid)
 			{
 				model.AllClasses = await this.scheduleService.GetClasses();
@@ -52,7 +52,6 @@
 
 				return this.View(model);
 			}
-
 
 			try
 			{
@@ -71,17 +70,14 @@
 
 				this.TempData["Msg"] = ExceptionMessages.ClassDanceNotFound;
 
-
 				return this.View(model);
 			}
 		}
-
 
 		[HttpPost]
 
 		public async Task<IActionResult> DeleteColumn(int id)
 		{
-
 			await this.scheduleService.DeleteColumn(id);
 
 			return this.RedirectToAction(nameof(this.All));

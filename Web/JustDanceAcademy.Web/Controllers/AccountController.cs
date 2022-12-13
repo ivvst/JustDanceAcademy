@@ -1,6 +1,7 @@
 ﻿namespace JustDanceAcademy.Web.Controllers
 {
 	using System.Threading.Tasks;
+
 	using JustDanceAcademy.Data.Common.Repositories;
 	using JustDanceAcademy.Data.Models;
 	using JustDanceAcademy.Models;
@@ -68,6 +69,7 @@
 				this.TempData["Msg"] = ExceptionMessages.UserNameTaken;
 				return this.View(model);
 			}
+
 			if (emailExist != null)
 			{
 				this.TempData["Msg"] = ExceptionMessages.EmailTaken;
@@ -159,8 +161,6 @@
 		public async Task<IActionResult> Logout()
 		{
 			await this.signInManager.SignOutAsync();
-
-			// not Bugs
 
 			return this.RedirectToAction("Index", "Home");
 		}

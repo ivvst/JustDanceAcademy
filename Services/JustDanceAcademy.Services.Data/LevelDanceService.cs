@@ -13,7 +13,6 @@
 	{
 		private readonly IRepository<LevelCategory> levelRepo;
 
-
 		public LevelDanceService(IRepository<LevelCategory> levelRepo)
 		{
 			this.levelRepo = levelRepo;
@@ -35,7 +34,5 @@
 
 			return result.Name;
 		}
-
-		
 	}
 }
