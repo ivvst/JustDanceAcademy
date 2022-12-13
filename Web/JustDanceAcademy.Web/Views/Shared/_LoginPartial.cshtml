@@ -4,15 +4,12 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <ul class="nav navbar-nav navbar-right">
-	
+
 	@if (SignInManager.IsSignedIn(User))
 	{
+		<div class="info">
+			<a href="#" class="d-block">Welcome, @User.Identity.Name</a>
+		</div>
 
-
-		
-		
-		
-
-	<h1 class="display-4">Welcome</h1>
 	}
 </ul>
