@@ -1,4 +1,7 @@
-﻿@{
+﻿@using JustDanceAcademy.Data.Models;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@{
 	ViewData["Title"] = "About us";
 }
 <!DOCTYPE html>
@@ -31,13 +34,17 @@
 						</p>
 						<br />
 						<p>
-						@*	<input type="checkbox" id="theme-toggle">*@
-							@*<button class="button" id="theme-toggle"></button>*@
-							<label class="switch switch-green">
-								<input type="checkbox" id="theme-toggle"  class="switch-input" checked>
-								<span class="switch-label" id="theme-toggle" data-on="On" data-off="Off"></span>
-								<span class="switch-handle"></span>
-							</label>
+							@if (SignInManager.IsSignedIn(User))
+							{
+
+								@*	<input type="checkbox" id="theme-toggle">*@
+								@*<button class="button" id="theme-toggle"></button>*@
+								<label class="switch switch-green">
+									<input type="checkbox" id="theme-toggle" class="switch-input" checked>
+									<span class="switch-label" id="theme-toggle" data-on="On" data-off="Off"></span>
+									<span class="switch-handle"></span>
+								</label>
+							}
 							<br />
 							<div style="font-size:15px;color:dimgray">
 
@@ -62,39 +69,40 @@
 							</b>
 						</div>
 					</div>
-					<div class="row" style="margin-top:155px">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-blue" style="margin-bottom:1rem">
+							<div class="about-details padding20">
+								<h3>Getting-Started in Dancing</h3>
+								<p>You just start to dance?Don't worry. After taking our getting-start-level classes You'll feel more comfortable in your body, in class, and on the dance floor.Futhermore you will be prepared for one level up. </p>
+							</div>
+						</div>
 
-						<p style="margin-top:10px">
-							<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-blue" style="margin-top:25rem">
-								<div class="about-details padding20">
-									<h3>Begginer Classes</h3>
-									<p>At the beginner levels is where we start focusing on the vocabulary, proper placement and body awareness</p>
-								</div>
+						@*<p style="margin-top:10px">*@
+						<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-blue" sbltyle="margin-top:25rem">
+							<div class="about-details padding20">
+								<h3>Begginer Classes</h3>
+								<p>At the beginner levels is where we start focusing on the vocabulary, proper placement and body awareness</p>
 							</div>
-							<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-red" style="margin-top:1rem">
-								<div class="about-details padding20">
-									<h3>Intermediate Classes</h3>
-									<p>Intermediate levels are where we begin to incorporate the basic movements and steps into combinations, and developing into stronger dancers. At this level we also focus on dancer health, dance history and beginning choreography.</p>
-								</div>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-red" style="margin-top:1rem">
+							<div class="about-details padding20">
+								<h3>Intermediate Classes</h3>
+								<p>Intermediate levels are where we begin to incorporate the basic movements and steps into combinations, and developing into stronger dancers. At this level we also focus on dancer health, dance history and beginning choreography.</p>
 							</div>
-							<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-blue" style="">
-								<div class="about-details padding20">
-									<h3>Advanced Classes</h3>
-									<p>The advanced level of our program is an intense focus on technique, combinations, stamina and strength</p>
-								</div>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-red">
+							<div class="about-details padding20">
+								<h3>Advanced Classes</h3>
+								<p>The advanced level of our program is an intense focus on technique, combinations, stamina and strength</p>
 							</div>
-							<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-red" style="margin-top:1px">
-								<div class="about-details padding20">
-									<h3>Classes for Kids</h3>
-									<p>Our program is designed to enhance children’s trust in their own creative expression while gently introducing skills. It stands alone as a unified program with a full curriculum that grows with the developmental needs of children.</p>
-								</div>
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-blue" style="margin-top:5rem">
+							<div class="about-details padding20">
+								<h3>Classes for Kids</h3>
+								<p>Our program is designed to enhance children’s trust in their own creative expression while gently introducing skills. It stands alone as a unified program with a full curriculum that grows with the developmental needs of children.</p>
 							</div>
-							<div class="col-md-6 col-sm-6 col-xs-12 bgcolor-blue" style="margin-top:25rem">
-								<div class="about-details padding20">
-									<h3>Getting-Started in Dancing</h3>
-									<p>You just start to dance?Don't worry. After taking our getting-start-level classes You'll feel more comfortable in your body, in class, and on the dance floor.Futhermore you will be prepared for one level up. </p>
-								</div>
-							</div>
+						</div>
+
 					</div>
 				</div>
 				<div class="col-md-6 col-sm-12 col-xs-12 no-padding">
@@ -141,3 +149,4 @@
 		color: whitesmoke;
 	}
 </style>
+

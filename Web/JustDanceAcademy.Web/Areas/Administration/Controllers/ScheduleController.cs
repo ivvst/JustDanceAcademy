@@ -80,6 +80,8 @@
 		{
 			await this.scheduleService.DeleteColumn(id);
 
+			this.TempData["Msg"] = OperationalMessages.DeletedSchedule;
+
 			return this.RedirectToAction(nameof(this.All));
 		}
 	}

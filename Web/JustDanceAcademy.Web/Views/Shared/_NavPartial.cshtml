@@ -24,7 +24,7 @@
 
 						@if (User.IsInRole("Administrator") == false)
 						{
-							<a asp-controller="User" asp-action="About">AboutMode</a>
+							<li><a asp-area="" asp-controller="User" asp-action="About">About</a></li>
 							<div class="dropdown">
 								<button class="dropbtn">Class</button>
 								<div class="dropdown-content">
@@ -46,8 +46,8 @@
 							<div class="dropdown">
 								<button class="dropbtn">Options</button>
 								<div class="dropdown-content">
-									<a asp-area="" asp-controller="" asp-action="">Privacy</a>
-									<a asp-area="" asp-controller="" asp-action="">Term</a>
+									<a asp-area="" asp-controller="User" asp-action="Privacy">Privacy</a>
+									<a asp-area="" asp-controller="User" asp-action="Terms">Terms</a>
 
 									<form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
 										<button type="submit" class="button">Logout</button>

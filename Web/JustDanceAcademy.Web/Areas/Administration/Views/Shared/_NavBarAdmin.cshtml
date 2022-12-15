@@ -63,8 +63,8 @@
 						<div class="dropdown">
 							<button class="dropbtn">Options</button>
 							<div class="dropdown-content">
-								<a asp-area="" asp-controller="" asp-action="">Privacy</a>
-								<a asp-area="" asp-controller="" asp-action="">Term</a>
+								<a asp-area="" asp-controller="User" asp-action="Privacy">Privacy</a>
+								<a asp-area="" asp-controller="User" asp-action="Terms">Terms</a>
 
 								<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
 									<button type="submit" class="button">Logout</button>

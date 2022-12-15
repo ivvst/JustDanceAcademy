@@ -1,14 +1,7 @@
-﻿using JustDanceAcademy.Data.Models;
-using JustDanceAcademy.Data.Models.Enum;
-using JustDanceAcademy.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JustDanceAcademy.Web.ViewModels.Models
+﻿namespace JustDanceAcademy.Web.ViewModels.Models
 {
+	using JustDanceAcademy.Data.Models.Enum;
+
 	public class MyClassViewModel
 	{
 		public string StudentName

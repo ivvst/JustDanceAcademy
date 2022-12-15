@@ -15,9 +15,9 @@
 			@if (User.IsInRole("Administrator") == false)
 			{
 
-				<form class="input-group-sm" asp-controller="Class" asp-action="StartClass" asp-route-classId="@item.Id">
+				<form class="input-group-sm"  asp-controller="Class" asp-action="StartClass" asp-route-classId="@item.Id">
 					<input type="submit" onclick="return confirm('You are going to train Class with Name :@item.Name')" value="Start-Dance-Class"
-				   class="fs-6 btn btn-success mb-5 p-4" />
+				   class="fs-6 btn btn-success mb-5 p-4" style="padding:10px" />
 				</form>
 
 			}

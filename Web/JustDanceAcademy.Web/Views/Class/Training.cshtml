@@ -34,7 +34,7 @@
 				<p class="information">"@item.Description"</p>
 
 				<form class="input-group-sm" asp-controller="Class" asp-action="LeaveClass" asp-route-classId="@item.Id">
-					<input class="fs-6 btn btn-success mb-3 p-2" onclick="return confirm('You are going to leave a @item.Name Dance-class')" type="submit" value="Leave Class" />
+					<input class="fs-6 btn btn-success mb-3 p-2" style="padding:5px" onclick="return confirm('You are going to leave a @item.Name Dance-class')" type="submit" value="Leave Class" />
 				</form>
 				<br>
 				@if (item.PlanPrice == 0)
@@ -64,7 +64,7 @@
 
 			</div>
 
-			<input type="submit" onclick=" return myConfirm(  )" value="Alert" class="btn btn-danger mb-2" />
+			
 
 		}
 	}

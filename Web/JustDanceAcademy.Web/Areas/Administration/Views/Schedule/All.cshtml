@@ -35,7 +35,7 @@
 		@*Create new Table*@
 
 		@*TABLE MONDAY*@
-		@if (Model.Where(x => x.Day==JustDanceAcademy.Data.Models.Enum.Day.Monday).Any() == true)
+		@if (Model.Where(x => x.Day == JustDanceAcademy.Data.Models.Enum.Day.Monday).Any() == true)
 		{
 			<div class="u-clearfix u-sheet u-sheet-1">
 				<h2 class="u-custom-font u-font-source-sans-pro u-text u-text-1">Monday</h2>
@@ -64,16 +64,18 @@
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @item.StartTime.ToShortTimeString() - @item.EndTime.ToShortTimeString() &nbsp;&nbsp;@item.Day</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@item.Class.Name-@item.Class.LevelCategory.Name</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@item.Age</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
+										<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@item.Id">
+											<div class="d-grid gap-2">
+
+												<input type="submit" value="Delete"
+											   class="btn btn-danger mb-2"
+											   onclick="return confirm('You are going to delete :@item.Class.Name - @item.Class.LevelCategory.Name .Are you sure?' )" />
+											</div>
+										</form>
+									</td>
 								</tr>
 							</tbody>
-							<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@item.Id">
-								<div class="d-grid gap-2">
-
-									<input type="submit" value="Delete"
-								   class="btn btn-danger mb-2"
-								   onclick="return confirm('You are going to delete :@item.Class.Name - @item.Class.LevelCategory.Name .Are you sure?' )" />
-								</div>
-							</form>
 
 
 
@@ -124,7 +126,7 @@
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
 
 										<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@el.Id">
-											                                                         
+
 											<div class="d-grid gap-2">
 
 												<input type="submit" value="Delete"
@@ -179,21 +181,21 @@
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-4"> @el.StartTime.ToShortTimeString()-@el.EndTime.ToShortTimeString() &nbsp;&nbsp; @el.Day</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-5">@el.Class.Name-@el.Class.LevelCategory.Name</td>
 									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">@el.Age</td>
+									<td class="u-border-1 u-border-palette-5-dark-1 u-table-cell u-table-cell-6">
+										<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@el.Id">
+											<div class="d-grid gap-2">
+
+												<input type="submit" value="Delete"
+											   class="btn btn-danger mb-2"
+											   onclick="return confirm('Schedule for : @el.Class.Name - @el.Class.LevelCategory.Name will be deleted. Are you sure?')" />
+											</div>
+										</form>
+									</td>
 
 								</tr>
 
 							</tbody>
-							<button class="button">
 
-								<form class="mt-2" asp-area="Administration" asp-controller="Schedule" asp-action="DeleteColumn" asp-route-id="@el.Id">
-									<div class="d-grid gap-2">
-
-										<input type="submit" value="Delete"
-									   class="btn btn-danger mb-2"
-									   onclick="return confirm('Schedule for : @el.Class.Name - @el.Class.LevelCategory.Name will be deleted. Are you sure?')" />
-									</div>
-								</form>
-							</button>
 						}
 					</table>
 				</div>
@@ -433,6 +435,22 @@
 </body>
 
 </html>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+	var msg = '@TempData["Msg"]';
+	if (msg.length) {
+		//swal(msg,"success");
+		swal({
+			text: msg,
+			icon: "success",
+			button: "Ok",
+		});
+	}
+</script>
 
 
 

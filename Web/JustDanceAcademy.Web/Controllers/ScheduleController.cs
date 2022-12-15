@@ -17,14 +17,6 @@
 		[HttpGet]
 		public async Task<IActionResult> SeeAll()
 		{
-			if (this.User.IsInRole("Administrator"))
-			{
-				return this.RedirectToAction("All", "Schedule", new
-				{
-					area = "Administration",
-				});
-			}
-
 			var model = await this.scheduleService.AllSchedules();
 			return this.View(model);
 		}

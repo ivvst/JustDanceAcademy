@@ -14,7 +14,7 @@ namespace JustDanceAcademy.Web
 	using JustDanceAcademy.Services.Messaging;
 	using JustDanceAcademy.Web.Hubs;
 	using JustDanceAcademy.Web.ViewModels;
-
+	using JustDanceAcademy.Web.ViewModels.Models;
 	using Microsoft.AspNetCore.Builder;
 	using Microsoft.AspNetCore.Http;
 	using Microsoft.AspNetCore.Mvc;
@@ -130,7 +130,7 @@ namespace JustDanceAcademy.Web
 				new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
 			}
 
-			//AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+			AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
 			if (app.Environment.IsDevelopment())
 			{
@@ -140,7 +140,7 @@ namespace JustDanceAcademy.Web
 			else
 			{
 				app.UseExceptionHandler("/Home/Error/500");
-				app.UseExceptionHandler("/Home/Error?statusCode={0}");
+				app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
 
 				app.UseHsts();
 			}
