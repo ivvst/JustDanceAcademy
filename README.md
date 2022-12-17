@@ -31,7 +31,9 @@ JD-Academy is project that can be used to represent  academy for dancers from be
 
 
 
+## Authors
 
+-  Project Template of [Niki Kostov](https://github.com/NikolayIT/ASP.NET-Core-Template)
 
 
 
