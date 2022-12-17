@@ -122,7 +122,7 @@ namespace JustDanceAcademy.Web
 
 		private static void Configure(WebApplication app)
 		{
-			//Seed data on application startup
+			// Seed data on application startup
 			using (var serviceScope = app.Services.CreateScope())
 			{
 				var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -168,10 +168,10 @@ namespace JustDanceAcademy.Web
 
 			app.UseSession();
 			app.UseEndpoints(end =>
-						{
-							end.MapRazorPages();
-							end.MapHub<NotificationHub>("/notificationHub");
-						});
+			{
+				end.MapRazorPages();
+				end.MapHub<NotificationHub>("/notificationHub");
+			});
 			app.UseCookiePolicy();
 		}
 	}

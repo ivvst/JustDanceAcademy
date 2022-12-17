@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http;
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +25,9 @@
 	<link rel="stylesheet" href="~/Content/css/animate.css">
 	<!--SWEETALERT CSS-->
 	<link href="~/lib/limonte-sweetalert2/sweetalert2.css" rel="stylesheet" asp-append-version="true" />
+
+
+	<link rel="stylesheet" href="~/Content/css/cookie.css" asp-append-version="true" />
 
 
 
@@ -87,6 +91,25 @@
 		</main>
 	</div>
 
+	<!--  Bootstrap HTML  -->
+	<!-- START Bootstrap-Cookie-Alert -->
+	<!-- START Bootstrap-Cookie-Alert -->
+	<div class="alert text-center cookiealert" role="alert">
+		<b>Do you like cookies?</b> &#x1F36A; We use cookies to ensure you get the best experience on our website. <a  asp-area="" asp-controller="User" asp-action="Privacy">Learn more</a>
+
+		<button type="button" class="btn btn-primary btn-sm acceptcookies">
+			I agree
+		</button>
+		<script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js"></script>
+
+		<script>
+			window.addEventListener("cookieAlertAccept", function () {
+				alert("cookies accepted")
+			})
+		</script>
+
+	</div>
+	<!-- END Bootstrap-Cookie-Alert -->
 	<!--FAQ-->
 	@*<partial name="Questions" />*@
 
@@ -95,7 +118,6 @@
 		<partial name="_FooterPartial" />
 	</footer>
 	<!-- //footer -->
-
 	<!-- SOCIAL PANEL HTML -->
 	<div class="social-panel-container" style="margin-bottom:15px">
 		<div class="social-panel">
@@ -144,6 +166,8 @@
 	</script>
 	<!-- SOCIAL PANEL HTML ENDS -->
 
+
+
 	<script src="~/Content/js/wow.min.js"></script>
 	<script src="~/Content/js/mislider.js" type="text/javascript"></script>
 	<script>
@@ -184,6 +208,7 @@
 	<!--SWEETALERT SCRIPT-->
 	<script src="~/lib/limonte-sweetalert2/sweetalert2.js"></script>
 
+	<script src="~/Content/js/cookie.js"></script>
 
 	<!--Toastr-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
