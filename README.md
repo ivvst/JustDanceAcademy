@@ -87,7 +87,7 @@ Dance-Class trainning page of User with details;
 ![](https://img.photouploads.com/file/PhotoUploads-com/MgTs.png)
 
 Test-Coverage
-![](https://img.photouploads.com/file/PhotoUploads-com/Mgau.md.png)
+![](https://img.photouploads.com/file/PhotoUploads-com/Mgau.png)
 
 
 Admin send Remind Notification to User
