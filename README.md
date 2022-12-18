@@ -86,6 +86,9 @@ Instructors View
 Dance-Class trainning page of User with details;
 ![](https://img.photouploads.com/file/PhotoUploads-com/MgTs.png)
 
+Test-Coverage
+![](https://img.photouploads.com/file/PhotoUploads-com/Mgau.md.png)
+
 
 Admin send Remind Notification to User
 ![](https://img.photouploads.com/file/PhotoUploads-com/MgTu.png)
