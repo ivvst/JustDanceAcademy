@@ -19,12 +19,14 @@
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> All()
         {
             var model = await this.serviceInstructor.GetAllInstructors();
             return this.View(model);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> ShowCategories(int classId)
         {
             var result = await this.serviceInstructor.GetClassWithAllCategoriesView(classId);
