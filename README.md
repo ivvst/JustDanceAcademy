@@ -67,6 +67,10 @@ At this point when user is on certain page admin can send him  for example remin
 All Reviews View
 ![](https://img.photouploads.com/file/PhotoUploads-com/MgTr.png)
 
+DataBase Diagram
+![](https://i.ibb.co/7b8fp9p/2022-12-18.png)
+
+
 Schedule View
 ![](https://img.photouploads.com/file/PhotoUploads-com/MgTv.png)
 
