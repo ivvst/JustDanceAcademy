@@ -212,6 +212,15 @@
 			return this.View(model);
 		}
 
+		public async Task<IActionResult> DeletePlan(int id)
+		{
+			await this.danceService.DeletePlan(id);
+
+			this.TempData["Msg"] = OperationalMessages.DeletePlan;
+
+			return this.RedirectToAction(nameof(this.ViewClasses));
+		}
+
 		// Reviews
 		[HttpGet]
 		public async Task<IActionResult> AllReviews()

@@ -511,10 +511,25 @@
 			if (review != null)
 			{
 				review.IsDeleted = true;
-				review.ModifiedOn= DateTime.Now;
+				review.ModifiedOn = DateTime.Now;
 				this.reviewRepo.Update(review);
 				await this.reviewRepo.SaveChangesAsync();
 				return review;
+			}
+
+			return null;
+		}
+
+		public async Task<MemberShip> DeletePlan(int planId)
+		{
+			var plan = await this.planRepo.All().FirstOrDefaultAsync(x => x.Id == planId);
+			if (plan != null)
+			{
+				plan.IsDeleted = true;
+				plan.ModifiedOn = DateTime.Now;
+				this.planRepo.Update(plan);
+				await this.planRepo.SaveChangesAsync();
+				return plan;
 			}
 
 			return null;

@@ -39,6 +39,7 @@
 			int currentPage = 1,
 			int classPerPage = 1);
 
+		Task<MemberShip> DeletePlan(int planId);
 		Task<IEnumerable<string>> AllCategoriesNames();
 
 		Task<IEnumerable<Review>> AllReviews();

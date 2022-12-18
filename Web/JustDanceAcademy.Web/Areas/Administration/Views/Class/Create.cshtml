@@ -5,7 +5,7 @@
 
 <div class="row">
 	<div class="col-md-6">
-		<form asp-area="" asp-controller="Class" asp-action="Create" enctype="multipart/form-data" method="post">
+		<form asp-action="Create" method="post" enctype="multipart/form-data">
 			<h4>Create new Plan</h4>
 			<hr />
 			<div class="form-group">
@@ -52,3 +52,7 @@
     </select>
 </div>
 <span asp-validation-for="SelectedGenres" class="text-danger"></span>*@
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

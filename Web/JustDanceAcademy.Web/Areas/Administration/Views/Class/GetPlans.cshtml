@@ -12,7 +12,7 @@
 					@plan.Title
 				</h4>
 				<h4 class="plan-title">
-					@plan.StudentsCount
+					@plan.StudentsCount Student/s Choose This
 				</h4>
 				<div class="plan-cost"><span class="plan-price">$@plan.Price</span><span class="plan-type"></span></div>
 			</header>
@@ -23,16 +23,14 @@
 			</ul>
 			@if (this.User.IsInRole("Administrator"))
 			{
-				<button>
+				<form class="mt-2" style="margin-top:5px" asp-area="Administration" asp-controller="Class" asp-action="DeletePlan" asp-route-id="@plan.Id">
+					<div class="d-grid gap-2">
 
-					<ul>
-						<a asp-area="" asp-controller="" asp-action="">Edit</a>
-					</ul>
-					<br>
-					<ul>
-						<a asp-area="" asp-controller="" asp-action="">Delete</a>
-					</ul>
-				</button>
+						<input type="submit" value="Delete"
+					   class="btn btn-danger mb-2"
+					   onclick="return confirm('You are going to delete plan for  :@plan.Age')" />
+					</div>
+				</form>
 			}
 			else
 			{
@@ -47,7 +45,7 @@
 
 			<link rel="stylesheet" href="~/Content/css/payCard.css">
 			<link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 		</div>
 
 
@@ -63,17 +61,17 @@
 <script>
 	/* Demo purposes only */
 	$(".hover").mouseleave(
-			$(this).removeClass("hover");
-		}
-	);
+		$(this).removeClass("hover");
+			}
+		);
 
 
 	//read ViewBag
 	var strValue = "@((string)ViewBag.mssg)";
 	if (strValue !== null && strValue !== '') {
-		swal-overlay("strValue", {
+		swal - overlay("strValue", {
 			dangerMode: true,.
-			buttons: true,
+				buttons: true,
 		})
 	};
 

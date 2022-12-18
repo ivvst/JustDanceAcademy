@@ -17,6 +17,8 @@
 
 		public const string DeletedReview = "Successfully deleted Review.";
 
+		public const string DeletePlan = "Successfully deleted Plan";
+
 
 	}
 }
